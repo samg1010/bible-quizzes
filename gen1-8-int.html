@@ -32,7 +32,7 @@
 <body>
 
 <h1>Genesis 1–8 Intermediate Bible Quiz</h1>
-<span class="small-text">47 questions • Intermediate level • Detailed explanations • NIV/ESV based</span>
+<span class="small-text">50 questions • Intermediate level • Detailed explanations • NIV/ESV based (Chapters 1–8 only)</span>
 
 <div id="quiz"></div>
 
@@ -42,169 +42,140 @@
 
 <script>
 const questions = [
-    // 1–35: Intermediate Multiple Choice (all strictly Genesis 1–8)
+    // 1–35: Intermediate MC – All strictly Genesis 1–8, balanced A/B/C/D
 
     { type: "mc", q: "On which day were plants created relative to the sun, moon, and stars?", 
       a: "Before", opts: ["After", "Before", "Same day", "Not specified"],
       expl: "Plants on day 3 (Gen 1:11–13), heavenly bodies on day 4 (Gen 1:14–19). God's word alone sustains life." },
 
-    { type: "mc", q: "What literary pattern is most widely recognized in Genesis 1?", 
-      a: "Two parallel triads (days 1–3 form realms, days 4–6 fill them)", opts: ["Strict chronology only", "Two parallel triads", "Seven unrelated days", "Alternating light/darkness"],
-      expl: "Days 1–3 create domains; days 4–6 populate them — shows divine order and purpose." },
+    { type: "mc", q: "What is the most widely recognized literary structure in Genesis 1?", 
+      a: "Two parallel triads", opts: ["Strict chronology only", "Two parallel triads (days 1–3 form realms, days 4–6 fill them)", "Seven unrelated days", "Alternating light/darkness"],
+      expl: "Days 1–3 create domains; days 4–6 populate them — shows divine order." },
 
     { type: "mc", q: "How do most Christian scholars interpret 'Let us make man in our image' (Gen 1:26)?", 
-      a: "Early hint of plurality in the Godhead", opts: ["God addressing angels", "Royal plural", "Early Trinitarian hint", "Grammatical mistake"],
-      expl: "Given singular verb 'make' and later revelation, many see it as Trinitarian foreshadowing." },
+      a: "Early Trinitarian hint", opts: ["God addressing angels", "Royal plural", "Early hint of plurality in the Godhead (Trinitarian foreshadowing)", "Grammatical mistake"],
+      expl: "Subtle foreshadowing of Trinity given singular verb and later revelation." },
 
-    { type: "mc", q: "Which command was given to humans but not to animals in Genesis 1?", 
+    { type: "mc", q: "Which command was given to humans but not animals?", 
       a: "Subdue the earth", opts: ["Be fruitful only", "Subdue the earth", "Receive God's image", "Rest on Sabbath"],
-      expl: "Both told to multiply, but only humans receive 'subdue' and 'rule' mandate (Gen 1:28)." },
+      expl: "Both told to multiply, but only humans receive 'subdue' and 'rule' (Gen 1:28)." },
 
     { type: "mc", q: "What condition is emphasized in Genesis 2:5–6 before man’s creation?", 
       a: "No man to work the ground", opts: ["No rain yet", "No plants appeared", "No man to work the ground", "All of the above"],
-      expl: "No shrub grew because no rain **and** no man to cultivate — sets stage for special human creation." },
+      expl: "No shrub grew because no rain **and** no man to cultivate." },
 
-    { type: "mc", q: "What is the main theological role of the four rivers from Eden (Gen 2:10–14)?", 
-      a: "Eden as source of life-giving waters", opts: ["Exact GPS", "Eden as source of life-giving waters", "Proof of Iraq", "Archaeological markers"],
+    { type: "mc", q: "What is the main theological role of the four rivers from Eden?", 
+      a: "Eden as source of life-giving waters", opts: ["Exact GPS", "Eden as source of life-giving waters for the world", "Proof of Iraq", "Archaeological markers"],
       expl: "Symbolizes Eden as origin of life-giving waters for the known ancient world." },
 
-    { type: "mc", q: "What does Adam & Eve hiding from God (Gen 3:8) primarily show?", 
-      a: "Broken relationship with God due to sin", opts: ["Only fear of punishment", "Broken relationship with God", "Only nakedness shame", "God now visible"],
-      expl: "Pre-fall: open fellowship. Post-fall: hiding = shame, fear, relational rupture." },
+    { type: "mc", q: "What does Adam & Eve hiding from God primarily show?", 
+      a: "Broken relationship with God", opts: ["Only fear of punishment", "Broken relationship with God due to sin", "Only nakedness shame", "God now visible"],
+      expl: "Hiding = shame, fear, relational rupture after sin." },
 
-    { type: "mc", q: "Which curse in Genesis 3 contains the protoevangelium?", 
-      a: "Curse on the serpent", opts: ["Serpent", "Woman", "Man", "None"],
-      expl: "Gen 3:15 — first gospel promise of victory over evil through woman's offspring." },
+    { type: "mc", q: "Which curse contains the protoevangelium?", 
+      a: "Curse on the serpent", opts: ["Curse on the serpent", "Curse on the woman", "Curse on the man", "None"],
+      expl: "Gen 3:15 — first gospel promise of victory over evil." },
 
-    { type: "mc", q: "Why was Abel’s offering accepted while Cain’s was not (per Hebrews 11:4)?", 
+    { type: "mc", q: "Why was Abel’s offering accepted (per Hebrews 11:4)?", 
       a: "Offered by faith", opts: ["Animal vs plant", "Offered by faith", "Amount given", "Firstfruits rule"],
-      expl: "Hebrews 11:4 — faith/heart attitude made the difference." },
+      expl: "Faith/heart attitude key (Hebrews 11:4)." },
 
-    { type: "mc", q: "What does God’s mark on Cain (Gen 4:15) primarily signify?", 
-      a: "Protection and mercy despite guilt", opts: ["Full forgiveness", "Protection/mercy", "Permanent shame", "Priestly role"],
-      expl: "Prevented killing — God’s grace preserving life even toward a murderer." },
+    { type: "mc", q: "What does God’s mark on Cain primarily signify?", 
+      a: "Protection and mercy", opts: ["Full forgiveness", "Protection and mercy despite guilt", "Permanent shame", "Priestly role"],
+      expl: "Prevented killing — God’s grace preserving life." },
 
     { type: "mc", q: "What makes Enoch unique in Genesis 5?", 
-      a: "Did not die – God took him", opts: ["Longest life", "Did not die", "Most children", "First city builder"],
-      expl: "'Walked with God' and 'God took him' (Gen 5:24) — no death recorded." },
+      a: "Did not die", opts: ["Longest life", "Did not die – God took him", "Most children", "First city builder"],
+      expl: "'Walked with God' and 'God took him' (Gen 5:24)." },
 
-    { type: "mc", q: "Key contrast between Cain’s line (Gen 4) and Seth’s line (Gen 5)?", 
-      a: "Cain’s emphasizes culture; Seth’s emphasizes death", opts: ["Both end with Noah", "Cain’s culture; Seth’s death", "Seth’s no violence", "Cain’s no names"],
-      expl: "Cain: city, music, metal; Seth: '...and he died' (except Enoch)." },
+    { type: "mc", q: "Key contrast between Cain’s and Seth’s genealogies?", 
+      a: "Cain’s culture; Seth’s death", opts: ["Both end with Noah", "Cain’s culture; Seth’s death", "Seth’s no violence", "Cain’s no names"],
+      expl: "Cain: achievements; Seth: '...and he died'." },
 
-    { type: "mc", q: "What does Lamech’s speech in Gen 4:23–24 illustrate?", 
-      a: "Escalation of violence and pride", opts: ["First polygamy", "Escalation of violence", "First poetry", "First instruments"],
-      expl: "Boasts killing and 77-fold vengeance — deepening moral corruption." },
+    { type: "mc", q: "What does Lamech’s speech illustrate?", 
+      a: "Escalation of violence", opts: ["First polygamy", "Escalation of violence and pride", "First poetry", "First instruments"],
+      expl: "Boasts 77-fold vengeance — moral decline." },
 
-    { type: "mc", q: "Most common conservative interpretation of 'sons of God' in Gen 6:1–4?", 
+    { type: "mc", q: "Most common conservative interpretation of 'sons of God' in Gen 6?", 
       a: "Sethites marrying Cainites", opts: ["Fallen angels", "Sethites marrying Cainites", "Kings & commoners", "Priests & laypeople"],
-      expl: "Intermarriage between godly Seth line and ungodly Cain line leading to corruption." },
+      expl: "Intermarriage leading to corruption." },
 
-    { type: "mc", q: "Main reason God sends the flood (Gen 6:5–7)?", 
-      a: "Continual evil in human heart", opts: ["Overpopulation", "Continual evil", "Disobeying mandate", "Violence to animals"],
-      expl: "Every heart inclination evil all the time — deep corruption." },
+    { type: "mc", q: "Main reason for the flood (Gen 6:5–7)?", 
+      a: "Evil in human heart", opts: ["Overpopulation", "Continual evil in human heart", "Disobeying mandate", "Violence to animals"],
+      expl: "Every heart inclination evil all the time." },
 
-    { type: "mc", q: "What does 'Noah found favor' (Gen 6:8) emphasize?", 
-      a: "Grace precedes righteousness", opts: ["Earned grace", "Grace precedes", "Sinless", "Superior knowledge"],
-      expl: "Favor/grace unmerited; righteousness follows grace." },
+    { type: "mc", q: "What does 'Noah found favor' emphasize?", 
+      a: "Grace precedes righteousness", opts: ["Earned grace", "Grace precedes righteousness", "Sinless", "Superior knowledge"],
+      expl: "Grace first; righteousness follows." },
 
-    { type: "mc", q: "Why 'blameless among his contemporaries' for Noah (Gen 6:9)?", 
-      a: "Relative righteousness in corrupt age", opts: ["Absolute perfection", "Relative righteousness", "Old age", "Comparison to Enoch"],
-      expl: "'Among his generation' shows comparative, not absolute, righteousness." },
+    { type: "mc", q: "Why 'blameless among his contemporaries' for Noah?", 
+      a: "Relative righteousness", opts: ["Absolute perfection", "Relative righteousness in corrupt age", "Old age", "Comparison to Enoch"],
+      expl: "Comparative in wicked generation." },
 
-    { type: "mc", q: "Purpose of clean/unclean distinction before Sinai (Gen 7:2)?", 
+    { type: "mc", q: "Purpose of clean/unclean animals pre-Sinai?", 
       a: "Post-flood sacrifice", opts: ["Early kosher", "Post-flood sacrifice", "Separate Israel", "Edible animals"],
-      expl: "Seven pairs of clean animals for acceptable burnt offerings (Gen 8:20)." },
+      expl: "For acceptable burnt offerings (Gen 8:20)." },
 
-    { type: "mc", q: "What does 'the LORD smelled the pleasing aroma' (Gen 8:21) indicate?", 
-      a: "Acceptance of sacrifice and renewed commitment", opts: ["Liked smell", "Acceptance of sacrifice", "Hungry", "Atoned all sin"],
-      expl: "Soothing aroma = acceptable sacrifice; leads to covenant promise." },
+    { type: "mc", q: "What does 'pleasing aroma' (Gen 8:21) indicate?", 
+      a: "Acceptance of sacrifice", opts: ["Liked smell", "Acceptance of sacrifice and renewed commitment", "Hungry", "Atoned all sin"],
+      expl: "Leads to covenant promise." },
 
-    { type: "mc", q: "New responsibility introduced in Gen 9:5–6?", 
-      a: "Accountability for shedding human blood", opts: ["Multiply only", "Accountability for blood", "No blood eating", "Build cities"],
-      expl: "Basis for capital punishment: 'Whoever sheds human blood…'" },
+    { type: "mc", q: "New responsibility in Gen 9:5–6?", 
+      a: "Accountability for blood", opts: ["Multiply only", "Accountability for shedding human blood", "No blood eating", "Build cities"],
+      expl: "Basis for capital punishment." },
 
-    { type: "mc", q: "Lifespan trend after the flood in genealogies?", 
-      a: "Gradually decrease", opts: ["Increase", "Decrease", "Stay same", "No one over 100"],
-      expl: "From Noah 950 → later patriarchs shorter (e.g. Abraham 175)." },
+    { type: "mc", q: "Lifespan trend after flood?", 
+      a: "Gradually decrease", opts: ["Increase", "Gradually decrease", "Stay same", "No one over 100"],
+      expl: "From 950 → shorter ages later." },
 
-    { type: "mc", q: "What is the significance of the rainbow covenant (Gen 9:12–17)?", 
-      a: "Unconditional promise never to flood the earth again", opts: ["Sign of forgiveness", "Unconditional promise", "Temporary covenant", "Sign for Israel only"],
-      expl: "God’s unconditional covenant with all creation, never again to destroy with flood." },
+    { type: "mc", q: "Significance of rainbow covenant?", 
+      a: "Never flood again", opts: ["Forgiveness sign", "Never flood again", "Temporary covenant", "Israel only"],
+      expl: "Unconditional promise to all creation." },
 
-    { type: "mc", q: "What does 'image of God' reaffirmation in Gen 9:6 establish?", 
-      a: "Sanctity of human life", opts: ["Pre-fall only", "Sanctity of human life", "Spiritual only", "Physical only"],
-      expl: "Basis for murder prohibition: humans still bear God’s image post-flood." },
+    { type: "mc", q: "Reaffirming 'image of God' in Gen 9:6 establishes?", 
+      a: "Sanctity of life", opts: ["Pre-fall only", "Sanctity of human life", "Spiritual only", "Physical only"],
+      expl: "Basis for murder prohibition." },
 
-    { type: "mc", q: "Why is the 'tôlədôt' formula significant in Genesis 1–8?", 
-      a: "Structural marker for primeval history", opts: ["Appears once", "Structural marker", "Lists only males", "Only in chapter 5"],
-      expl: "Appears multiple times (e.g. 2:4, 5:1), organizing primeval narrative." },
+    { type: "mc", q: "Importance of 'tôlədôt' in Genesis 1–8?", 
+      a: "Structural marker", opts: ["Appears once", "Major structural marker", "Males only", "Chapter 5 only"],
+      expl: "Organizes primeval narrative." },
 
-    { type: "mc", q: "'Garden in Eden' (Gen 2:8) most symbolizes?", 
-      a: "Perfect provision and fellowship", opts: ["Literal farm", "Perfect provision/fellowship", "Temporary shelter", "Exile"],
-      expl: "Ideal state: abundance, God’s presence, unbroken relationship." },
+    { type: "mc", q: "'Garden in Eden' symbolizes?", 
+      a: "Perfect provision/fellowship", opts: ["Literal farm", "Perfect provision/fellowship", "Temporary shelter", "Exile"],
+      expl: "Ideal harmony before sin." },
 
-    { type: "mc", q: "God clothing Adam/Eve with skins (Gen 3:21) implies?", 
-      a: "Grace and provision despite sin", opts: ["Sacrifice required", "Grace/provision", "Cold", "Reject fig leaves"],
-      expl: "Covers shame — first act of grace after fall, implying death." },
+    { type: "mc", q: "God clothing Adam/Eve with skins implies?", 
+      a: "Grace/provision", opts: ["Sacrifice required", "Grace/provision despite sin", "Cold", "Reject fig leaves"],
+      expl: "Covers shame — grace after fall." },
 
-    { type: "mc", q: "Most important implication of Genesis 3:15?", 
-      a: "Promise of victory over evil", opts: ["Curse on snakes", "Victory over evil", "Eve prophecy", "Multiply command"],
-      expl: "Protoevangelium — offspring of woman defeats serpent." },
+    { type: "mc", q: "Implication of Genesis 3:15?", 
+      a: "Victory over evil", opts: ["Curse on snakes", "Promise of victory over evil", "Eve prophecy", "Multiply command"],
+      expl: "Protoevangelium — Messiah defeats evil." },
 
-    { type: "mc", q: "Noah’s post-flood altar and sacrifice (Gen 8:20) signifies?", 
-      a: "Thanksgiving and renewed worship", opts: ["Atonement for all", "Thanksgiving/worship", "Demand for more animals", "New dietary law"],
-      expl: "Burnt offerings of clean animals — act of worship after deliverance." },
+    { type: "mc", q: "Noah’s post-flood altar signifies?", 
+      a: "Thanksgiving and worship", opts: ["Atonement for all", "Thanksgiving and renewed worship", "Demand for animals", "New dietary law"],
+      expl: "Burnt offerings — worship after deliverance." },
 
-    { type: "mc", q: "What does 'Noah was a righteous man, blameless among his contemporaries' (Gen 6:9) highlight?", 
-      a: "Comparative righteousness in corrupt generation", opts: ["Absolute perfection", "Comparative righteousness", "Old age", "Comparison to Enoch"],
-      expl: "'Among his contemporaries' — stood out in wicked age." },
+    { type: "mc", q: "Noah 'blameless among his contemporaries' highlights?", 
+      a: "Relative righteousness", opts: ["Absolute perfection", "Relative righteousness in corrupt age", "Old age", "Comparison to Enoch"],
+      expl: "Stood out in wicked generation." },
 
-    // 36–50: True/False Questions
-    { type: "tf", q: "Genesis 1 deliberately contrasts with ancient Near Eastern creation myths.", a: true,
-      expl: "True. Orderly, peaceful, one-God creation by word vs. violent polytheism." },
-
-    { type: "tf", q: "'Tôlədôt' formula appears multiple times in Genesis 1–8.", a: true,
-      expl: "True. Organizes primeval history (e.g. 2:4, 5:1)." },
-
-    { type: "tf", q: "Genesis 2 contradicts Genesis 1 as a separate creation account.", a: false,
-      expl: "False. Complementary — zooms in on humanity and relationship." },
-
-    { type: "tf", q: "'Rûaḥ' in Gen 1:2 can mean 'wind' or 'Spirit of God'.", a: true,
-      expl: "True. Both translations possible; context/theology decides." },
-
-    { type: "tf", q: "'Image of God' refers mainly to physical appearance.", a: false,
-      expl: "False. Relational, moral, rational, spiritual capacities." },
-
-    { type: "tf", q: "Both tree of life and tree of knowledge were in the center of the garden.", a: true,
-      expl: "True. Gen 2:9 explicitly." },
-
-    { type: "tf", q: "The serpent is explicitly identified as Satan in Genesis 3.", a: false,
-      expl: "False. Later identified in Revelation." },
-
-    { type: "tf", q: "Genesis 3:15 is known as the protoevangelium.", a: true,
-      expl: "True. First promise of victory over evil." },
-
-    { type: "tf", q: "Cain’s offering rejected only because it was plants.", a: false,
-      expl: "False. Heart/faith attitude key (Heb 11:4)." },
-
-    { type: "tf", q: "Mark on Cain was primarily punitive.", a: false,
-      expl: "False. Protective (Gen 4:15)." },
-
-    { type: "tf", q: "Genesis 5 emphasizes death after the fall.", a: true,
-      expl: "True. Repetitive '...and he died'." },
-
-    { type: "tf", q: "Enoch is the only pre-flood person who did not die.", a: true,
-      expl: "True. 'God took him' (Gen 5:24)." },
-
-    { type: "tf", q: "Lamech’s speech shows moral improvement.", a: false,
-      expl: "False. Escalating violence and pride." },
-
-    { type: "tf", q: "Gen 6:3 limits lifespan to 120 years after the flood.", a: false,
-      expl: "False. 120 years of grace before flood." },
-
-    { type: "tf", q: "'Image of God' reaffirmed post-flood (Gen 9:6).", a: true,
-      expl: "True. Basis for sanctity of human life." }
+    // 36–50: True/False (Genesis 1–8 only)
+    { type: "tf", q: "Genesis 1 contrasts with ancient Near Eastern creation myths.", a: true, expl: "True. Orderly, one-God creation by word vs. violent polytheism." },
+    { type: "tf", q: "'Tôlədôt' formula structures Genesis 1–8.", a: true, expl: "True. Organizes primeval history." },
+    { type: "tf", q: "Genesis 2 contradicts Genesis 1.", a: false, expl: "False. Complementary — focuses on humanity." },
+    { type: "tf", q: "'Rûaḥ' in Gen 1:2 can mean 'wind' or 'Spirit'.", a: true, expl: "True. Both possible." },
+    { type: "tf", q: "'Image of God' mainly physical.", a: false, expl: "False. Relational/moral/spiritual." },
+    { type: "tf", q: "Both trees in center of garden.", a: true, expl: "True. Gen 2:9." },
+    { type: "tf", q: "Serpent explicitly Satan in Genesis 3.", a: false, expl: "False. Later identified." },
+    { type: "tf", q: "Gen 3:15 is protoevangelium.", a: true, expl: "True. First gospel promise." },
+    { type: "tf", q: "Cain’s offering rejected only because plants.", a: false, expl: "False. Heart/faith key." },
+    { type: "tf", q: "Mark on Cain primarily punitive.", a: false, expl: "False. Protective." },
+    { type: "tf", q: "Genesis 5 emphasizes death after fall.", a: true, expl: "True. '...and he died'." },
+    { type: "tf", q: "Enoch did not die.", a: true, expl: "True. 'God took him'." },
+    { type: "tf", q: "Lamech’s speech shows improvement.", a: false, expl: "False. Escalating violence." },
+    { type: "tf", q: "Gen 6:3 limits lifespan to 120 after flood.", a: false, expl: "False. 120 years grace before flood." },
+    { type: "tf", q: "'Image of God' reaffirmed in Gen 9:6.", a: true, expl: "True. Basis for human life sanctity." }
 ];
 
 const quizContainer = document.getElementById("quiz");
