@@ -5,20 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Bible Quizzes Hub</title>
 <style>
-   body {
+    body {
         font-family: Arial, Helvetica, sans-serif;
         max-width: 960px;
         margin: 30px auto;
         padding: 0 15px;
         line-height: 1.6;
-        font-size: 16px; /* Base size good for mobile */
+        font-size: 16px;
+        color: #1a1a1a;
+        background-color: #fff;
     }
+
     h1 {
         text-align: center;
         color: #2c3e50;
         font-size: 1.8rem;
-        margin-bottom: 0.8em;
+        margin: 1.2em 0 0.8em;
     }
+
     .question {
         margin: 28px 0;
         padding: 18px;
@@ -26,11 +30,14 @@
         background-color: #f9fbfc;
         border-radius: 8px;
     }
+
     .question h3 {
-        margin-top: 0;
+        margin: 0 0 1rem 0;
         color: #2c3e50;
         font-size: 1.25rem;
+        line-height: 1.35;
     }
+
     #results {
         margin-top: 50px;
         padding: 25px;
@@ -38,15 +45,19 @@
         border-radius: 10px;
         display: none;
     }
+
     .explanation {
         margin-top: 12px;
         padding: 12px;
         background: #f0f8ff;
         border-left: 4px solid #27ae60;
         font-size: 0.98rem;
+        border-radius: 6px;
     }
+
     .correct { color: #27ae60; font-weight: bold; }
     .incorrect { color: #e74c3c; }
+
     button {
         padding: 16px 30px;
         font-size: 1.2rem;
@@ -55,54 +66,46 @@
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        margin: 30px 0;
+        margin: 30px auto;
         width: 100%;
         max-width: 400px;
         display: block;
-        margin-left: auto;
-        margin-right: auto;
+        transition: background 0.2s;
     }
-    button:hover { background: #27ae60; }
+
+    button:hover {
+        background: #27ae60;
+    }
 
     /* ───────────────────────────────────────────────
-       BETTER MOBILE OPTIONS LAYOUT + RADIO POSITIONING
+       IMPROVED RADIO BUTTON & OPTION LAYOUT (MOBILE-FRIENDLY)
     ───────────────────────────────────────────────── */
 
     .options label,
     .tf label {
         display: flex;
         align-items: center;
-        gap: 10px;                         /* Distance between radio circle and text – key value for "nearer" */
-        margin: 16px 0;                    /* Vertical space between different options */
+        gap: 10px;                      /* distance between radio circle and text */
+        margin: 14px 0;                 /* vertical space between options */
         padding: 10px 12px;
         border-radius: 8px;
         background: #f8fafc;
-        transition: background 0.2s;
-        min-height: 48px;                  /* Good touch target size */
+        transition: background 0.15s ease;
+        min-height: 48px;               /* minimum touch target size */
         cursor: pointer;
         user-select: none;
     }
 
-    /* Even tighter on very small screens */
-    @media (max-width: 480px) {
-        .options label,
-        .tf label {
-            gap: 8px;                      /* Closer radio-to-text on phones */
-            margin: 18px 0;
-            padding: 12px 10px;
-        }
-    }
-
     input[type="radio"] {
         margin: 0 !important;
+        padding: 0 !important;
         flex-shrink: 0;
         width: 20px;
         height: 20px;
-        transform: scale(1.35);            /* Makes the circle easier to tap */
+        transform: scale(1.35);
         accent-color: #2563eb;
     }
 
-    /* Text takes remaining space and wraps nicely */
     .options label span,
     .tf label span {
         flex: 1;
@@ -110,13 +113,7 @@
         word-break: break-word;
     }
 
-    /* Selected option visual feedback */
-    input[type="radio"]:checked + span {
-        font-weight: 600;
-        color: #1d4ed8;
-    }
-
-    /* Hover/tap feedback */
+    /* Visual feedback on hover/tap */
     .options label:hover,
     .options label:active,
     .tf label:hover,
@@ -124,30 +121,55 @@
         background: #e2efff;
     }
 
-    /* Mobile-specific overall refinements */
+    /* Selected state styling */
+    input[type="radio"]:checked + span {
+        font-weight: 600;
+        color: #1d4ed8;
+    }
+
+    /* ───────────────────────────────────────────────
+       MOBILE-SPECIFIC ADJUSTMENTS
+    ───────────────────────────────────────────────── */
+
     @media (max-width: 600px) {
         body {
             padding: 0 12px;
             font-size: 15.5px;
         }
+
         h1 {
             font-size: 1.6rem;
         }
+
         .question {
             padding: 16px;
             margin: 24px 0;
         }
+
         .question h3 {
             font-size: 1.22rem;
         }
+
+        .options label,
+        .tf label {
+            gap: 8px;                   /* slightly closer on small screens */
+            margin: 16px 0;
+            padding: 12px 10px;
+        }
+
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            transform: scale(1.45);
+        }
+
         button {
             padding: 18px;
             font-size: 1.25rem;
-            width: 100%;
         }
     }
 
-    /* Prevent text selection on mobile */
+    /* Prevent unwanted text selection on mobile */
     button, label {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -213,6 +235,7 @@
 
 </body>
 </html>
+
 
 
 
