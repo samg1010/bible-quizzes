@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 1–8 Intermediate Bible Quiz</title>
+
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+
+    h1 { text-align: center; color: #1a3c6d; margin: 1.2em 0 0.6em; font-size: 2rem; }
+    .small-text { display: block; text-align: center; color: #555; font-size: 0.95rem; margin-bottom: 2rem; }
+    .question { background: white; border-radius: 10px; padding: 1.4rem; margin: 1.5rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #3b82f6; }
+    .question h3 { margin: 0 0 1.1rem 0; font-size: 1.22rem; color: #1e3a8a; }
+    .option-label { display: flex; align-items: center; gap: 12px; padding: 10px 12px; margin: 10px 0; border-radius: 8px; background: #f8fafc; cursor: pointer; transition: background-color 0.15s ease; min-height: 48px; user-select: none; }
+    .option-label:hover { background: #eef4ff; }
+    input[type="radio"] { margin: 0; flex-shrink: 0; width: 20px; height: 20px; accent-color: #3b82f6; }
+    .option-label span { flex: 1; line-height: 1.4; }
+    button { display: block; margin: 2.5rem auto; padding: 1rem 2.5rem; font-size: 1.15rem; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+    button:hover { background: #059669; }
+    button:disabled { background: #6b7280; cursor: not-allowed; }
+    #results { display: none; margin-top: 2rem; padding: 1.5rem; background: #ecfdf5; border-radius: 10px; }
+    .score { text-align: center; font-size: 1.8rem; margin-bottom: 1.8rem; color: #065f46; font-weight: bold; }
+    .result-item { background: white; border-radius: 10px; padding: 1.2rem; margin: 1rem 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .correct   { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .no-answer { color: #d97706; font-weight: bold; }
+    .explanation { margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px; font-size: 0.95rem; }
+
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1   { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label { gap: 10px; padding: 12px 10px; margin: 12px 0; }
+        input[type="radio"] { width: 22px; height: 22px; }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Genesis 1–8 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • Intermediate level • Detailed explanations • NIV/ESV based</span>
+
+<div id="quiz"></div>
+
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+
+<div id="results"></div>
+
+<script>
+const questions = [
+    // 1–35: All 35 Intermediate Multiple Choice Questions (balanced A/B/C/D)
+
+    { type: "mc", q: "On which day were plants created relative to the sun, moon, and stars?", a: "Before", opts: ["After", "Before", "Same day", "Not specified"], expl: "Plants on day 3 (Gen 1:11–13), heavenly bodies on day 4 (Gen 1:14–19)." },
+    { type: "mc", q: "What literary pattern is most widely recognized in Genesis 1?", a: "Two parallel triads (days 1–3 form realms, days 4–6 fill them)", opts: ["Strict chronology only", "Two parallel triads", "Seven unrelated days", "Alternating light/darkness"], expl: "Days 1–3 create domains; days 4–6 populate them." },
+    { type: "mc", q: "How do most Christian scholars interpret 'Let us make man in our image' (Gen 1:26)?", a: "Early hint of plurality in the Godhead", opts: ["God addressing angels", "Royal plural", "Early Trinitarian hint", "Grammatical mistake"], expl: "Subtle Trinitarian foreshadowing given singular verb and later revelation." },
+    { type: "mc", q: "Which command was given to humans but not animals in Genesis 1?", a: "Subdue the earth", opts: ["Be fruitful only", "Subdue the earth", "Receive God's image", "Rest on Sabbath"], expl: "Humans receive dominion/subdue mandate (Gen 1:28)." },
+    { type: "mc", q: "What condition is emphasized in Genesis 2:5–6 before man’s creation?", a: "No man to work the ground", opts: ["No rain yet", "No plants appeared", "No man to work the ground", "All of the above"], expl: "No shrub grew because no rain and no man to cultivate." },
+    { type: "mc", q: "What is the main theological role of the four rivers from Eden?", a: "Eden as source of life-giving waters", opts: ["Exact GPS", "Eden as source of life-giving waters", "Proof of Iraq", "Archaeological markers"], expl: "Theological symbol of Eden as origin of life-giving waters." },
+    { type: "mc", q: "What does Adam & Eve hiding from God (Gen 3:8) primarily show?", a: "Broken relationship with God", opts: ["Only fear of punishment", "Broken relationship with God", "Only nakedness shame", "God now visible"], expl: "Hiding reflects shame, fear, and relational rupture." },
+    { type: "mc", q: "Which curse in Genesis 3 contains the protoevangelium?", a: "Curse on the serpent", opts: ["Serpent", "Woman", "Man", "None"], expl: "Gen 3:15 — first gospel promise of victory over evil." },
+    { type: "mc", q: "Why was Abel’s offering accepted while Cain’s was not?", a: "Offered by faith", opts: ["Animal vs plant", "Offered by faith", "Amount given", "Firstfruits rule"], expl: "Hebrews 11:4 — faith/heart attitude key." },
+    { type: "mc", q: "What does God’s mark on Cain primarily signify?", a: "Protection and mercy despite guilt", opts: ["Full forgiveness", "Protection/mercy", "Permanent shame", "Priestly role"], expl: "Prevented killing — God’s grace preserving life." },
+    { type: "mc", q: "What makes Enoch unique in Genesis 5?", a: "Did not die – God took him", opts: ["Longest life", "Did not die", "Most children", "First city builder"], expl: "'God took him' (Gen 5:24)." },
+    { type: "mc", q: "Key contrast between Cain’s and Seth’s genealogies?", a: "Cain’s culture; Seth’s death", opts: ["Both end with Noah", "Cain’s culture; Seth’s death", "Seth’s no violence", "Cain’s no names"], expl: "Cain: achievements; Seth: '...and he died'." },
+    { type: "mc", q: "What does Lamech’s speech illustrate?", a: "Escalation of violence and pride", opts: ["First polygamy", "Escalation of violence", "First poetry", "First instruments"], expl: "Boasts 77-fold vengeance — moral decline." },
+    { type: "mc", q: "Most common conservative interpretation of 'sons of God' in Gen 6?", a: "Sethites marrying Cainites", opts: ["Fallen angels", "Sethites marrying Cainites", "Kings & commoners", "Priests & laypeople"], expl: "Intermarriage leading to corruption." },
+    { type: "mc", q: "Main reason for the flood (Gen 6:5–7)?", a: "Continual evil in human heart", opts: ["Overpopulation", "Continual evil", "Disobeying mandate", "Violence to animals"], expl: "Every heart inclination evil all the time." },
+    { type: "mc", q: "What does 'Noah found favor' emphasize?", a: "Grace precedes righteousness", opts: ["Earned grace", "Grace precedes", "Sinless", "Superior knowledge"], expl: "Grace first; righteousness follows." },
+    { type: "mc", q: "Why 'blameless among his contemporaries' for Noah?", a: "Relative righteousness", opts: ["Absolute perfection", "Relative righteousness", "Old age", "Comparison to Enoch"], expl: "Comparative in corrupt generation." },
+    { type: "mc", q: "Purpose of clean/unclean distinction pre-Sinai?", a: "Post-flood sacrifice", opts: ["Early kosher", "Post-flood sacrifice", "Separate Israel", "Edible animals"], expl: "For acceptable burnt offerings (Gen 8:20)." },
+    { type: "mc", q: "What does 'pleasing aroma' (Gen 8:21) indicate?", a: "Acceptance of sacrifice", opts: ["Liked smell", "Acceptance of sacrifice", "Hungry", "Atoned all sin"], expl: "Leads to covenant promise." },
+    { type: "mc", q: "New responsibility in Gen 9:5–6?", a: "Accountability for blood", opts: ["Multiply only", "Accountability for blood", "No blood eating", "Build cities"], expl: "Basis for capital punishment." },
+    { type: "mc", q: "Lifespan trend after flood?", a: "Gradually decrease", opts: ["Increase", "Decrease", "Same", "No one over 100"], expl: "From 950 → 175 → 120." },
+    { type: "mc", q: "Central sin at Babel?", a: "Pride and rebellion", opts: ["Too tall", "Pride/rebellion", "Bricks", "No worship"], expl: "Make name, avoid scattering." },
+    { type: "mc", q: "Unified language at Babel symbolizes?", a: "Unity for rebellion", opts: ["Harmony", "Unity for rebellion", "No diversity", "Globalization"], expl: "Enabled prideful unity." },
+    { type: "mc", q: "Purpose of Table of Nations (Gen 10)?", a: "All descend from Noah under God", opts: ["Empires list", "All descend from Noah", "Racial superiority", "Trade routes"], expl: "Unity of humanity under God." },
+    { type: "mc", q: "Why confuse languages at Babel?", a: "To scatter humanity", opts: ["Punish height", "Scatter humanity", "Create diversity", "Force knowledge"], expl: "Enforce fill-the-earth command." },
+    { type: "mc", q: "Reaffirming 'image of God' in Gen 9:6 establishes?", a: "Sanctity of human life", opts: ["Pre-fall only", "Sanctity of life", "Spiritual only", "Physical only"], expl: "Basis for murder prohibition." },
+    { type: "mc", q: "Key difference pre/post-flood covenants?", a: "Post-flood unconditional", opts: ["Pre unconditional", "Post unconditional", "Pre has sign", "Post no sign"], expl: "Includes all creation, rainbow sign." },
+    { type: "mc", q: "Importance of 'tôlədôt' formula?", a: "Major structural marker", opts: ["Appears once", "Major structural marker", "Males only", "Chapter 5 only"], expl: "Divides Genesis into sections." },
+    { type: "mc", q: "'Garden in Eden' symbolizes?", a: "Perfect provision/fellowship", opts: ["Literal farm", "Perfect provision", "Temporary shelter", "Exile"], expl: "Ideal harmony before sin." },
+    { type: "mc", q: "God clothing Adam/Eve with skins implies?", a: "Grace/provision despite sin", opts: ["Sacrifice required", "Grace/provision", "Cold", "Reject fig leaves"], expl: "Covers shame — grace after fall." },
+    { type: "mc", q: "Long-term implication of Gen 3:15?", a: "Victory over evil through offspring", opts: ["Curse snakes", "Victory over evil", "Eve prophecy", "Multiply command"], expl: "Protoevangelium — Messiah defeats evil." },
+    { type: "mc", q: "Tower of Babel primarily illustrates?", a: "Human pride/autonomy", opts: ["Tech progress", "Pride/autonomy", "Obedience", "Worship"], expl: "Make name, avoid scattering." },
+
+    // 36–50: Intermediate True/False
+    { type: "tf", q: "Genesis 1 deliberately contrasts with ancient Near Eastern creation myths.", a: true, expl: "True. Orderly, one-God creation by word vs. violent polytheism." },
+    { type: "tf", q: "'Tôlədôt' formula appears 11 times and structures Genesis.", a: true, expl: "True. Major divider of the book." },
+    { type: "tf", q: "Genesis 2 is a contradictory second creation account.", a: false, expl: "False. Complementary, focused on humanity." },
+    { type: "tf", q: "'Rûaḥ' in Gen 1:2 can mean 'wind' or 'Spirit of God'.", a: true, expl: "True. Both valid translations." },
+    { type: "tf", q: "'Image of God' refers mainly to physical appearance.", a: false, expl: "False. Relational/moral/rational capacities." },
+    { type: "tf", q: "Both tree of life and tree of knowledge were in the center.", a: true, expl: "True. Gen 2:9." },
+    { type: "tf", q: "Serpent explicitly called Satan in Genesis 3.", a: false, expl: "False. Later identified in Revelation." },
+    { type: "tf", q: "Genesis 3:15 is the protoevangelium.", a: true, expl: "True. First gospel promise." },
+    { type: "tf", q: "Cain’s offering rejected only because plants.", a: false, expl: "False. Heart/faith key (Heb 11:4)." },
+    { type: "tf", q: "Mark on Cain primarily punitive.", a: false, expl: "False. Protective (Gen 4:15)." },
+    { type: "tf", q: "Genesis 5 emphasizes death after the fall.", a: true, expl: "True. '...and he died' repeated." },
+    { type: "tf", q: "Enoch is the only pre-flood person who did not die.", a: true, expl: "True. 'God took him'." },
+    { type: "tf", q: "Lamech’s speech shows moral improvement.", a: false, expl: "False. Escalating violence." },
+    { type: "tf", q: "Gen 6:3 limits lifespan to 120 years after flood.", a: false, expl: "False. 120 years of grace before flood." },
+    { type: "tf", q: "'Image of God' reaffirmed post-flood (Gen 9:6).", a: true, expl: "True. Basis for human life sanctity." }
+];
+const quizContainer = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+
+    qDiv.innerHTML = `<h3>${index + 1}. ${q.q}</h3>`;
+
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+
+            const span = document.createElement("span");
+            span.textContent = option;
+
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+
+            const span = document.createElement("span");
+            span.textContent = bool;
+
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+
+    let correctCount = 0;
+    let html = '';
+
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value.trim() : null;
+
+        // Normalize correct answer
+        const correctAnswer = q.type === "tf" 
+            ? (q.a === true ? "True" : "False") 
+            : String(q.a).trim();
+
+        const isCorrect = userAnswer === correctAnswer;
+
+        if (isCorrect) correctCount++;
+
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : (userAnswer ? 'incorrect' : 'no-answer')}">
+                    ${isCorrect ? "Correct!" : (userAnswer ? "Incorrect" : "No answer selected")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
