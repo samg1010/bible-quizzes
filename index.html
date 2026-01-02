@@ -115,6 +115,83 @@
     @media (max-width: 480px) {
         h1 { font-size: 2rem; }
         .quiz-grid { gap: 1.25rem; }
+       /* ───────────────────────────────────────────────
+   BETTER MOBILE OPTIONS LAYOUT
+──────────────────────────────────────────────── */
+
+.options label,
+.tf label {
+    display: flex;
+    align-items: center;
+    min-height: 48px;               /* Minimum touch target height (Apple HIG recommends ≥44–48px) */
+    padding: 10px 12px;
+    margin: 12px 0 !important;      /* More generous vertical spacing between choices */
+    border-radius: 8px;
+    background: #f8fafc;
+    transition: background 0.15s ease;
+    font-size: 1.1rem;              /* Slightly larger text */
+    line-height: 1.4;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hover/tap feedback (works on touch too) */
+.options label:hover,
+.options label:active,
+.tf label:hover,
+.tf label:active {
+    background: #e2efff;
+}
+
+/* Larger radio buttons - easier to hit accurately */
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 14px !important;
+    flex-shrink: 0;
+    accent-color: #3b82f6;          /* Modern blue – matches most themes */
+    transform: scale(1.35);         /* Makes circle visibly larger */
+}
+
+/* Make sure text wraps nicely and doesn't push radio off-screen */
+.options label span,
+.tf label span {
+    flex: 1;
+    word-break: break-word;
+}
+
+/* Extra mobile-only refinements */
+@media (max-width: 600px) {
+    .options label,
+    .tf label {
+        font-size: 1.12rem;
+        padding: 12px 14px;
+        margin: 14px 0;
+    }
+
+    input[type="radio"] {
+        width: 22px;
+        height: 22px;
+        margin-right: 16px;
+        transform: scale(1.45);
+    }
+
+    .question {
+        padding: 16px;
+        margin: 24px 0;
+    }
+
+    .question h3 {
+        font-size: 1.22rem;
+        line-height: 1.35;
+    }
+}
+
+/* Visual separation when selected (optional nice touch) */
+input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #1d4ed8;
+}
     }
 </style>
 </head>
@@ -176,6 +253,7 @@
 
 </body>
 </html>
+
 
 
 
