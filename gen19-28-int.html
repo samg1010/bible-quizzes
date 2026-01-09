@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 19–28 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 19–28 Intermediate Bible Quiz</h1>
+<span class="small-text">50 intermediate questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+    { type: "mc", q: "Why did the two angels come to Sodom?", a: "To rescue Lot and his family before destroying the city", opts: ["To rescue Lot and his family before destroying the city","To visit Abraham again","To test the hospitality of Sodom","To warn Pharaoh"], expl: "The Lord had sent them to destroy Sodom, but also to deliver righteous Lot (Genesis 19:1,13; cf. 2 Peter 2:7)." },
+    { type: "mc", q: "What does Lot's offer of his daughters reveal about the seriousness of the situation?", a: "The extreme wickedness of Sodom and his desperate attempt to protect guests", opts: ["The extreme wickedness of Sodom and his desperate attempt to protect guests","Lot's perfect righteousness","The angels' weakness","Normal Sodomite behavior"], expl: "Hospitality was sacred; Lot's drastic offer underscores both cultural duty and the depravity surrounding him (Genesis 19:8)." },
+    { type: "tf", q: "Lot hesitated to leave Sodom, so the angels had to seize him and his family by the hand.", a: true, expl: "True – 'He hesitated, so the men grasped his hand...' showing lingering attachment or fear (Genesis 19:16)." },
+    { type: "mc", q: "What does Lot's wife becoming a pillar of salt symbolize?", a: "The danger of longing for the old life of sin", opts: ["The danger of longing for the old life of sin","Instant death only","Curiosity without consequence","Obedience to angels"], expl: "Her looking back reflects divided loyalty; Jesus uses it as a warning (Luke 17:32; Genesis 19:26)." },
+    { type: "mc", q: "How does the incident with Lot's daughters contrast with Abraham's faith?", a: "It shows human scheming versus trust in God's promises", opts: ["It shows human scheming versus trust in God's promises","Complete righteousness in Lot","God's approval of their plan","No contrast"], expl: "Like Sarai with Hagar, they take matters into their own hands instead of trusting God (Genesis 19:30-38)." },
+    { type: "mc", q: "Why does Abraham repeat the 'sister' deception in Gerar?", a: "Ongoing fear and lack of full trust in God's protection", opts: ["Ongoing fear and lack of full trust in God's protection","Complete unbelief","Greed for gifts","First time occurrence"], expl: "Despite past experiences, fear of man persists, yet God remains sovereignly protective (Genesis 20:2,11)." },
+    { type: "tf", q: "God called Abraham a prophet in His warning to Abimelech.", a: true, expl: "True – 'He is a prophet, and he will pray for you'—first use of 'prophet' in Scripture (Genesis 20:7)." },
+    { type: "mc", q: "What does Abimelech's integrity in Genesis 20 highlight?", a: "That God can work through and protect even non-covenant people acting in good faith", opts: ["That God can work through and protect even non-covenant people acting in good faith","Abimelech's superiority over Abraham","God's favoritism only to Abraham","No divine intervention"], expl: "Abimelech acted with clear conscience; God honors integrity while protecting the covenant line (Genesis 20:5-6)." },
+    { type: "mc", q: "Why does Sarah's laughter change from doubt to joy at Isaac's birth?", a: "God fulfilled His impossible promise, turning skepticism into rejoicing", opts: ["God fulfilled His impossible promise, turning skepticism into rejoicing","She never doubted","Isaac's beauty alone","Abraham's command"], expl: "'God has brought me laughter... everyone will laugh with me'—joy replaces earlier incredulity (Genesis 21:6-7)." },
+    { type: "mc", q: "What theological tension arises when Sarah demands Hagar and Ishmael be sent away?", a: "Human jealousy versus God's compassion and promise to Ishmael", opts: ["Human jealousy versus God's compassion and promise to Ishmael","Sarah's perfect righteousness","God's rejection of Ishmael","No tension"], expl: "God affirms Isaac as covenant heir but still cares for and blesses Ishmael (Genesis 21:12-13)." },
+    { type: "tf", q: "God promised Ishmael would become a great nation because he was Abraham's offspring.", a: true, expl: "True – 'I will make him into a great nation' despite not being the covenant heir (Genesis 21:13,18)." },
+    { type: "mc", q: "What is the significance of the Akedah (binding of Isaac) in Genesis 22?", a: "It tests and displays Abraham's faith, foreshadowing God's provision of a substitute", opts: ["It tests and displays Abraham's faith, foreshadowing God's provision of a substitute","A literal command to kill","Proof of Abraham's cruelty","Minor event"], expl: "Abraham's obedience and God's provision point to substitutionary atonement (Genesis 22:13-14; Hebrews 11:17-19)." },
+    { type: "mc", q: "Why does Abraham confidently say 'We will worship and then we will come back'?", a: "He believed God could raise Isaac from the dead if needed", opts: ["He believed God could raise Isaac from the dead if needed","He planned to disobey","He misunderstood God","Hope without basis"], expl: "Hebrews 11:19 explains Abraham reasoned God could raise the dead to keep His promise (Genesis 22:5)." },
+    { type: "tf", q: "The name 'The Lord Will Provide' (Jehovah Jireh) comes from God's provision of the ram.", a: true, expl: "True – 'On the mountain of the Lord it will be provided' (Genesis 22:14)." },
+    { type: "mc", q: "What does Abraham's careful purchase of the cave of Machpelah demonstrate?", a: "Legal ownership of land in Canaan as a down payment on God's promise", opts: ["Legal ownership of land in Canaan as a down payment on God's promise","Wealth alone","Fear of Hittites","Temporary need"], expl: "First recorded real estate transaction secures a foothold in the promised land (Genesis 23)." },
+    { type: "mc", q: "Why does Abraham insist the servant not take a Canaanite wife for Isaac?", a: "To preserve covenant purity and separation from idolatry", opts: ["To preserve covenant purity and separation from idolatry","Canaanites were poor","Personal preference only","No reason given"], expl: "The covenant line must remain distinct from surrounding pagan culture (Genesis 24:3-4)." },
+    { type: "mc", q: "What does the servant's prayer at the well reveal about his approach?", a: "Reliance on God's specific guidance rather than chance", opts: ["Reliance on God's specific guidance rather than chance","Superstition","Human wisdom alone","Rebekah's initiative"], expl: "He asks for a precise sign, showing faith in God's providence (Genesis 24:12-14)." },
+    { type: "tf", q: "Rebekah's willingness to water the camels was the exact sign the servant requested.", a: true, expl: "True – She offered water to him and then drew for all ten camels—an extraordinary act of kindness (Genesis 24:18-20)." },
+    { type: "mc", q: "How does Genesis 24 illustrate God's faithful guidance?", a: "Through multiple confirmations and the family's recognition of divine leading", opts: ["Through multiple confirmations and the family's recognition of divine leading","Coincidence only","Servant's cleverness","Rebekah's choice alone"], expl: "Laban and Bethuel say, 'This is from the Lord' (Genesis 24:50)." },
+    { type: "mc", q: "What comfort does Isaac find after Sarah's death?", a: "He loves Rebekah and is comforted when she becomes his wife", opts: ["He loves Rebekah and is comforted when she becomes his wife","Wealth increase","Moving to Egypt","Abraham's presence"], expl: "Isaac brought her into his mother's tent and loved her; he was comforted (Genesis 24:67)." },
+    { type: "mc", q: "Why does Esau's marriage to Hittite women grieve Isaac and Rebekah?", a: "It brought idolatry and cultural compromise into the covenant family", opts: ["It brought idolatry and cultural compromise into the covenant family","They were poor","Personal dislike","No grief mentioned"], expl: "They were a source of grief to Isaac and Rebekah (Genesis 26:35)." },
+    { type: "tf", q: "Isaac repeated his father's deception by calling Rebekah his sister in Gerar.", a: true, expl: "True – Same fear-driven half-truth pattern as Abraham (Genesis 26:7)." },
+    { type: "mc", q: "What does God's renewal of the covenant to Isaac emphasize?", a: "The promise continues through divine grace, not human merit", opts: ["The promise continues through divine grace, not human merit","Isaac's superiority","New conditions","End of Abraham's line"], expl: "God appears and reaffirms the oath to Abraham 'for the sake of my servant Abraham' (Genesis 26:24)." },
+    { type: "mc", q: "Why do the Philistines stop up Abraham's wells and later quarrel over Isaac's?", a: "Envy of God's blessing on the covenant family", opts: ["Envy of God's blessing on the covenant family","Water shortage only","Hatred without cause","Isaac's aggression"], expl: "Abimelech asks Isaac to leave because 'you have become too powerful' (Genesis 26:16)." },
+    { type: "mc", q: "What progression is seen in the well names Esek, Sitnah, and Rehoboth?", a: "From contention to room and peace provided by God", opts: ["From contention to room and peace provided by God","Random names","Increasing conflict","No meaning"], expl: "Finally, 'the Lord has given us room and we will flourish' (Genesis 26:22)." },
+    { type: "tf", q: "Esau despised his birthright by selling it for a single meal.", a: true, expl: "True – He said, 'I am about to die... what good is the birthright?' showing disregard for spiritual privilege (Genesis 25:32-34)." },
+    { type: "mc", q: "How does Rebekah's favoritism and deception in Genesis 27 reflect human sinfulness?", a: "It manipulates to fulfill God's oracle but through deceit rather than faith", opts: ["It manipulates to fulfill God's oracle but through deceit rather than faith","Perfect obedience","God's approval of lying","No deception"], expl: "God's prophecy (25:23) is fulfilled, but family dysfunction and lies cause long-term pain." },
+    { type: "mc", q: "Why does Isaac tremble violently when he realizes he blessed Jacob?", a: "Recognition that God's sovereign purpose overruled human plans", opts: ["Recognition that God's sovereign purpose overruled human plans","Anger only","Fear of Esau","Regret over food"], expl: "'The voice is the voice of Jacob, but the hands are Esau'... he trembled violently (Genesis 27:33)." },
+    { type: "mc", q: "What contrast exists between Esau's and Jacob's blessings?", a: "Jacob receives primacy and abundance; Esau service and struggle", opts: ["Jacob receives primacy and abundance; Esau service and struggle","Both equal","Esau the greater","No blessings given"], expl: "Esau will live by the sword and serve his brother, yet eventually break the yoke (Genesis 27:39-40)." },
+    { type: "tf", q: "Jacob's dream at Bethel assured him that God would fulfill the covenant promises made to Abraham and Isaac.", a: true, expl: "True – 'I am with you... I will give you and your offspring the land... all peoples blessed' (Genesis 28:13-15)." },
+    { type: "mc", q: "What does Jacob's vow at Bethel reveal about his faith at this stage?", a: "Conditional commitment growing into fuller trust", opts: ["Conditional commitment growing into fuller trust","Complete unbelief","Perfect faith","Rejection of God"], expl: "'If God will be with me... then the Lord will be my God'—honest but developing faith (Genesis 28:20-22)." },
+    { type: "mc", q: "How does the destruction of Sodom serve as a warning in later Scripture?", a: "Example of God's judgment on wickedness and rescue of the righteous", opts: ["Example of God's judgment on wickedness and rescue of the righteous","Irrelevant event","Only about Lot","Mercy without justice"], expl: "Used by Jesus, Peter, and Jude as warning of final judgment (Luke 17:29; 2 Peter 2:6; Jude 7)." },
+    { type: "mc", q: "Why does God tell Abraham 'your offspring' will inherit through Isaac specifically?", a: "To clarify the chosen covenant line excludes Ishmael as heir", opts: ["To clarify the chosen covenant line excludes Ishmael as heir","To reject Ishmael completely","Because Ishmael sinned","No clarification needed"], expl: "'It is through Isaac that your offspring will be reckoned' (Genesis 21:12; Romans 9:7)." },
+    { type: "mc", q: "What theme of divine provision runs through Genesis 22?", a: "God Himself provides the lamb/substitute", opts: ["God Himself provides the lamb/substitute","Abraham's works","Human sacrifice required","No provision"], expl: "Foreshadows God providing His own Son as the ultimate substitute." },
+    { type: "mc", q: "How does Genesis 24 serve as a model of seeking God's will?", a: "Through prayer, specific guidance, and recognition of providence", opts: ["Through prayer, specific guidance, and recognition of providence","Human effort alone","Chance","Family pressure"], expl: "The servant's prayer and repeated thanks show dependence on God (Genesis 24:12,21,26-27,48,52)." },
+    { type: "tf", q: "The covenant promises to Abraham are extended to Jacob at Bethel.", a: true, expl: "True – God repeats the land, offspring, and blessing-to-all-nations promise directly to Jacob (Genesis 28:13-15)." },
+    { type: "mc", q: "What ongoing pattern of human weakness is seen in Genesis 19–28?", a: "Deception, favoritism, and fear despite God's faithfulness", opts: ["Deception, favoritism, and fear despite God's faithfulness","Perfect obedience","No human flaws","God's abandonment"], expl: "Yet God sovereignly advances His plan through flawed people." },
+    { type: "mc", q: "Why does God bless Isaac abundantly even when he repeats Abraham's sin?", a: "The covenant rests on God's grace and promise, not human perfection", opts: ["The covenant rests on God's grace and promise, not human perfection","Isaac's merit","Temporary blessing","Punishment delayed"], expl: "God blesses 'for the sake of Abraham' and reaffirms the oath (Genesis 26:3-5,24)." },
+    { type: "mc", q: "How does Esau's character in selling his birthright affect later events?", a: "It shows his profane attitude toward spiritual privileges", opts: ["It shows his profane attitude toward spiritual privileges","No effect","Greater blessing","Wisdom"], expl: "Hebrews 12:16 calls Esau 'godless' for treating the birthright as worthless." },
+    { type: "tf", q: "Jacob's ladder dream symbolizes God's presence and connection between heaven and earth.", a: true, expl: "True – Angels ascending and descending; God at the top; 'this is the gate of heaven' (Genesis 28:12,17)." },
+    { type: "mc", q: "What does the family dysfunction in Genesis 27 ultimately accomplish?", a: "God's sovereign election of Jacob despite human manipulation", opts: ["God's sovereign election of Jacob despite human manipulation","Rejection of God's plan","Success through deceit alone","Family harmony"], expl: "The oracle of 25:23 ('the older will serve the younger') is fulfilled through flawed means." },
+    { type: "mc", q: "How do the events of Genesis 19–28 advance the Abrahamic covenant?", a: "By narrowing the line to Isaac then Jacob while showing God's faithfulness", opts: ["By narrowing the line to Isaac then Jacob while showing God's faithfulness","Expanding to all sons","Ending with Esau","No advancement"], expl: "The promised seed is preserved and specified through divine election and protection." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

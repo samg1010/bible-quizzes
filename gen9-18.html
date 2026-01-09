@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 9–18 Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 9–18 Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+    { type: "mc", q: "What was the sign of God's covenant with Noah that He would never again destroy the earth with a flood?", a: "A rainbow", opts: ["A rainbow","A dove","A burning bush","A star"], expl: "God set the rainbow in the clouds as the sign of the covenant with Noah and every living creature (Genesis 9:12-17)." },
+    { type: "mc", q: "What did God tell Noah and his sons they could eat after the flood?", a: "Every moving thing that lives", opts: ["Every moving thing that lives","Only plants","Only clean animals","Fish only"], expl: "Everything that lives and moves will be food for you, just as I gave you the green plants (Genesis 9:3)." },
+    { type: "mc", q: "Who was the father of Canaan, whom Noah cursed?", a: "Ham", opts: ["Ham","Shem","Japheth","Noah"], expl: "The sons of Noah who came out of the ark were Shem, Ham, and Japheth. Ham was the father of Canaan (Genesis 9:18)." },
+    { type: "mc", q: "What did Noah plant after the flood?", a: "A vineyard", opts: ["A vineyard","An olive tree","A fig tree","A wheat field"], expl: "Noah, a man of the soil, proceeded to plant a vineyard (Genesis 9:20)." },
+    { type: "mc", q: "What did Shem and Japheth do to cover their father's nakedness?", a: "Walked backward with a garment", opts: ["Walked backward with a garment","Looked away","Called for help","Laughed"], expl: "They took a garment... walked backward and covered their father's nakedness (Genesis 9:23)." },
+    { type: "tf", q: "Noah directly cursed his son Ham.", a: false, expl: "False – Noah cursed Canaan, Ham's son, not Ham himself (Genesis 9:25)." },
+    { type: "mc", q: "Where did people settle to build the Tower of Babel?", a: "Plain of Shinar", opts: ["Plain of Shinar","Mountains of Ararat","Land of Canaan","Egypt"], expl: "They settled in Shinar and said, 'Come let us build a city' (Genesis 11:2)." },
+    { type: "mc", q: "What material did they use for bricks at Babel?", a: "Baked bricks", opts: ["Baked bricks","Stones","Wood","Mud"], expl: "They used baked bricks instead of stones, and tar for mortar (Genesis 11:3)." },
+    { type: "mc", q: "What did God confuse at Babel to scatter the people?", a: "Their language", opts: ["Their language","Their plans","Their memory","Their vision"], expl: "The Lord confused the language... so they were scattered (Genesis 11:7-8)." },
+    { type: "tf", q: "The people at Babel wanted to avoid being scattered over the earth.", a: true, expl: "True – 'Otherwise we will be scattered over the face of the whole earth' (Genesis 11:4)." },
+    { type: "mc", q: "From what city did Abram depart when God called him?", a: "Haran", opts: ["Haran","Ur","Shechem","Salem"], expl: "Abram left Haran at age 75 as the Lord had told him (Genesis 12:4-5)." },
+    { type: "mc", q: "What did God promise to show Abram when calling him?", a: "The land I will show you", opts: ["The land I will show you","The promised land","Egypt","Babylon"], expl: "Go... to the land I will show you (Genesis 12:1)." },
+    { type: "mc", q: "Where did Abram first build an altar after entering Canaan?", a: "Shechem", opts: ["Shechem","Bethel","Hebron","Salem"], expl: "Abram went to Shechem, to the oak of Moreh, and built an altar (Genesis 12:6-7)." },
+    { type: "tf", q: "God promised to bless those who bless Abram and curse those who curse him.", a: true, expl: "True – 'I will bless those who bless you, and whoever curses you I will curse' (Genesis 12:3)." },
+    { type: "mc", q: "Why did Abram go down to Egypt?", a: "There was a famine in the land", opts: ["There was a famine in the land","God told him to","To see Pharaoh","To trade"], expl: "A famine struck the land, so Abram went to Egypt to live there for a while (Genesis 12:10)." },
+    { type: "mc", q: "What did Abram ask Sarai to say she was to the Egyptians?", a: "My sister", opts: ["My sister","My daughter","My wife","My cousin"], expl: "Say you are my sister, so that I will be treated well (Genesis 12:13)." },
+    { type: "tf", q: "Pharaoh took Sarai into his palace because she was very beautiful.", a: true, expl: "True – She was very beautiful, and he took her to be his wife (Genesis 12:14-15)." },
+    { type: "mc", q: "What did God inflict on Pharaoh's household because of Sarai?", a: "Great plagues", opts: ["Great plagues","Famine","Locusts","Darkness"], expl: "The Lord inflicted serious diseases on Pharaoh and his household (Genesis 12:17)." },
+    { type: "mc", q: "After Egypt, where did Abram call on the name of the Lord?", a: "Between Bethel and Ai", opts: ["Between Bethel and Ai","Shechem","Hebron","Mamre"], expl: "Abram went... to the site between Bethel and Ai where he had first built an altar (Genesis 13:3-4)." },
+    { type: "mc", q: "Whose herdsmen quarreled with Abram's herdsmen?", a: "Lot's", opts: ["Lot's","Pharaoh's","Canaan's","Hagar's"], expl: "The herdsmen of Abram and Lot quarreled because their possessions were so great (Genesis 13:7)." },
+    { type: "tf", q: "Abram let Lot choose first which land he wanted.", a: true, expl: "True – 'Let’s not have any quarreling... If you go to the left, I’ll go to the right' (Genesis 13:8-9)." },
+    { type: "mc", q: "Which direction did Lot choose for his tents?", a: "Toward Sodom", opts: ["Toward Sodom","Toward Bethel","Toward Egypt","Toward Damascus"], expl: "Lot looked up and saw that the whole plain of the Jordan was well watered... so Lot chose for himself the whole plain... and pitched his tents near Sodom (Genesis 13:10-12)." },
+    { type: "mc", q: "After Lot separated, what did God tell Abram to do?", a: "Lift up your eyes and look", opts: ["Lift up your eyes and look","Go to Sodom","Return to Egypt","Build a city"], expl: "Lift up your eyes from where you are and look north and south, east and west (Genesis 13:14)." },
+    { type: "tf", q: "God promised Abram's offspring would be like the dust of the earth.", a: true, expl: "True – 'Your offspring will be like the dust of the earth' (Genesis 13:16)." },
+    { type: "mc", q: "In Genesis 14, how many kings attacked the kings of Sodom and Gomorrah?", a: "Four", opts: ["Four","Five","Three","Twelve"], expl: "Four kings seized Lot... (kings of Shinar, Ellasar, Elam, Goiim) against five (Genesis 14:9)." },
+    { type: "mc", q: "Who told Abram that Lot was captured?", a: "A man who had escaped", opts: ["A man who had escaped","An angel","Melchizedek","The king of Sodom"], expl: "A man who had escaped from the battle came and reported to Abram (Genesis 14:13)." },
+    { type: "mc", q: "How many trained men did Abram have to rescue Lot?", a: "318", opts: ["318","1000","500","75"], expl: "Abram had 318 trained men born in his household (Genesis 14:14)." },
+    { type: "mc", q: "Who was king of Salem and priest of God Most High?", a: "Melchizedek", opts: ["Melchizedek","Abram","King of Sodom","Bera"], expl: "Melchizedek king of Salem brought out bread and wine (Genesis 14:18)." },
+    { type: "tf", q: "Abram gave Melchizedek a tenth of everything.", a: true, expl: "True – Abram gave him a tenth of everything (Genesis 14:20)." },
+    { type: "mc", q: "What did the king of Sodom offer Abram?", a: "All the goods but take the people", opts: ["All the goods but take the people","Half the goods","Nothing","Lot only"], expl: "Keep all the goods for yourself, but give me the people (Genesis 14:21)." },
+    { type: "mc", q: "In Genesis 15, what did God say He was to Abram in the vision?", a: "Your shield, your very great reward", opts: ["Your shield, your very great reward","Your king","Your judge","Your enemy"], expl: "Do not be afraid, Abram. I am your shield, your very great reward (Genesis 15:1)." },
+    { type: "tf", q: "Abram believed the Lord, and He credited it to him as righteousness.", a: true, expl: "True – Abram believed the Lord, and he credited it to him as righteousness (Genesis 15:6)." },
+    { type: "mc", q: "What did Abram bring to confirm God's promise?", a: "A heifer, goat, ram, dove, pigeon", opts: ["A heifer, goat, ram, dove, pigeon","A lamb only","Ten animals","Nothing"], expl: "A heifer, goat, ram (each three years old), along with a dove and a young pigeon (Genesis 15:9)." },
+    { type: "mc", q: "What passed between the pieces to confirm the covenant?", a: "Smoking firepot and blazing torch", opts: ["Smoking firepot and blazing torch","Abram himself","Angels","Lightning"], expl: "A smoking firepot with a blazing torch appeared and passed between the pieces (Genesis 15:17)." },
+    { type: "tf", q: "God said Abram's descendants would be enslaved 400 years.", a: true, expl: "True – 'Your descendants will be strangers in a country not their own... four hundred years' (Genesis 15:13)." },
+    { type: "mc", q: "What land boundaries did God promise Abram's descendants?", a: "River of Egypt to Euphrates", opts: ["River of Egypt to Euphrates","Jordan to Mediterranean","Euphrates to Nile","From Dan to Beersheba"], expl: "From the river of Egypt to the great river, the Euphrates (Genesis 15:18)." },
+    { type: "mc", q: "Who was Sarai's Egyptian slave given to Abram?", a: "Hagar", opts: ["Hagar","Keturah","Zilpah","Bilhah"], expl: "Sarai had an Egyptian slave whose name was Hagar (Genesis 16:1)." },
+    { type: "mc", q: "How many years had Abram been in Canaan when Sarai gave him Hagar?", a: "10 years", opts: ["10 years","5 years","20 years","1 year"], expl: "Abram had been living in Canaan ten years (Genesis 16:3)." },
+    { type: "tf", q: "Hagar fled from Sarai after being mistreated.", a: true, expl: "True – Sarai mistreated Hagar, who then fled into the wilderness (Genesis 16:6)." },
+    { type: "mc", q: "What did the angel tell Hagar to name her son?", a: "Ishmael", opts: ["Ishmael","Isaac","Eliezer","Canaan"], expl: "You shall name him Ishmael (Genesis 16:11)." },
+    { type: "mc", q: "At what age did God appear to Abram to change his name?", a: "99", opts: ["99","100","90","86"], expl: "When Abram was ninety-nine years old, the Lord appeared (Genesis 17:1)." },
+    { type: "tf", q: "God changed Abram's name to Abraham, father of many nations.", a: true, expl: "True – 'You are to be Abraham, for I have made you a father of many nations' (Genesis 17:5)." },
+    { type: "mc", q: "What sign of the covenant did God establish with Abraham?", a: "Circumcision", opts: ["Circumcision","Sabbath","Passover","Rainbow"], expl: "Every male among you shall be circumcised... it will be the sign of the covenant (Genesis 17:10-11)." },
+    { type: "mc", q: "What new name did God give Sarai?", a: "Sarah", opts: ["Sarah","Sarai","Hagar","Rebekah"], expl: "'As for Sarai your wife... you are no longer to call her Sarai; her name will be Sarah' (Genesis 17:15)." },
+    { type: "tf", q: "God said Sarah would bear Abraham a son named Isaac.", a: true, expl: "True – 'Sarah your wife will have a son, and you are to call him Isaac' (Genesis 17:19)." },
+    { type: "mc", q: "How old was Ishmael when circumcised?", a: "13", opts: ["13","10","8","15"], expl: "Ishmael was thirteen years old when he was circumcised (Genesis 17:25)." },
+    { type: "mc", q: "Where was Abraham sitting when the Lord appeared to him?", a: "Entrance to his tent at Mamre", opts: ["Entrance to his tent at Mamre","Altar at Bethel","Well of Beersheba","Oaks of Moreh"], expl: "The Lord appeared to Abraham near the great trees of Mamre while he was sitting at the entrance to his tent (Genesis 18:1)." },
+    { type: "tf", q: "Abraham saw three men and bowed low to the ground.", a: true, expl: "True – When he saw them, he hurried from the entrance... bowed low to the ground (Genesis 18:2)." },
+    { type: "mc", q: "What did Abraham ask Sarah to quickly make for the visitors?", a: "Bread", opts: ["Bread","Meat","Wine","Cake"], expl: "Quick, get three seahs of fine flour and knead it and bake some bread (Genesis 18:6)." },
+    { type: "mc", q: "What meat did Abraham serve the visitors?", a: "Choice and tender calf", opts: ["Choice and tender calf","Lamb","Goat","Ox"], expl: "He took curds and milk and the calf... and set it before them (Genesis 18:8)." },
+    { type: "tf", q: "The visitors asked where Sarah was.", a: true, expl: "True – 'Where is your wife Sarah?' they asked him (Genesis 18:9)." },
+    { type: "mc", q: "When did the Lord say Sarah would have a son?", a: "Next year at this season", opts: ["Next year at this season","In nine months","Soon","When young"], expl: "I will surely return to you about this time next year, and Sarah your wife will have a son (Genesis 18:10)." },
+    { type: "tf", q: "Sarah laughed because she thought she and Abraham were too old.", a: true, expl: "True – 'After I am worn out and my lord is old, will I now have this pleasure?' Sarah laughed to herself (Genesis 18:12)." },
+    { type: "mc", q: "What rhetorical question did the Lord ask Sarah?", a: "Is anything too hard for the Lord?", opts: ["Is anything too hard for the Lord?","Why did you laugh?","Where is Abraham?","Will you believe?"], expl: "Is anything too hard for the Lord? (Genesis 18:14)." },
+    { type: "mc", q: "Why did God say He revealed His plans about Sodom to Abraham?", a: "He has chosen him to direct his children rightly", opts: ["He has chosen him to direct his children rightly","Abraham asked","Lot was his nephew","To test faith"], expl: "Shall I hide from Abraham what I am about to do?... For I have chosen him (Genesis 18:17-19)." },
+    { type: "tf", q: "Abraham bargained with God down to sparing Sodom for 10 righteous.", a: true, expl: "True – Abraham started at 50 and went down to 10 (Genesis 18:23-32)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

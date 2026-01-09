@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 19–28 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 19–28 Easy Bible Quiz</h1>
+<span class="small-text">50 easy questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+    { type: "mc", q: "Who visited Lot in Sodom?", a: "Two angels", opts: ["Two angels","Three angels","Abraham","God alone"], expl: "Two angels arrived at Sodom in the evening (Genesis 19:1)." },
+    { type: "mc", q: "What did the men of Sodom want to do to Lot's visitors?", a: "Have sex with them", opts: ["Have sex with them","Rob them","Kill them","Invite them to dinner"], expl: "The men surrounded the house and demanded to have relations with the visitors (Genesis 19:4-5)." },
+    { type: "tf", q: "Lot offered his daughters to the men of Sodom.", a: true, expl: "True – Lot offered his virgin daughters to protect his guests (Genesis 19:8)." },
+    { type: "mc", q: "What happened to Lot's wife when she looked back?", a: "She became a pillar of salt", opts: ["She became a pillar of salt","She was saved","She ran ahead","Nothing"], expl: "She looked back and became a pillar of salt (Genesis 19:26)." },
+    { type: "mc", q: "Which cities did God destroy with burning sulfur?", a: "Sodom and Gomorrah", opts: ["Sodom and Gomorrah","Zoar and Admah","Hebron and Salem","Ur and Haran"], expl: "The Lord rained down burning sulfur on Sodom and Gomorrah (Genesis 19:24)." },
+    { type: "mc", q: "Who was the father of Moab and Ben-Ammon?", a: "Lot", opts: ["Lot","Abraham","Isaac","Haran"], expl: "Lot's daughters bore sons: Moab (father of Moabites) and Ben-Ammi (father of Ammonites) (Genesis 19:36-38)." },
+    { type: "tf", q: "Abraham again said Sarah was his sister when he went to Gerar.", a: true, expl: "True – Abraham repeated the deception with King Abimelech (Genesis 20:2)." },
+    { type: "mc", q: "Who was the king of Gerar who took Sarah?", a: "Abimelech", opts: ["Abimelech","Pharaoh","Melchizedek","Chedorlaomer"], expl: "Abimelech king of Gerar sent for Sarah and took her (Genesis 20:2)." },
+    { type: "mc", q: "How did God warn Abimelech about Sarah?", a: "In a dream", opts: ["In a dream","Through Abraham","Through an angel","Through plagues"], expl: "God came to Abimelech in a dream and warned him (Genesis 20:3-7)." },
+    { type: "tf", q: "Abimelech gave Abraham sheep, cattle, and servants.", a: true, expl: "True – As compensation and to show innocence (Genesis 20:14)." },
+    { type: "mc", q: "What was the name of the son God promised Abraham and Sarah?", a: "Isaac", opts: ["Isaac","Ishmael","Jacob","Esau"], expl: "Sarah will bear you a son, and you shall call his name Isaac (Genesis 17:19; reiterated in 21)." },
+    { type: "mc", q: "How old was Abraham when Isaac was born?", a: "100 years old", opts: ["100 years old","90 years old","75 years old","120 years old"], expl: "Abraham was 100 years old when Isaac was born (Genesis 21:5)." },
+    { type: "tf", q: "Sarah laughed when Isaac was born.", a: false, expl: "False – She laughed earlier in doubt, but at birth she laughed with joy (Genesis 21:6)." },
+    { type: "mc", q: "What did Sarah want Abraham to do with Hagar and Ishmael?", a: "Send them away", opts: ["Send them away","Keep them as heirs","Marry Hagar again","Bless them more"], expl: "Sarah told Abraham to get rid of Hagar and Ishmael (Genesis 21:10)." },
+    { type: "mc", q: "What did God provide for Hagar and Ishmael in the desert?", a: "A well of water", opts: ["A well of water","Food from heaven","An angel only","Nothing"], expl: "God opened Hagar's eyes and she saw a well (Genesis 21:19)." },
+    { type: "tf", q: "Abraham made a treaty with Abimelech at Beersheba.", a: true, expl: "True – They swore an oath and named the place Beersheba (Genesis 21:31-32)." },
+    { type: "mc", q: "Where did God tell Abraham to sacrifice Isaac?", a: "The region of Moriah", opts: ["The region of Moriah","Mount Sinai","Sodom","Gerar"], expl: "Take your son... to the region of Moriah and sacrifice him there (Genesis 22:2)." },
+    { type: "mc", q: "What did Abraham tell his servants about returning from the mountain?", a: "We will come back to you", opts: ["We will come back to you","I will come back","Isaac will stay","Stay here forever"], expl: "Abraham said 'we' will worship and 'we' will come back, showing faith (Genesis 22:5)." },
+    { type: "tf", q: "God provided a ram caught in a thicket as a substitute for Isaac.", a: true, expl: "True – Abraham saw a ram and sacrificed it instead of his son (Genesis 22:13)." },
+    { type: "mc", q: "What name did Abraham give the place where Isaac was nearly sacrificed?", a: "The Lord Will Provide", opts: ["The Lord Will Provide","Mount Moriah","Jehovah Jireh only","Fear of Isaac"], expl: "Abraham called the place 'The Lord Will Provide' (Genesis 22:14)." },
+    { type: "mc", q: "Who died at age 127 and was buried by Abraham?", a: "Sarah", opts: ["Sarah","Rebekah","Hagar","Milcah"], expl: "Sarah lived 127 years and died in Hebron (Genesis 23:1-2)." },
+    { type: "mc", q: "From whom did Abraham buy a burial cave for Sarah?", a: "Ephron the Hittite", opts: ["Ephron the Hittite","Abimelech","Lot","Melchizedek"], expl: "Abraham bought the cave of Machpelah from Ephron (Genesis 23:9-20)." },
+    { type: "tf", q: "Abraham sent his servant to his homeland to find a wife for Isaac.", a: true, expl: "True – To his country and relatives, not a Canaanite (Genesis 24:3-4)." },
+    { type: "mc", q: "What sign did Abraham's servant ask God for at the well?", a: "The girl who offers water to him and his camels", opts: ["The girl who offers water to him and his camels","The prettiest girl","The first girl","A girl named Rebekah"], expl: "Let her offer to water the camels (Genesis 24:14)." },
+    { type: "mc", q: "Who was Rebekah's brother?", a: "Laban", opts: ["Laban","Bethuel","Nahor","Milcah"], expl: "Laban ran out to meet the servant (Genesis 24:29)." },
+    { type: "tf", q: "Rebekah agreed to go immediately with the servant to marry Isaac.", a: true, expl: "True – When asked, she said 'I will go' (Genesis 24:58)." },
+    { type: "mc", q: "How did Isaac meet Rebekah for the first time?", a: "She came while he was meditating in the field", opts: ["She came while he was meditating in the field","At a well","In a dream","Through Abraham"], expl: "Isaac was in the field meditating when Rebekah arrived (Genesis 24:63-65)." },
+    { type: "mc", q: "How old was Abraham when he died?", a: "175 years old", opts: ["175 years old","120 years old","100 years old","150 years old"], expl: "Abraham lived 175 years and was buried with Sarah (Genesis 25:7-8)." },
+    { type: "tf", q: "Ishmael had twelve sons who became tribal leaders.", a: true, expl: "True – Twelve sons listed as princes (Genesis 25:16)." },
+    { type: "mc", q: "Who were Isaac and Rebekah's twin sons?", a: "Esau and Jacob", opts: ["Esau and Jacob","Moab and Ammon","Ishmael and Isaac","Cain and Abel"], expl: "The twins were Esau and Jacob (Genesis 25:24-26)." },
+    { type: "mc", q: "Which twin was born first and was hairy?", a: "Esau", opts: ["Esau","Jacob","Isaac","Ishmael"], expl: "Esau came out red and hairy (Genesis 25:25)." },
+    { type: "tf", q: "Jacob grabbed Esau's heel at birth.", a: true, expl: "True – His name Jacob means 'he grasps the heel' (Genesis 25:26)." },
+    { type: "mc", q: "What did Esau sell to Jacob for food?", a: "His birthright", opts: ["His birthright","His bow","His coat","His tent"], expl: "Esau sold his birthright for red stew (Genesis 25:29-34)." },
+    { type: "mc", q: "Why did Isaac go to Gerar during a famine?", a: "God told him to stay in the land", opts: ["God told him to stay in the land","To visit Abimelech","To flee Canaanites","To find water"], expl: "God appeared and told Isaac not to go to Egypt (Genesis 26:2-3)." },
+    { type: "mc", q: "What did Isaac say Rebekah was when asked by the men of Gerar?", a: "My sister", opts: ["My sister","My wife","My daughter","My cousin"], expl: "Isaac repeated Abraham's deception (Genesis 26:7)." },
+    { type: "tf", q: "God blessed Isaac, and he became very wealthy.", a: true, expl: "True – Crops yielded a hundredfold, and he had flocks and herds (Genesis 26:12-14)." },
+    { type: "mc", q: "What did Isaac rename the well after making peace with Abimelech?", a: "Rehoboth", opts: ["Rehoboth","Beersheba","Esek","Shibah"], expl: "He said, 'Now the Lord has given us room' and named it Rehoboth (Genesis 26:22)." },
+    { type: "mc", q: "Where did Esau marry his first wives from?", a: "Hittite women", opts: ["Hittite women","Ishmaelites","Egyptians","Haran"], expl: "Esau married Judith and Basemath, Hittites (Genesis 26:34)." },
+    { type: "tf", q: "Isaac was old and blind when he planned to bless Esau.", a: true, expl: "True – His eyes were weak, so he could not see (Genesis 27:1)." },
+    { type: "mc", q: "What animal did Isaac ask Esau to hunt for a meal before blessing him?", a: "Wild game (venison)", opts: ["Wild game (venison)","A lamb","A goat","A calf"], expl: "Go hunt some wild game for me (Genesis 27:3-4)." },
+    { type: "mc", q: "Who overheard Isaac's instructions to Esau?", a: "Rebekah", opts: ["Rebekah","Jacob","Laban","Abimelech"], expl: "Rebekah overheard and told Jacob to get goats (Genesis 27:5-6)." },
+    { type: "tf", q: "Rebekah dressed Jacob in Esau's clothes and goat skins.", a: true, expl: "True – To deceive blind Isaac into thinking Jacob was Esau (Genesis 27:15-16)." },
+    { type: "mc", q: "What blessing did Isaac give thinking Jacob was Esau?", a: "The blessing of the firstborn", opts: ["The blessing of the firstborn","A minor blessing","No blessing","The servant's blessing"], expl: "Blessing of prosperity, dominion, and the dew of heaven (Genesis 27:28-29)." },
+    { type: "mc", q: "When Esau returned, what did he ask Isaac?", a: "Is there no blessing left for me?", opts: ["Is there no blessing left for me?","Who took my blessing?","Can you curse Jacob?","Give me food"], expl: "Esau cried out and begged for a blessing (Genesis 27:34-38)." },
+    { type: "tf", q: "Isaac could not reverse the blessing given to Jacob.", a: true, expl: "True – The blessing stood even though obtained by deception (Genesis 27:33-37)." },
+    { type: "mc", q: "Why did Rebekah want Jacob to flee to Haran?", a: "To escape Esau's anger", opts: ["To escape Esau's anger","To find a wife","To get rich","To visit family"], expl: "Esau planned to kill Jacob after mourning Isaac (Genesis 27:41-42)." },
+    { type: "mc", q: "Who did Rebekah want Jacob to marry?", a: "One of Laban's daughters", opts: ["One of Laban's daughters","A Canaanite","A Hittite","Anyone"], expl: "Go to Paddan Aram to Laban and take a wife from his daughters (Genesis 27:46; 28:2)." },
+    { type: "tf", q: "Isaac blessed Jacob again before sending him to Laban.", a: true, expl: "True – He blessed him with the blessing of Abraham (Genesis 28:3-4)." },
+    { type: "mc", q: "Where did Jacob have his dream of a ladder to heaven?", a: "Bethel", opts: ["Bethel","Beersheba","Haran","Gerar"], expl: "Jacob dreamed at Luz, which he renamed Bethel (Genesis 28:11-19)." },
+    { type: "mc", q: "What did Jacob call the place of his dream?", a: "House of God (Bethel)", opts: ["House of God (Bethel)","Gate of heaven","Jacob's pillar","Luz"], expl: "Surely the Lord is in this place... this is the house of God (Genesis 28:17)." },
+    { type: "tf", q: "Jacob vowed to give God a tenth of everything if God protected him.", a: true, expl: "True – Jacob made a vow to tithe if God brought him back safely (Genesis 28:20-22)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
