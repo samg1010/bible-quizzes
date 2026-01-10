@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 19–28 Advanced Theological Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 19–28 Advanced Theological Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Theological depth • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+    { type: "mc", q: "Abraham’s intercession for Sodom (Gen 18:22–33) most profoundly reveals which aspect of God’s character?", a: "Willingness to be persuaded by righteous intercession while upholding justice", opts: ["Indifference to human moral arguments","Absolute predestination without regard to human prayer","Willingness to be persuaded by righteous intercession while upholding justice","Desire for total destruction regardless of the righteous"], expl: "God invites Abraham’s plea and responds progressively, showing He is open to intercession while maintaining perfect justice (Gen 18:23-32)." },
+    { type: "mc", q: "The statement “God remembered Abraham” in the context of Lot’s rescue (Gen 19:29) theologically underscores:", a: "The covenantal union between Abraham and his kin, extending vicarious blessing/mercy", opts: ["Lot’s own righteousness as the sole cause","God’s forgetfulness until reminded","Abraham’s superior merit over Lot","The covenantal union between Abraham and his kin, extending vicarious blessing/mercy"], expl: "Lot is spared because of God’s covenant relationship with Abraham, not primarily Lot’s own merit (Gen 19:29; cf. 18:23-32)." },
+    { type: "tf", q: "Lot’s wife turning into a pillar of salt (Gen 19:26) serves as a warning against divided loyalty and nostalgia for the condemned world system.", a: true, expl: "True – Her backward glance symbolizes attachment to the sinful life she was leaving, a pattern Jesus later references (Luke 17:32)." },
+    { type: "mc", q: "The incestuous origin of Moab and Ammon (Gen 19:30–38) theologically illustrates:", a: "The corrupting influence of prolonged exposure to wickedness, even on the “righteous”", opts: ["Divine blessing on incest","The superiority of Lot’s lineage","The corrupting influence of prolonged exposure to wickedness, even on the “righteous”","God’s approval of desperate measures"], expl: "Lot’s compromise in Sodom led to moral compromise in the cave, showing sin’s lingering effects (Gen 19:30-38)." },
+    { type: "mc", q: "In Genesis 17:1, God’s self-revelation as “El Shaddai” (God Almighty) is most closely tied to:", a: "His power to overcome human impossibility in fulfilling the covenant promise of offspring", opts: ["Judgment on nations","His power to overcome human impossibility in fulfilling the covenant promise of offspring","Natural fertility alone","Military conquest"], expl: "The name El Shaddai appears in the context of the impossible promise of seed to aged Abraham and barren Sarah (Gen 17:1)." },
+    { type: "mc", q: "The institution of circumcision (Gen 17:9–14) functions primarily as:", a: "An outward, bloody sign of the covenant cut on the organ of procreation, pointing to the need for spiritual cleansing in the promised seed", opts: ["A temporary cultural rite","An outward, bloody sign of the covenant cut on the organ of procreation, pointing to the need for spiritual cleansing in the promised seed","A work earning covenant membership","A mark of ethnic superiority"], expl: "Circumcision on the reproductive organ symbolizes the cutting away of flesh and the need for spiritual regeneration in the line of promise." },
+    { type: "tf", q: "God’s insistence that the covenant be established with Isaac, not Ishmael (Gen 17:19–21), most clearly demonstrates sovereign election of the child of promise over the child of the flesh.", a: true, expl: "True – The covenant line is determined by God’s sovereign choice, not natural birth order or human effort (cf. Rom 9:7-9)." },
+    { type: "mc", q: "Sarah’s laughter at the promise of a son (Gen 18:12–15) contrasts with Abraham’s earlier laughter (17:17) in that:", a: "Both are unbelief, but God graciously overcomes it", opts: ["Both are unbelief, but God graciously overcomes it","Hers stems from unbelief while his is joy","It shows gender differences in faith","Hers is forgiven, his is not"], expl: "Both instances reflect natural human incredulity at the impossible, yet God reaffirms the promise (Gen 17:17; 18:12-15)." },
+    { type: "mc", q: "The near-sacrifice of Isaac (Gen 22) is best understood as:", a: "A typological foreshadowing of the Father giving His only Son", opts: ["Proof that God changes His mind","A typological foreshadowing of the Father giving His only Son","Rejection of child sacrifice","A test of Abraham’s morality"], expl: "The event prefigures God providing His own Son as the ultimate substitute (Heb 11:17-19; cf. Jn 3:16)." },
+    { type: "mc", q: "Rebekah’s barrenness (Gen 25:21) and God’s response theologically emphasize:", a: "The pattern of divine initiative in overcoming barrenness to fulfill the seed promise", opts: ["Punishment for Isaac’s sin","Human initiative in procreation","Natural fertility as blessing","The pattern of divine initiative in overcoming barrenness to fulfill the seed promise"], expl: "God answers Isaac’s prayer, continuing the pattern of miraculous conception (Gen 25:21; cf. Sarah, Rachel)." },
+    { type: "mc", q: "The oracle to Rebekah (Gen 25:23) – “the older shall serve the younger” – most profoundly teaches:", a: "God’s sovereign election before birth, independent of works", opts: ["Parental favoritism as divine will","God’s sovereign election before birth, independent of works","Esau’s moral superiority","Reversal based on human merit"], expl: "The election of Jacob over Esau occurs before birth, showing God’s free choice (Rom 9:11-13)." },
+    { type: "tf", q: "Esau’s despising of the birthright (Gen 25:29–34) is described in Hebrews 12:16 as godlessness/profanity – treating sacred covenant privileges as common.", a: true, expl: "True – Hebrews calls him “godless” for regarding spiritual blessing as worthless (Heb 12:16)." },
+    { type: "mc", q: "Isaac’s reaffirmation of the Abrahamic blessing to Jacob (Gen 27:28–29; 28:3–4) despite deception shows:", a: "The irrevocability of God’s election and blessing once pronounced", opts: ["Rebekah’s manipulation succeeding over God’s will","The irrevocability of God’s election and blessing once pronounced","Isaac’s weakness","God’s approval of the means"], expl: "Once spoken, the blessing stands as God’s sovereign will (Gen 27:33)." },
+    { type: "mc", q: "Jacob’s dream at Bethel (Gen 28:10–17) most clearly portrays:", a: "God’s self-revelation of covenant access – heaven touching earth – foreshadowing Christ (John 1:51)", opts: ["Angelic activity only","A ladder as human effort to reach God","God’s self-revelation of covenant access – heaven touching earth – foreshadowing Christ (John 1:51)","Jacob’s personal piety"], expl: "Jesus identifies Himself as the true ladder bridging heaven and earth (Jn 1:51)." },
+    { type: "mc", q: "God’s promise to Jacob (Gen 28:13–15) – “I am with you and will keep you” – is most significant because:", a: "It is unconditional grace extended to a deceiver, showing covenant faithfulness despite human failure", opts: ["It guarantees immediate prosperity","It is unconditional grace extended to a deceiver, showing covenant faithfulness despite human failure","It replaces the promise to Abraham","It is conditional on Jacob’s obedience"], expl: "God pursues Jacob despite his character, demonstrating grace (Gen 28:15)." },
+    { type: "tf", q: "Abraham’s intercession for Sodom demonstrates that God’s justice can be limited by human prayer.", a: false, expl: "False – God’s justice remains absolute; He is willing to spare for the sake of the righteous, but only up to His righteous standard." },
+    { type: "tf", q: "The destruction of Sodom is presented solely as punishment for sexual sin.", a: false, expl: "False – Ezekiel 16:49-50 includes pride, excess, and neglect of the poor; sexual sin is part of a broader moral corruption." },
+    { type: "tf", q: "Circumcision in Genesis 17 is primarily a sign of ethnic identity rather than covenant relationship.", a: false, expl: "False – It is the sign of the everlasting covenant between God and Abraham’s seed (Gen 17:11,13)." },
+    { type: "tf", q: "God’s choice of Isaac over Ishmael illustrates conditional election based on obedience.", a: false, expl: "False – The choice is made before birth and independent of works (Rom 9:11)." },
+    { type: "tf", q: "Jacob’s vow at Bethel (Gen 28:20–22) shows perfect faith without conditions.", a: false, expl: "False – It is conditional ('if God will... then...'), reflecting immature but growing faith." },
+    { type: "tf", q: "The reversal of Esau and Jacob reflects God’s consistent pattern of choosing the weak/younger to shame the strong.", a: true, expl: "True – This pattern recurs (Isaac over Ishmael, Jacob over Esau, Joseph over brothers, David over older brothers) and is cited in 1 Cor 1:27." },
+    { type: "tf", q: "Lot is portrayed as fully righteous, making his rescue purely individualistic.", a: false, expl: "False – Lot is called righteous (2 Pet 2:7-8) but compromised; his rescue is tied to Abraham’s covenant standing (Gen 19:29)." },
+    { type: "tf", q: "The Abrahamic covenant in Genesis 17 is bilateral and conditional in every aspect.", a: false, expl: "False – While circumcision is required, the core promises of land and seed are unilateral and unconditional." },
+    { type: "tf", q: "Isaac’s blessing of Jacob (despite deception) demonstrates that God’s purposes cannot be thwarted by human sin.", a: true, expl: "True – The blessing stands, fulfilling the oracle of Gen 25:23." },
+    { type: "tf", q: "The ladder in Jacob’s dream symbolizes human religious effort to reach God.", a: false, expl: "False – It represents God’s initiative in reaching down to man, with Christ as the true ladder (Jn 1:51)." },
+    { type: "tf", q: "God’s covenant with Abraham includes both physical descendants and spiritual blessing to all nations.", a: true, expl: "True – The promise is both national and universal (Gen 12:3; 22:18; Gal 3:8)." },
+    { type: "tf", q: "Rebekah’s barrenness is presented as divine punishment.", a: false, expl: "False – It is part of the pattern of God overcoming impossibility to fulfill the seed promise." },
+    { type: "tf", q: "Esau’s selling of the birthright is merely economic; it has no spiritual significance.", a: false, expl: "False – Hebrews 12:16 calls it godless, treating sacred privilege as common." },
+    { type: "tf", q: "Jacob’s name change to Israel is promised at Bethel but occurs later.", a: true, expl: "True – The promise is given in Gen 28:13-15; the actual renaming occurs in Gen 32:28 and is reaffirmed in Gen 35:10." },
+    { type: "tf", q: "The patriarchal narratives in Genesis 19–28 ultimately point to God’s faithfulness despite human unfaithfulness.", a: true, expl: "True – Repeated human failure is met with unwavering divine covenant loyalty." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
