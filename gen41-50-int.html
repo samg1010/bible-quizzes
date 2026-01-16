@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 41-50 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 41-50 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "How long had the chief cupbearer been out of prison before he remembered Joseph?", a: "Two full years", opts: ["One full year", "Two full years", "Three days", "Six months"], expl: "Genesis 41:1 – 'After two full years, Pharaoh dreamed…' (implying the cupbearer had forgotten Joseph for that entire period)." },
+  { type: "mc", q: "In Pharaoh’s dream, what feature made the seven thin cows particularly striking?", a: "They were gaunt and ugly", opts: ["They were beautiful and well-fed", "They were gaunt and ugly", "They had seven heads", "They were spotted"], expl: "Genesis 41:3–4 – 'Seven other cows… gaunt and ugly… stood beside them on the bank of the Nile.'" },
+  { type: "mc", q: "What did the magicians and wise men of Egypt fail to do for Pharaoh?", a: "Explain the meaning of the dreams", opts: ["Explain the meaning of the dreams", "Predict the length of the famine", "Provide grain storage plans", "Interpret the cupbearer’s dream"], expl: "Genesis 41:8 – 'No one could interpret them for Pharaoh.'" },
+  { type: "mc", q: "When Joseph was brought from the prison to Pharaoh, what two actions did he take first?", a: "He shaved and changed his clothes", opts: ["He shaved and changed his clothes", "He prayed and fasted", "He washed his hands and feet", "He bowed seven times"], expl: "Genesis 41:14 – 'They quickly brought him out… he shaved himself and changed his clothes.'" },
+  { type: "mc", q: "According to Joseph’s interpretation, why would the famine be so severe?", a: "Because God had shown Pharaoh what He was about to do", opts: ["Because the dreams were repeated twice", "Because the thin ears swallowed the good ones", "Because God had shown Pharaoh what He was about to do", "Because the cows ate the fat ones"], expl: "Genesis 41:32 – 'The doubling of Pharaoh’s dream means that the thing is fixed by God, and God will shortly bring it about.'" },
+  { type: "mc", q: "What specific authority did Pharaoh give Joseph over the land of Egypt?", a: "To be ruler over the whole land (only Pharaoh’s throne would be greater)", opts: ["Only over the grain storage", "To be ruler over the whole land (only Pharaoh’s throne would be greater)", "To command the army", "To judge all legal cases"], expl: "Genesis 41:40–41 – 'You shall be over my house… only as regards the throne will I be greater than you.'" },
+  { type: "mc", q: "What was the name of the priest whose daughter Joseph married?", a: "Potiphera", opts: ["Potiphar", "Potiphera", "On", "Asenath"], expl: "Genesis 41:45 – 'Asenath, the daughter of Potiphera priest of On.'" },
+  { type: "mc", q: "What did Joseph name his firstborn son, and what did the name mean?", a: "Manasseh – 'God has made me forget all my hardship'", opts: ["Ephraim – 'God has made me fruitful'", "Manasseh – 'God has made me forget all my hardship'", "Benjamin – 'son of the right hand'", "Reuben – 'see, a son'"], expl: "Genesis 41:51 – 'Manasseh, for God has made me forget all my hardship and all my father’s house.'" },
+  { type: "mc", q: "During the seven years of plenty, how much grain did Joseph store?", a: "As much as the sand of the sea", opts: ["As much as the sand of the sea", "Enough for five years", "Only in the cities near the Nile", "One-tenth of the harvest"], expl: "Genesis 41:49 – 'Joseph stored up grain in great abundance… until he stopped counting, for it was beyond measure.'" },
+  { type: "mc", q: "When Joseph’s brothers first came to Egypt, how did Joseph recognize them?", a: "He knew them but they did not recognize him", opts: ["They spoke Hebrew", "He knew them but they did not recognize him", "They wore special garments", "Reuben told him"], expl: "Genesis 42:7–8 – 'Joseph recognized his brothers, but they did not recognize him.'" },
+  { type: "mc", q: "What did Joseph do when he first saw Benjamin with his brothers?", a: "He embraced him and wept", opts: ["He embraced him and wept", "He asked for proof of identity", "He accused Benjamin of spying", "He gave him extra grain"], expl: "Genesis 43:29–30 – Joseph hurried out and sought a place to weep when he saw Benjamin." },
+  { type: "mc", q: "Why did Joseph’s steward accuse the brothers of stealing the silver cup?", a: "It was a test Joseph designed", opts: ["He found it in Simeon’s sack", "It was a test Joseph designed", "Benjamin had taken it openly", "The brothers offered it as payment"], expl: "Genesis 44:1–5 – Joseph commanded the steward to place the cup in Benjamin’s sack as a deliberate test." },
+  { type: "mc", q: "In Judah’s long speech (Gen 44:18–34), what did he emphasize to persuade Joseph?", a: "Jacob’s great love for Benjamin and the danger of his death if Benjamin didn’t return", opts: ["Their poverty", "Jacob’s great love for Benjamin and the danger of his death if Benjamin didn’t return", "Their previous good behavior", "Their willingness to pay double"], expl: "Genesis 44:30–31 – 'When he sees that the boy is not with us, he will die.'" },
+  { type: "mc", q: "What emotional reaction did Joseph have when he finally revealed himself?", a: "He wept so loudly that all the Egyptians heard it", opts: ["He remained calm and spoke quietly", "He wept so loudly that all the Egyptians heard it", "He laughed with joy", "He rebuked his brothers first"], expl: "Genesis 45:2 – 'He wept aloud, so that the Egyptians heard it, and the household of Pharaoh heard it.'" },
+  { type: "mc", q: "According to Joseph, who was ultimately responsible for sending him to Egypt?", a: "God", opts: ["The Midianites", "His brothers", "God", "Pharaoh"], expl: "Genesis 45:8 – 'It was not you who sent me here, but God.'" },
+  { type: "mc", q: "What special provision did Pharaoh make for the journey of Jacob’s family to Egypt?", a: "Wagons, provisions, and clothing", opts: ["Camels and donkeys", "Wagons, provisions, and clothing", "Gold and silver", "Armed guards"], expl: "Genesis 45:19–23 – Pharaoh commanded wagons and gave changes of clothes and provisions." },
+  { type: "mc", q: "In which region of Egypt did Pharaoh assign land to Jacob’s family?", a: "Goshen", opts: ["Memphis", "Goshen", "On", "The Delta"], expl: "Genesis 45:10; 46:28–29; 47:1 – 'You shall dwell in the land of Goshen.'" },
+  { type: "mc", q: "How many persons in all of Jacob’s household went down to Egypt (including Joseph and his sons)?", a: "70", opts: ["66", "70", "75", "33"], expl: "Genesis 46:27 – 'All the persons of the house of Jacob who came into Egypt were seventy.'" },
+  { type: "mc", q: "What did Jacob say when he saw Joseph again after so many years?", a: "Now let me die, since I have seen your face", opts: ["Now let me die, since I have seen your face", "Why did you sell yourself into slavery?", "God has forsaken me", "Bring me your sons"], expl: "Genesis 46:30 – 'Now let me die, since I have seen your face and know that you are still alive.'" },
+  { type: "mc", q: "How long did the embalming process for Jacob take?", a: "40 days", opts: ["7 days", "30 days", "40 days", "70 days"], expl: "Genesis 50:3 – 'Forty days were required for it, for that is how many are required for embalming.'" },
+  { type: "mc", q: "Who actually carried Jacob’s body to Canaan for burial?", a: "Joseph’s servants and all Pharaoh’s servants", opts: ["Joseph alone", "Joseph’s servants and all Pharaoh’s servants", "All his brothers", "The Egyptians only"], expl: "Genesis 50:7–9 – 'Joseph went up to bury his father… with all the servants of Pharaoh… chariots and horsemen.'" },
+  { type: "mc", q: "After Jacob’s death, what did Joseph’s brothers fear he would do?", a: "Take revenge for how they treated him", opts: ["Sell them as slaves", "Take revenge for how they treated him", "Send them back to Canaan", "Divide the inheritance unfairly"], expl: "Genesis 50:15 – 'What if Joseph still bears a grudge against us and pays us back…'" },
+  { type: "mc", q: "In Genesis 48, why did Jacob cross his hands when blessing Joseph’s sons?", a: "To give the greater blessing to the younger (Ephraim)", opts: ["To give the greater blessing to the younger (Ephraim)", "Because he was blind", "To follow Egyptian custom", "Because Manasseh refused"], expl: "Genesis 48:14–20 – Jacob deliberately crossed his hands so the right hand rested on Ephraim, the younger." },
+  { type: "mc", q: "What did Jacob say about Dan in his blessing?", a: "Dan shall be a serpent in the way", opts: ["Dan shall judge his people", "Dan shall be a serpent in the way", "Dan shall be fruitful", "Dan shall have the scepter"], expl: "Genesis 49:17 – 'Dan shall be a serpent in the way, a viper by the path…'" },
+  { type: "mc", q: "Which son’s blessing contains the famous prophecy: 'The scepter shall not depart from Judah'?", a: "Judah", opts: ["Joseph", "Reuben", "Judah", "Levi"], expl: "Genesis 49:10 – 'The scepter shall not depart from Judah…'" },
+  { type: "mc", q: "How many years did Jacob live in Egypt?", a: "17 years", opts: ["7 years", "17 years", "40 years", "70 years"], expl: "Genesis 47:28 – 'Jacob lived in the land of Egypt seventeen years.'" },
+  { type: "mc", q: "During the severe famine, what did Joseph do with the money the people paid for grain?", a: "Put it in Pharaoh’s house", opts: ["Kept it for himself", "Put it in Pharaoh’s house", "Distributed it to the poor", "Sent it to Canaan"], expl: "Genesis 47:14 – 'Joseph gathered up all the money… and put the money in Pharaoh’s house.'" },
+  { type: "mc", q: "What did Joseph require from the people in the second year of famine when money was gone?", a: "Their livestock", opts: ["Their children as servants", "Their livestock", "Their land", "Their houses"], expl: "Genesis 47:17 – 'They brought their livestock to Joseph… for that year.'" },
+  { type: "mc", q: "In the third stage of the famine, what did the people finally give up for food?", a: "Themselves and their land", opts: ["Their freedom", "Themselves and their land", "Their children", "Their cattle only"], expl: "Genesis 47:19 – 'Buy us and our land for food… we and our land will be slaves to Pharaoh.'" },
+  { type: "mc", q: "What did Joseph promise his brothers when they feared retribution after Jacob’s death?", a: "He would provide for them and their little ones", opts: ["He would punish them", "He would provide for them and their little ones", "He would send them away", "He would divide the inheritance"], expl: "Genesis 50:21 – 'So do not fear; I will provide for you and your little ones.'" },
+  { type: "mc", q: "How old was Joseph when he died?", a: "110", opts: ["100", "110", "120", "130"], expl: "Genesis 50:26 – 'So Joseph died, being 110 years old.'" },
+  { type: "mc", q: "What final request did Joseph make concerning his bones?", a: "Carry them up to Canaan when God visits Israel", opts: ["Bury them in Goshen", "Carry them up to Canaan when God visits Israel", "Embalm them in Egypt forever", "Place them beside Pharaoh"], expl: "Genesis 50:25 – 'God will surely visit you, and you shall carry up my bones from here.'" },
+  { type: "mc", q: "What phrase did Joseph use to summarize God’s purpose in his suffering?", a: "You meant evil, but God turned it good", opts: ["You meant evil, but God turned it good", "Man plans, God laughs", "All things work together for good", "God has forgotten my affliction"], expl: "Genesis 50:20 – 'You meant evil against me, but God meant it for good…'" },
+  { type: "mc", q: "Which of Joseph’s sons received the greater blessing despite being younger?", a: "Ephraim", opts: ["Manasseh", "Ephraim", "Reuben", "Judah"], expl: "Genesis 48:19 – 'His younger brother shall be greater than he.'" },
+  { type: "mc", q: "During the famine, who was the only group not required to sell their land to Pharaoh?", a: "The priests", opts: ["The priests", "The shepherds", "The merchants", "The foreigners"], expl: "Genesis 47:22 – 'Only the land of the priests he did not buy, for the priests had a fixed allowance from Pharaoh.'" },
+  { type: "tf", q: "Joseph told Pharaoh that he personally had the power to interpret dreams.", a: false, expl: "False – Genesis 41:16 – 'It is not in me; God will give Pharaoh a favorable answer.'" },
+  { type: "tf", q: "Joseph’s brothers recognized him immediately on their first trip to Egypt.", a: false, expl: "False – Genesis 42:8 – 'Joseph recognized his brothers, but they did not recognize him.'" },
+  { type: "tf", q: "Joseph kept Simeon in prison as a hostage until Benjamin was brought.", a: true, expl: "True – Genesis 42:24 – He bound Simeon before their eyes." },
+  { type: "tf", q: "Jacob was willing to let Benjamin go to Egypt the first time the brothers went.", a: false, expl: "False – Genesis 42:38 – 'My son shall not go down with you.'" },
+  { type: "tf", q: "Joseph sent wagons to Canaan to bring Jacob and the family.", a: true, expl: "True – Genesis 45:19,27 – Pharaoh provided wagons." },
+  { type: "tf", q: "When Joseph revealed himself, he first blamed his brothers completely.", a: false, expl: "False – Genesis 45:5 – 'Do not be distressed… for God sent me before you to preserve life.'" },
+  { type: "tf", q: "Jacob’s family settled in the land of Goshen, which was ideal for shepherds.", a: true, expl: "True – Genesis 46:34; 47:3–6 – 'Every shepherd is an abomination to the Egyptians,' so Goshen was set apart." },
+  { type: "tf", q: "Jacob lived longer in Egypt than he had originally expected.", a: true, expl: "True – Genesis 47:9 – He told Pharaoh he had lived 130 years and few/evil were his days; he then lived 17 more years in Egypt (47:28)." },
+  { type: "tf", q: "Jacob deliberately gave the birthright blessing to Joseph’s younger son Ephraim.", a: true, expl: "True – Genesis 48:14–20 – Crossed hands despite Joseph’s objection." },
+  { type: "tf", q: "Reuben lost his preeminence because he defiled his father’s bed.", a: true, expl: "True – Genesis 49:3–4 – 'Unstable as water, you shall not have preeminence, because you went up to your father’s bed.'" },
+  { type: "tf", q: "The Egyptians mourned Jacob’s death for seventy days.", a: true, expl: "True – Genesis 50:3 – 'The Egyptians mourned for him seventy days.'" },
+  { type: "tf", q: "After Jacob’s death, Joseph immediately punished his brothers.", a: false, expl: "False – Genesis 50:19–21 – He comforted them and promised to care for them." },
+  { type: "tf", q: "Joseph died at the same age as Abraham (175 years).", a: false, expl: "False – Genesis 50:26 – Joseph died at 110 years old." },
+  { type: "tf", q: "Joseph asked his brothers to swear they would take his bones out of Egypt.", a: true, expl: "True – Genesis 50:25 – 'Then Joseph made the sons of Israel swear…'" },
+  { type: "tf", q: "Genesis 50 ends with Joseph’s death, embalming, and placement in a coffin in Egypt.", a: true, expl: "True – Genesis 50:26 – 'So Joseph died… and he was put in a coffin in Egypt.'" }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

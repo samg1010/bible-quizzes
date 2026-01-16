@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 29–40 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 29–40 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "What specific physical characteristic of Leah is mentioned that contrasted with Rachel?", a: "Her eyes were weak/tender", opts: ["She had beautiful eyes", "She was lovely in form", "Her eyes were weak/tender", "She had a strong build"], expl: "Genesis 29:17 – 'Leah’s eyes were weak, but Rachel was beautiful in form and appearance,' explaining why Jacob preferred Rachel." },
+  { type: "mc", q: "According to Genesis 29:32–34, what was Leah’s hope/expectation with the births of her first three sons?", a: "All of the above", opts: ["Jacob would love her more", "God had seen her affliction", "Her husband would be attached/joined to her", "All of the above"], expl: "Reuben ('see, a son' + affliction), Simeon ('heard'), Levi ('joined/attached') — each name reflects Leah’s longing for Jacob’s affection." },
+  { type: "mc", q: "What did Rachel say when she finally bore Joseph, expressing her desire for another son?", a: "May the Lord add to me another son", opts: ["God has taken away my reproach", "May the Lord add to me another son", "Happy am I!", "My wrestling with my sister"], expl: "Genesis 30:24 – After Joseph’s birth: 'May the Lord add to me another son.'" },
+  { type: "mc", q: "What did Jacob use as a visual trick in his selective breeding strategy for speckled/striped animals?", a: "Peeled rods of poplar, almond, and plane trees placed in watering troughs", opts: ["Colored water in the troughs", "Peeled rods of poplar, almond, and plane trees placed in watering troughs", "Painted the strong animals", "Separated them at night only"], expl: "Genesis 30:37–39 – Jacob placed peeled branches in the troughs when the stronger animals mated." },
+  { type: "mc", q: "Before fleeing, what did Jacob say God had done for him regarding Laban’s flocks?", a: "Shown him in a dream how to prosper", opts: ["Multiplied them through natural means", "Taken away Laban’s livestock and given to Jacob", "Shown him in a dream how to prosper", "Sent angels to protect the flocks"], expl: "Genesis 31:10–13 – God appeared to Jacob in a dream showing speckled goats and told him 'I have seen all that Laban is doing to you.'" },
+  { type: "mc", q: "What did Laban accuse Jacob of stealing when he caught up to him?", a: "His household gods", opts: ["His daughters", "His household gods", "Large amounts of silver and gold", "All of the above"], expl: "Genesis 31:30 – Laban pursued because 'you have stolen my gods.'" },
+  { type: "mc", q: "What phrase did Laban use at Mizpah that became a famous watchword/covenant reminder?", a: "May the Lord watch between you and me when we are absent one from another", opts: ["The God of Bethel watch between us", "May the Lord watch between you and me when we are absent one from another", "No one shall harm the other", "Peace be between our families"], expl: "Genesis 31:49 – Mizpah means 'watchtower'; the Lord as witness between them." },
+  { type: "mc", q: "How many camps did Jacob divide his family and possessions into when preparing to meet Esau?", a: "Two", opts: ["Two", "Three", "Four", "One large camp"], expl: "Genesis 32:7–8 – 'If Esau comes to one camp and attacks it, then the other camp will escape.'" },
+  { type: "mc", q: "What was the name Jacob gave the place after wrestling with the 'man,' meaning 'face of God'?", a: "Peniel / Penuel", opts: ["Mahanaim", "Peniel / Penuel", "Bethel", "Succoth"], expl: "Genesis 32:30 – 'I have seen God face to face, and yet my life has been delivered' → Peniel." },
+  { type: "mc", q: "After the Dinah incident, what did Hamor propose to Jacob’s family?", a: "Intermarriage and becoming one people", opts: ["War", "Intermarriage and becoming one people", "Exile of Dinah", "Payment of fine only"], expl: "Genesis 34:8–10,15–16 – Hamor & Shechem proposed intermarriage and shared land/city." },
+  { type: "mc", q: "What condition did Simeon and Levi demand before agreeing to the marriage with Shechem?", a: "All males of the city be circumcised", opts: ["All males of the city be circumcised", "Shechem pay 100 pieces of silver", "Hamor give his daughter to Levi", "The city convert to worship Yahweh"], expl: "Genesis 34:14–16 – Circumcision as the condition for intermarriage." },
+  { type: "mc", q: "Where did God specifically tell Jacob to go after the Dinah incident?", a: "Bethel", opts: ["Bethel", "Egypt", "Hebron", "Seir"], expl: "Genesis 35:1 – 'Arise, go up to Bethel and dwell there. Make an altar there…'" },
+  { type: "mc", q: "What did Jacob instruct his household to do before going to Bethel?", a: "Put away foreign gods, purify themselves, change garments", opts: ["Put away foreign gods, purify themselves, change garments", "Fast for three days", "Offer sacrifices at Shechem", "Sell all possessions"], expl: "Genesis 35:2–4 – Rid foreign gods (including those buried under the oak near Shechem)." },
+  { type: "mc", q: "Who died and was buried under an oak below Bethel during the journey?", a: "Deborah, Rebekah’s nurse", opts: ["Deborah, Rebekah’s nurse", "Rachel", "Isaac", "Leah"], expl: "Genesis 35:8 – Deborah died and was buried under the oak of weeping." },
+  { type: "mc", q: "What did Jacob rename Benjamin at birth (Rachel named him Ben-oni)?", a: "Son of the right hand", opts: ["Son of my strength", "Son of the right hand", "Beloved son", "Son of sorrow"], expl: "Genesis 35:18 – Rachel called him Ben-oni ('son of my sorrow'); Jacob called him Benjamin ('son of the right hand')." },
+  { type: "mc", q: "What did Judah do after his separation from his brothers in chapter 38?", a: "Turned aside to a certain Adullamite", opts: ["Became a shepherd for Laban", "Turned aside to a certain Adullamite", "Went down to Egypt", "Built an altar"], expl: "Genesis 38:1 – 'Judah… turned aside to a certain Adullamite, whose name was Hirah.'" },
+  { type: "mc", q: "Why did God kill Er, Judah’s firstborn?", a: "He was wicked in the Lord’s sight", opts: ["He was wicked in the Lord’s sight", "He refused to marry Tamar", "He stole from his father", "He worshipped idols"], expl: "Genesis 38:7 – 'Er, Judah’s firstborn, was wicked in the sight of the Lord, and the Lord put him to death.'" },
+  { type: "mc", q: "What practice did Onan violate that led to his death?", a: "Levirate marriage / raising offspring for his brother", opts: ["Levirate marriage / raising offspring for his brother", "Honoring parents", "Keeping Sabbath", "Circumcision"], expl: "Genesis 38:8–10 – Onan refused to fulfill the duty of giving offspring to Er’s line." },
+  { type: "mc", q: "What items did Judah give Tamar as a pledge for the young goat?", a: "Signet, cord, staff", opts: ["Ring, bracelets, staff", "Signet, cord, staff", "Cloak, sandals, belt", "Silver and gold"], expl: "Genesis 38:18 – 'Your signet and your cord and your staff that is in your hand.'" },
+  { type: "mc", q: "Who was the firstborn of Tamar’s twins, marked by a scarlet thread?", a: "Zerah", opts: ["Perez", "Zerah", "Shelah", "Hezron"], expl: "Genesis 38:27–30 – Zerah put out his hand first (scarlet thread), but Perez came out first." },
+  { type: "mc", q: "How old was Joseph when he brought a bad report about his brothers?", a: "17", opts: ["15", "17", "19", "21"], expl: "Genesis 37:2 – 'Joseph… was seventeen years old.'" },
+  { type: "mc", q: "What were the two dreams Joseph had that angered his brothers?", a: "Sheaves bowing & stars/moon/sun bowing", opts: ["Sheaves bowing & stars/moon/sun bowing", "Cows & ears of grain", "Vine & baskets", "Ladder & angels"], expl: "Genesis 37:5–11 – Sheaves (brothers) & celestial bodies (family) bowing to Joseph’s." },
+  { type: "mc", q: "To which two groups of traders did Joseph’s brothers sell him?", a: "Ishmaelites & Midianites", opts: ["Ishmaelites & Midianites", "Egyptians & Canaanites", "Philistines & Amorites", "Edomites & Moabites"], expl: "Genesis 37:25–28 – Midianite traders (also called Ishmaelites)." },
+  { type: "mc", q: "How did Potiphar recognize that the Lord was with Joseph?", a: "He saw that the Lord caused all he did to prosper", opts: ["Joseph told him", "He saw that the Lord caused all he did to prosper", "Through dreams", "Joseph’s brothers informed him"], expl: "Genesis 39:3 – 'His master saw that the Lord was with him, and… made him overseer.'" },
+  { type: "mc", q: "What did Potiphar’s wife say Joseph tried to do when he left his garment?", a: "Force himself on her", opts: ["Steal silver", "Mock her", "Force himself on her", "Run away to Canaan"], expl: "Genesis 39:14–15 – 'He came in to me to lie with me, and… he left his garment…'" },
+  { type: "mc", q: "Why were the cupbearer and baker imprisoned?", a: "They offended Pharaoh", opts: ["They offended Pharaoh", "They stole from the palace", "They plotted against Joseph", "They refused to interpret dreams"], expl: "Genesis 40:1 – 'The cupbearer… and the baker… offended their lord the king of Egypt.'" },
+  { type: "mc", q: "In the cupbearer’s dream, how many branches did the vine have?", a: "Three", opts: ["Three", "Seven", "Twelve", "Ten"], expl: "Genesis 40:10 – Vine with three branches that budded, blossomed, produced clusters." },
+  { type: "mc", q: "What did Joseph ask the cupbearer to do after interpreting the favorable dream?", a: "Remember him and mention him to Pharaoh", opts: ["Give him money", "Remember him and mention him to Pharaoh", "Bring him food", "Pray for him"], expl: "Genesis 40:14 – 'Only remember me… and do me the kindness… mention me to Pharaoh.'" },
+  { type: "mc", q: "How did the baker’s dream end according to Joseph’s interpretation?", a: "Birds ate the food from baskets on his head", opts: ["Birds ate the food from baskets on his head", "Pharaoh restored him", "He became chief baker again", "He escaped prison"], expl: "Genesis 40:17–19 – Birds ate from the top basket → Pharaoh would hang him." },
+  { type: "mc", q: "What did Jacob do when shown Joseph’s bloodied coat?", a: "He tore his garments, put on sackcloth, and mourned many days", opts: ["He blessed his sons", "He tore his garments, put on sackcloth, and mourned many days", "He prayed to God", "He searched for Joseph"], expl: "Genesis 37:34 – Jacob mourned deeply, refusing comfort." },
+  { type: "mc", q: "What phrase did God use when reaffirming the name Israel to Jacob in ch. 35?", a: "All of the above", opts: ["I am God Almighty", "Be fruitful and multiply", "A nation and a company of nations shall come from you", "All of the above"], expl: "Genesis 35:11 – 'I am God Almighty: be fruitful… a nation and a company of nations…'" },
+  { type: "mc", q: "In Genesis 31:42, what did Jacob say would have happened without God?", a: "Laban would have sent him away empty-handed", opts: ["Laban would have sent him away empty-handed", "Esau would have killed him", "Rachel would have died earlier", "Flocks would have died"], expl: "Genesis 31:42 – 'God… rebuked you last night… otherwise you would have sent me away empty-handed.'" },
+  { type: "mc", q: "Which son of Jacob is associated with the line from which the Messiah would come?", a: "Judah", opts: ["Levi", "Judah", "Joseph", "Reuben"], expl: "Genesis 29:35 & 49:10 – Judah’s line (later revealed in the genealogy of Christ)." },
+  { type: "mc", q: "What emotion did Joseph feel when he saw the cupbearer and baker’s distress?", a: "He was troubled and asked why their faces were downcast", opts: ["Anger", "Indifference", "He was troubled and asked why their faces were downcast", "Fear"], expl: "Genesis 40:6–7 – Joseph saw they were troubled and asked, 'Why are your faces downcast today?'" },
+  { type: "mc", q: "According to Genesis 39:21–23, how did the keeper of the prison treat Joseph?", a: "He committed everything into Joseph’s hand", opts: ["With suspicion", "He committed everything into Joseph’s hand", "He kept him in chains", "He isolated him"], expl: "Genesis 39:22–23 – 'The keeper… committed to Joseph’s hand all the prisoners… because the Lord was with him.'" },
+  { type: "tf", q: "Laban changed Jacob’s wages ten times during his service.", a: true, expl: "True – Genesis 31:7,41 – 'Your father has cheated me and changed my wages ten times.'" },
+  { type: "tf", q: "Rachel died peacefully at an old age in Bethel.", a: false, expl: "False – Genesis 35:16–19 – She died in childbirth on the way to Ephrath (near Bethlehem)." },
+  { type: "tf", q: "Esau came to meet Jacob with 400 men, but they parted peacefully.", a: true, expl: "True – Genesis 33:1–16 – Esau accepted gifts and returned to Seir peacefully." },
+  { type: "tf", q: "After the covenant at Mizpah, Laban never saw Jacob again.", a: true, expl: "True – Genesis 31:55 – Laban kissed his grandchildren, blessed them, and returned home." },
+  { type: "tf", q: "Reuben tried to rescue Joseph from the pit but was unsuccessful.", a: true, expl: "True – Genesis 37:21–22,29–30 – Reuben planned to rescue him later, but the brothers sold him while he was away." },
+  { type: "tf", q: "God 'opened' Leah’s womb because she was unloved/hated.", a: true, expl: "True – Genesis 29:31 – 'When the Lord saw that Leah was hated, he opened her womb.'" },
+  { type: "tf", q: "The household gods that Rachel stole were small figurines.", a: true, expl: "True (implied) – Genesis 31:34–35 – Rachel hid them in the camel’s saddle and sat on them." },
+  { type: "tf", q: "Jacob built an altar at Shechem and called it 'El-Elohe-Israel.'", a: true, expl: "True – Genesis 33:18–20 – 'God, the God of Israel.'" },
+  { type: "tf", q: "Perez, Tamar’s son, became an ancestor in the line of David.", a: true, expl: "True – Genesis 38:29; later Ruth 4:18–22 & Matthew 1 genealogy." },
+  { type: "tf", q: "Joseph interpreted the dreams of the cupbearer and baker on the same day they were fulfilled.", a: false, expl: "False – Genesis 40:20–23 – Fulfilled on Pharaoh’s birthday (three days later)." },
+  { type: "tf", q: "Potiphar himself put Joseph into prison.", a: true, expl: "True – Genesis 39:20 – 'Joseph’s master took him and put him into the prison…'" },
+  { type: "tf", q: "Jacob called the place of wrestling 'Bethel.'", a: false, expl: "False – Genesis 32:30 – Peniel/Penuel; Bethel was earlier (ch. 28) and later (ch. 35)." },
+  { type: "tf", q: "All of Jacob’s sons were born in Haran before returning to Canaan.", a: true, expl: "True (except Benjamin) – Genesis 35:16–18 – Benjamin born on the way back, near Ephrath." },
+  { type: "tf", q: "Shechem genuinely loved Dinah after violating her and asked to marry her.", a: true, expl: "True – Genesis 34:3 – 'His soul was drawn to Dinah… he loved the young woman and spoke tenderly to her.'" },
+  { type: "tf", q: "Genesis 40 ends with Joseph still forgotten in prison by the cupbearer.", a: true, expl: "True – Genesis 40:23 – 'Yet the chief cupbearer did not remember Joseph, but forgot him.'" }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

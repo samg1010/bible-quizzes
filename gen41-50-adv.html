@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 41-50 Theologically Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 41-50 Theologically Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "Joseph’s full journey (pit → slavery → prison → exaltation) most closely mirrors which NT Christological pattern?", a: "Humiliation → death → resurrection → exaltation at God’s right hand (Phil 2:5–11)", opts: ["Moses’ exile and return", "Humiliation → death → resurrection → exaltation at God’s right hand (Phil 2:5–11)", "David’s anointing and kingship", "Jonah’s three days"], expl: "Rejected, sold for silver, falsely accused, imprisoned, then exalted to save life → clearest OT type of Christ’s descent and ascent (Phil 2:6–11; Acts 2:23–33)." },
+
+  { type: "mc", q: "Joseph’s statement 'God sent me before you to preserve life' (45:5–8) most directly prefigures:", a: "Christ sent by the Father to give eternal life to many (John 3:17; 6:38–39)", opts: ["John the Baptist’s preparatory ministry", "Christ sent by the Father to give eternal life to many (John 3:17; 6:38–39)", "Paul’s mission to the Gentiles", "Moses’ deliverance from Egypt"], expl: "Unwilling savior sent ahead to preserve physical life → type of the willing Son sent to bring eternal life (John 6:51; 10:10)." },
+
+  { type: "mc", q: "Joseph’s refusal to sin with Potiphar’s wife + unjust suffering (Gen 39) most typifies:", a: "Christ’s sinless temptation and innocent suffering (Heb 4:15; 1 Pet 2:22–23)", opts: ["Daniel’s integrity in Babylon", "Christ’s sinless temptation and innocent suffering (Heb 4:15; 1 Pet 2:22–23)", "Job’s patient endurance", "Paul’s thorn in the flesh"], expl: "Joseph says 'how can I sin against God?' → prefigures Christ tempted yet without sin, suffering unjustly (Heb 4:15; 1 Pet 2:21–23)." },
+
+  { type: "mc", q: "The preservation of 'a great multitude alive' through Joseph (45:7; 50:20) most clearly anticipates:", a: "Christ as the greater Joseph who saves a countless multitude eternally (Rev 7:9–10,14)", opts: ["Merely national survival of Israel", "Christ as the greater Joseph who saves a countless multitude eternally (Rev 7:9–10,14)", "Temporary famine relief", "Egyptian economic recovery"], expl: "Physical deliverance from death → ultimate type of the great multitude saved from the second death through Christ." },
+
+  { type: "mc", q: "Judah’s substitutionary offer: 'Let your servant remain instead of the boy' (44:33) most powerfully foreshadows:", a: "Christ the Lion of Judah who substitutes Himself for sinners (Rom 5:8; 1 Pet 3:18)", opts: ["Reuben’s failed rescue attempt", "Christ the Lion of Judah who substitutes Himself for sinners (Rom 5:8; 1 Pet 3:18)", "Levi’s future priestly role", "Joseph’s forgiveness"], expl: "Judah offers to take Benjamin’s place → clearest OT type of the greater Judah who lays down His life for His brethren (Heb 2:11–17)." },
+
+  { type: "mc", q: "The reversal of Ephraim over Manasseh (48:14–20) most directly connects to which NT principle?", a: "God choosing the weak and foolish to shame the strong and wise (1 Cor 1:27–29)", opts: ["Natural right of primogeniture", "God choosing the weak and foolish to shame the strong and wise (1 Cor 1:27–29)", "Egyptian inheritance custom", "Human merit"], expl: "Younger over elder pattern → same principle Paul applies to the gospel call (1 Cor 1:27–29; Rom 9:11–13)." },
+
+  { type: "mc", q: "The prophecy 'the scepter shall not depart from Judah… until Shiloh comes' (49:10) is most directly fulfilled in the NT as:", a: "Jesus Christ, the Lion of Judah and King eternal (Rev 5:5; Heb 7:14)", opts: ["Saul’s short-lived kingship", "Jesus Christ, the Lion of Judah and King eternal (Rev 5:5; Heb 7:14)", "A temporary tribal leadership", "A curse on Judah"], expl: "Early Jewish interpretation and NT (Rev 5:5) see this as the promise of the eternal Messianic King from Judah." },
+
+  { type: "mc", q: "Joseph’s request to carry his bones out of Egypt (50:25) is commended in Hebrews 11:22 as faith in:", a: "The future exodus and the heavenly country (Heb 11:13–16)", opts: ["Permanent settlement in Egypt", "The future exodus and the heavenly country (Heb 11:13–16)", "Egyptian afterlife beliefs", "Personal immortality alone"], expl: "He believed God would 'visit' Israel → looking forward to the better, heavenly country (Heb 11:16)." },
+
+  { type: "mc", q: "The statement 'you meant evil… but God meant it for good' (50:20) most directly undergirds which NT doctrine?", a: "All things work together for good for those who love God (Rom 8:28)", opts: ["Human free will limits God", "All things work together for good for those who love God (Rom 8:28)", "Evil is outside God’s sovereignty", "Moral equivalence of good and evil"], expl: "Paul’s Romans 8:28 is the clearest NT expansion of this foundational statement of meticulous providence." },
+
+  { type: "mc", q: "Joseph’s loud weeping and self-revelation to his brothers (45:1–2) most typologically resembles:", a: "Christ weeping over Jerusalem and revealing Himself to those who rejected Him (Luke 19:41; John 1:11)", opts: ["Paul’s farewell to Ephesus", "Christ weeping over Jerusalem and revealing Himself to those who rejected Him (Luke 19:41; John 1:11)", "David’s grief for Absalom", "Jonah’s anger at Nineveh"], expl: "Joseph weeps loudly when revealing himself to those who sold him → parallels Christ’s tears over those who did not receive Him." },
+
+  { type: "mc", q: "Joseph’s exaltation at Pharaoh’s right hand most directly typifies:", a: "Christ seated at the right hand of the Majesty on high (Heb 1:3; Acts 7:55–56)", opts: ["Moses at Pharaoh’s court", "Christ seated at the right hand of the Majesty on high (Heb 1:3; Acts 7:55–56)", "David’s throne", "Joseph’s political success"], expl: "Second-in-command with all authority → supreme exaltation of Christ after His suffering." },
+
+  { type: "mc", q: "The brothers bowing to Joseph (42:6; 43:26) fulfills the dream and most directly points to:", a: "Every knee bowing to Christ (Phil 2:10–11)", opts: ["Tribal unity only", "Every knee bowing to Christ (Phil 2:10–11)", "Egyptian submission", "Family hierarchy"], expl: "Partial fulfillment in the brothers; ultimate fulfillment in the cosmic confession to Christ." },
+
+  { type: "mc", q: "Joseph’s provision of grain to a starving world most clearly prefigures:", a: "Christ as the Bread of Life who satisfies eternal hunger (John 6:35,51)", opts: ["Economic reform in Egypt", "Christ as the Bread of Life who satisfies eternal hunger (John 6:35,51)", "Temporary relief", "Joseph’s administrative genius"], expl: "Physical bread in famine → type of the Bread from heaven who gives life to the world." },
+
+  { type: "mc", q: "Joseph providing a place for his family in Goshen (45:10) most typologically foreshadows:", a: "Christ preparing a place for His own in the Father’s house (John 14:2–3)", opts: ["Egyptian assimilation", "Christ preparing a place for His own in the Father’s house (John 14:2–3)", "Temporary refuge", "Political alliance"], expl: "'Come down to me… I will provide for you' echoes the promise of eternal dwelling." },
+
+  { type: "mc", q: "Joseph’s forgiveness of his brothers without demanding repayment most directly mirrors:", a: "The gospel of unmerited grace and justification by faith (Eph 2:8–9; Rom 5:8)", opts: ["Legal restitution", "The gospel of unmerited grace and justification by faith (Eph 2:8–9; Rom 5:8)", "Retributive justice", "Conditional forgiveness"], expl: "Freely forgives and provides — no payment required — pure grace." },
+
+  { type: "mc", q: "The brothers’ repentance and reconciliation with Joseph most typifies:", a: "The reconciliation of sinners to God through Christ (2 Cor 5:18–20)", opts: ["Family therapy", "The reconciliation of sinners to God through Christ (2 Cor 5:18–20)", "Economic negotiation", "Forced submission"], expl: "Guilt → confession → forgiveness → restored fellowship." },
+
+  { type: "mc", q: "The coffin of Joseph in Egypt (50:26) creates eschatological tension most directly resolved in:", a: "Christ’s resurrection and the new creation (1 Cor 15:20–28; Rev 21:1–4)", opts: ["Egyptian afterlife", "Christ’s resurrection and the new creation (1 Cor 15:20–28; Rev 21:1–4)", "Permanent exile", "National return"], expl: "Promise-bearer in a coffin → hope deferred until victory over death." },
+
+  { type: "tf", q: "Joseph as the rejected brother who becomes savior of many is one of the clearest OT types of Christ in the entire Old Testament.", a: true, expl: "True – rejected, sold for silver, falsely accused, imprisoned, exalted to save life → matches the gospel narrative most closely." },
+
+  { type: "tf", q: "The brothers bowing to Joseph fulfills the dream and typologically points to every knee bowing to Christ (Phil 2:10).", a: true, expl: "True – partial in family; ultimate in cosmic confession." },
+
+  { type: "tf", q: "Joseph’s forgiveness without requiring repayment mirrors the gospel of grace.", a: true, expl: "True – freely provides and forgives, no restitution demanded." },
+
+  { type: "tf", q: "The famine driving the family to Joseph typologically foreshadows spiritual famine driving sinners to Christ the Bread of Life.", a: true, expl: "True – physical hunger → Egypt/Joseph → eternal hunger → Christ (John 6:35)." },
+
+  { type: "tf", q: "Joseph providing a place for his family in Goshen prefigures Christ preparing a place in the Father’s house.", a: true, expl: "True – echoes John 14:2–3." },
+
+  { type: "tf", q: "Joseph’s exaltation at Pharaoh’s right hand most directly typifies Christ seated at the right hand of God.", a: true, expl: "True – supreme authority after suffering (Heb 1:3)." },
+
+  { type: "tf", q: "The brothers’ repentance and reconciliation with Joseph typifies reconciliation of sinners to God through Christ.", a: true, expl: "True – guilt → confession → forgiveness → fellowship (2 Cor 5:18–20)." },
+
+  { type: "tf", q: "The coffin of Joseph in Egypt creates eschatological tension resolved only in Christ’s resurrection.", a: true, expl: "True – hope deferred until victory over death." },
+
+  { type: "tf", q: "Joseph’s preservation of many alive most directly prefigures Christ as the Savior who keeps many alive eternally.", a: true, expl: "True – 'to keep many alive' echoes the cross’s saving purpose." },
+
+  { type: "tf", q: "Joseph’s life demonstrates that the fear of God is the foundation of true integrity and wisdom.", a: true, expl: "True – refuses sin 'against God' and attributes wisdom to God alone." },
+
+  { type: "tf", q: "The Joseph narrative is the clearest OT illustration of Romans 8:28.", a: true, expl: "True – evil turned to good for those called according to God’s purpose." },
+
+  { type: "tf", q: "Joseph’s tears over his brothers prefigure Christ’s weeping over the city that rejected Him.", a: true, expl: "True – deep sorrow at reconciliation with rejectors." },
+
+  { type: "tf", q: "Judah’s substitutionary offer is the strongest OT foreshadowing of substitutionary atonement before Isaiah 53.", a: true, expl: "True – one man offering himself in place of another." },
+
+  { type: "tf", q: "The pattern of younger over older continues the NT principle of God choosing the weak.", a: true, expl: "True – 1 Cor 1:27–29 applies this election pattern." },
+
+  { type: "tf", q: "Joseph’s faithfulness in prison despite injustice typifies Christ’s innocent suffering under Pilate.", a: true, expl: "True – both suffer unjustly yet remain faithful." },
+
+  { type: "tf", q: "The brothers bowing to Joseph anticipates the worship of Christ by the nations.", a: true, expl: "True – partial in family; ultimate in 'every knee shall bow'." },
+
+  { type: "tf", q: "Joseph’s provision of grain most typifies Christ as the Bread of Life.", a: true, expl: "True – 'I am the bread of life; whoever comes to me shall not hunger' (John 6:35)." },
+
+  { type: "tf", q: "The Joseph story teaches that God’s redemptive purposes are most powerfully accomplished through suffering and rejection.", a: true, expl: "True – greatest deliverance comes through the rejected brother who suffers." },
+
+  { type: "tf", q: "Joseph’s exaltation after humiliation is a stronger type of Christ than Moses’ rise after exile.", a: true, expl: "True – full pattern (rejection → suffering → exaltation → salvation) is more complete." },
+
+  { type: "tf", q: "The remnant preserved through Joseph most directly anticipates the faithful remnant in Romans 11.", a: true, expl: "True – 'to preserve for you a remnant' uses key remnant language." },
+
+  { type: "tf", q: "Joseph’s forgiveness without requiring repayment mirrors the gospel of grace.", a: true, expl: "True – freely provides and forgives, no restitution demanded." },
+
+  { type: "tf", q: "The Joseph narrative shows that God’s good purposes can be accomplished without human sin.", a: false, expl: "False – God uses (without approving) the brothers’ sin to accomplish salvation." },
+
+  { type: "tf", q: "Joseph is considered by many scholars the clearest single OT type of Christ in the Pentateuch.", a: true, expl: "True – rejected, sold, falsely accused, exalted to save many → matches the gospel most closely." },
+
+  { type: "tf", q: "The entire Joseph story culminates in the gospel pattern: evil is sovereignly turned into eternal good.", a: true, expl: "True – Romans 8:28 finds its clearest OT illustration here." },
+
+  { type: "tf", q: "Joseph’s life ends in a coffin in Egypt, pointing forward to the resurrection hope fulfilled in Christ.", a: true, expl: "True – the tension of death in exile is resolved in Christ’s victory over death." },
+
+  { type: "tf", q: "The reconciliation scene in Genesis 45 most typifies the joy in heaven over one sinner who repents.", a: true, expl: "True – loud weeping and joy at reconciliation → echoes Luke 15:7,10." },
+{ type: "mc", q: "Joseph’s role as the one who reveals himself to his brothers after long rejection (45:1–4) most closely parallels:", a: "Christ revealing Himself to His own people who initially did not receive Him (John 1:11; 20:19–20)", opts: ["Moses revealing himself to Israel after exile", "Christ revealing Himself to His own people who initially did not receive Him (John 1:11; 20:19–20)", "David revealing himself to Saul", "Paul revealing the gospel to the Jews"], expl: "Joseph, once rejected and presumed dead, suddenly appears alive and as savior → type of the resurrected Christ appearing to His disciples after rejection (John 20; Luke 24)." },
+
+  { type: "mc", q: "The loud weeping of Joseph when revealing himself (45:2) most typologically echoes:", a: "Christ’s loud cry and tears in Gethsemane and on the cross (Heb 5:7; John 11:35)", opts: ["David’s lament for Jonathan", "Christ’s loud cry and tears in Gethsemane and on the cross (Heb 5:7; John 11:35)", "Jonah’s weeping over Nineveh", "Paul’s farewell tears"], expl: "Joseph’s uncontrollable weeping at reconciliation → foreshadows Christ’s tears over human sin and the cost of redemption (Heb 5:7)." },
+
+  { type: "mc", q: "Joseph’s command to 'not be distressed' and 'not be angry with yourselves' (45:5) most directly prefigures:", a: "Christ’s post-resurrection words of peace and forgiveness (John 20:19,21,26)", opts: ["Moses calming the people", "Christ’s post-resurrection words of peace and forgiveness (John 20:19,21,26)", "David forgiving Saul", "Paul comforting the Corinthians"], expl: "Joseph comforts the guilty brothers with peace → type of the risen Christ bringing peace to His fearful, guilty disciples." },
+
+  { type: "mc", q: "The provision of wagons and the best land (Goshen) for the family (45:19–20; 47:6) most strongly typifies:", a: "Christ giving His people the best inheritance in the kingdom (Matt 25:34; Eph 1:3,11)", opts: ["Egyptian generosity", "Christ giving His people the best inheritance in the kingdom (Matt 25:34; Eph 1:3,11)", "Temporary refuge", "Political favoritism"], expl: "Pharaoh gives wagons and the best land → type of the Father giving the kingdom and every spiritual blessing to Christ’s family." },
+
+  { type: "mc", q: "Joseph’s statement that God made him 'a father to Pharaoh' (45:8) most typologically points to:", a: "Christ as the everlasting Father and Prince of Peace (Isa 9:6)", opts: ["Political title only", "Christ as the everlasting Father and Prince of Peace (Isa 9:6)", "Joseph’s royal adoption", "Patriarchal authority"], expl: "Joseph becomes father-like to the ruler of the world → foreshadows Christ as the eternal Father who rules and cares for His people." },
+
+  { type: "mc", q: "The brothers’ bowing to Joseph in fear and then in reconciliation most directly anticipates:", a: "The nations coming to bow before Christ in judgment and then in worship (Phil 2:10–11; Rev 15:4)", opts: ["Tribal submission", "The nations coming to bow before Christ in judgment and then in worship (Phil 2:10–11; Rev 15:4)", "Family hierarchy", "Egyptian protocol"], expl: "Initial bowing in fear → later in restored relationship → type of every knee bowing to Christ, some in judgment, some in salvation." },
+
+  { type: "mc", q: "Joseph’s preservation of life during famine most typologically corresponds to:", a: "Christ as the resurrection and the life who delivers from eternal death (John 11:25–26)", opts: ["Temporary physical relief", "Christ as the resurrection and the life who delivers from eternal death (John 11:25–26)", "Economic policy", "National survival"], expl: "Joseph keeps many alive from physical death → ultimate type of Christ who gives eternal life and resurrection." },
+
+  { type: "mc", q: "The fact that Joseph was 30 years old when exalted (41:46) most directly connects to:", a: "Christ beginning His public ministry at about 30 years old (Luke 3:23)", opts: ["Coincidental age", "Christ beginning His public ministry at about 30 years old (Luke 3:23)", "Egyptian custom", "Joseph’s maturity"], expl: "Joseph’s exaltation at age 30 → type of Christ’s public ministry and exaltation beginning at the same age." },
+
+  { type: "mc", q: "Joseph’s two sons, Manasseh ('forget') and Ephraim ('fruitful') (41:51–52), most clearly symbolize:", a: "God’s grace turning past suffering into future blessing (cf. 2 Cor 5:17)", opts: ["Personal healing only", "God’s grace turning past suffering into future blessing (cf. 2 Cor 5:17)", "Rejection of family", "Egyptian identity"], expl: "Forgetting affliction, becoming fruitful in affliction → type of new creation in Christ: old passed away, all things new." },
+
+  { type: "mc", q: "The entire Joseph narrative ending with a coffin in Egypt (50:26) most powerfully sets up:", a: "The need for ultimate redemption from death and exile fulfilled in Christ’s resurrection (1 Cor 15:54–57)", opts: ["Permanent Egyptian settlement", "The need for ultimate redemption from death and exile fulfilled in Christ’s resurrection (1 Cor 15:54–57)", "Hope in the afterlife", "National return only"], expl: "The promise-bearer lies in a coffin → eschatological tension resolved only in Christ’s victory over death and the final exodus to the new creation." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

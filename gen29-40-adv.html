@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genesis 29–40 Theologically Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Genesis 29–40 Theologically Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "Leah’s repeated naming of her sons (Reuben → Simeon → Levi → Judah) most clearly reveals which theological theme?", a: "The longing for covenantal belonging and the gradual shift from human striving to praise of God", opts: ["The superiority of the firstborn", "The longing for covenantal belonging and the gradual shift from human striving to praise of God", "Jacob’s increasing love for Leah", "Divine punishment for Rachel"], expl: "The names move from 'see my affliction' → 'the Lord has heard' → 'now my husband will be joined' → 'this time I will praise the Lord' (Gen 29:32–35), showing Leah’s journey from human desire to worship." },
+  { type: "mc", q: "Rachel’s statement after Joseph’s birth: 'May the LORD add to me another son' (Gen 30:24) theologically reflects:", a: "Persistent desire for the blessing of the covenant seed despite earlier barrenness", opts: ["Complete satisfaction and rest in God’s provision", "Persistent desire for the blessing of the covenant seed despite earlier barrenness", "Jealousy toward Leah alone", "Rejection of God’s sovereignty"], expl: "Even after receiving the child of promise, Rachel still longs for more, showing the ongoing tension of faith in the fulfillment of the Abrahamic seed promise." },
+  { type: "mc", q: "Jacob’s selective breeding strategy with the peeled rods (Gen 30:37–43) most profoundly illustrates:", a: "Human cunning under the sovereign overruling of God", opts: ["Divine blessing independent of human effort", "Human cunning under the sovereign overruling of God", "Rejection of God’s promises", "Natural selection as divine method"], expl: "While Jacob uses a folk method, the text repeatedly states God blessed him (31:9–12), showing providence working through and despite human action." },
+  { type: "mc", q: "The dream of the speckled goats (Gen 31:10–13) reveals God as:", a: "The One who sees injustice and sovereignly reverses the oppressor’s schemes", opts: ["A passive observer of human affairs", "The One who sees injustice and sovereignly reverses the oppressor’s schemes", "Dependent on human strategy", "Limited by Laban’s deceit"], expl: "God declares 'I have seen all that Laban is doing to you' (31:12), showing divine omniscience and active intervention in covenant faithfulness." },
+  { type: "mc", q: "Rachel’s theft of the household gods (teraphim) (Gen 31:19) theologically signifies:", a: "Lingering attachment to idolatry even among the covenant family", opts: ["Complete break from paganism", "Lingering attachment to idolatry even among the covenant family", "Legal right to inheritance", "Protection against Laban"], expl: "The teraphim represent idolatry and false security; their theft shows incomplete separation from Canaanite religious influence (cf. later judgment in Gen 35:2–4)." },
+  { type: "mc", q: "The Mizpah covenant (Gen 31:49) – 'May the LORD watch between you and me' – functions as:", a: "A mutual acknowledgment of God as the ultimate witness and judge", opts: ["A guarantee of peace without God", "A mutual acknowledgment of God as the ultimate witness and judge", "A curse on future generations", "Laban’s attempt to control Jacob"], expl: "Both parties place themselves under divine oversight, recognizing that God alone enforces the covenant boundary." },
+  { type: "mc", q: "Jacob’s division into two camps before meeting Esau (Gen 32:7–8) most clearly demonstrates:", a: "Faith mixed with fear and human prudence under divine promise", opts: ["Perfect trust in God’s protection", "Faith mixed with fear and human prudence under divine promise", "Rejection of God’s earlier promises", "Strategic abandonment of his family"], expl: "Despite the promise of return (31:3), Jacob still fears Esau, showing the tension between divine assurance and human weakness." },
+  { type: "mc", q: "The name 'Peniel/Penuel' (Gen 32:30) – 'face of God' – most significantly points to:", a: "The dangerous yet gracious encounter with the living God who preserves life", opts: ["Jacob’s victory over God", "The dangerous yet gracious encounter with the living God who preserves life", "A permanent change in Jacob’s appearance", "Rejection of divine authority"], expl: "Jacob sees God 'face to face' and lives (cf. Exod 33:20), highlighting grace in the midst of judgment." },
+  { type: "mc", q: "The name change to Israel (Gen 32:28) theologically signifies:", a: "A new identity given by God through struggle, not human achievement", opts: ["Jacob’s moral perfection", "A new identity given by God through struggle, not human achievement", "Rejection of his past", "A title earned by wrestling"], expl: "God renames him 'he strives with God' – the identity comes from divine encounter, not self-effort." },
+  { type: "mc", q: "Simeon and Levi’s violent revenge on Shechem (Gen 34) is most clearly judged by Jacob as:", a: "A reckless act that endangers the covenant community", opts: ["A righteous defense of family honor", "A reckless act that endangers the covenant community", "Divinely approved zeal", "A model of justice"], expl: "Jacob rebukes them: 'You have brought trouble on me' (34:30), showing zeal without wisdom harms the covenant witness." },
+  { type: "mc", q: "God’s command to return to Bethel after the Dinah incident (Gen 35:1) most clearly demonstrates:", a: "The call to return to the place of covenant renewal and separation from idolatry", opts: ["Punishment for Simeon and Levi", "The call to return to the place of covenant renewal and separation from idolatry", "Abandonment of Shechem", "Approval of violence"], expl: "Bethel is the place of the original vow (28:20–22); return signifies renewed commitment and purging of foreign gods (35:2–4)." },
+  { type: "mc", q: "The death of Deborah, Rebekah’s nurse, at Bethel (Gen 35:8) theologically suggests:", a: "The passing of the old generation as the covenant moves forward", opts: ["Divine judgment on Rebekah’s household", "The passing of the old generation as the covenant moves forward", "Rejection of female roles", "Irrelevance of servants"], expl: "The 'oak of weeping' marks transition; the old nurse of the previous generation dies as Jacob renews the patriarchal calling." },
+  { type: "mc", q: "Jacob’s renaming of Ben-oni to Benjamin (Gen 35:18) most profoundly illustrates:", a: "The father’s covenantal authority to redefine suffering into hope", opts: ["Rejection of Rachel’s pain", "The father’s covenantal authority to redefine suffering into hope", "Disregard for maternal naming", "Political strategy"], expl: "Rachel names him 'son of my sorrow'; Jacob renames him 'son of the right hand' – showing covenant hope triumphing over death." },
+  { type: "mc", q: "Judah’s separation from his brothers (Gen 38:1) and intermarriage with Canaanites theologically warns against:", a: "The danger of assimilating into the surrounding culture", opts: ["The superiority of Canaanite women", "The danger of assimilating into the surrounding culture", "Complete separation from family", "Divine blessing on intermarriage"], expl: "Judah’s story of compromise (leading to Tamar) contrasts with Joseph’s faithfulness, showing the peril of leaving the covenant community." },
+  { type: "mc", q: "The death of Er ('wicked in the Lord’s sight' – Gen 38:7) most clearly demonstrates:", a: "God’s direct judgment on covenant-breaking wickedness", opts: ["Arbitrary divine action", "God’s direct judgment on covenant-breaking wickedness", "Tamar’s curse", "Judah’s failure alone"], expl: "The text explicitly attributes Er’s death to divine judgment, showing God actively protects the covenant line." },
+  { type: "mc", q: "Onan’s sin (Gen 38:9–10) is most fundamentally a rejection of:", a: "Levirate responsibility and covenant continuity", opts: ["Personal pleasure", "Levirate responsibility and covenant continuity", "Judah’s authority", "Tamar’s rights"], expl: "Onan refuses to 'raise up offspring for his brother' – a direct rejection of covenant obligation to preserve the name/seed." },
+  { type: "mc", q: "Tamar’s actions (Gen 38) ultimately serve to:", a: "Preserve the covenant line through unexpected means", opts: ["Condemn Judah permanently", "Preserve the covenant line through unexpected means", "Promote immorality", "Reject levirate marriage"], expl: "Tamar ensures the continuation of Judah’s line (leading to Perez → David → Christ), showing God’s grace working through human failure." },
+  { type: "mc", q: "The contrast between Judah’s moral compromise (ch. 38) and Joseph’s faithfulness (chs. 39–40) theologically highlights:", a: "God’s sovereign choice of the faithful remnant", opts: ["Judah’s superiority", "God’s sovereign choice of the faithful remnant", "The irrelevance of personal holiness", "Equal standing of both"], expl: "While Judah falters, Joseph remains faithful, yet God preserves the covenant through both – but the Messianic line comes through Judah’s grace-restored line." },
+  { type: "mc", q: "Joseph’s statement 'Do not interpretations belong to God?' (Gen 40:8) most clearly teaches:", a: "All true wisdom and revelation come from God alone", opts: ["Dreams are meaningless", "All true wisdom and revelation come from God alone", "Joseph’s personal superiority", "Egyptian magic is valid"], expl: "Joseph consistently deflects credit to God (cf. 41:16), demonstrating the fear of the Lord as the beginning of wisdom." },
+  { type: "mc", q: "Joseph’s imprisonment despite faithfulness (Gen 39) most profoundly illustrates:", a: "The reality of suffering for righteousness in a fallen world", opts: ["Divine abandonment", "The reality of suffering for righteousness in a fallen world", "Punishment for hidden sin", "Failure of providence"], expl: "The repeated phrase 'the LORD was with Joseph' (39:2,3,21,23) shows God’s presence in suffering, not absence." },
+  { type: "tf", q: "Jacob’s deception and flight from Esau are ultimately overruled by God’s covenant faithfulness.", a: true, expl: "True – God pursues and blesses Jacob despite his sin (Gen 28:13–15; 31:3)." },
+  { type: "tf", q: "Rachel’s theft of the teraphim proves complete spiritual renewal in Jacob’s household.", a: false, expl: "False – It reveals ongoing idolatry; Jacob later demands they be buried (Gen 35:2–4)." },
+  { type: "tf", q: "The name 'Israel' signifies Jacob’s moral perfection achieved through wrestling.", a: false, expl: "False – It means 'he strives with God' – identity given by grace through encounter, not earned." },
+  { type: "tf", q: "Simeon and Levi’s actions at Shechem are presented as righteous zeal approved by God.", a: false, expl: "False – Jacob condemns them (34:30) and later curses their violence (49:5–7)." },
+  { type: "tf", q: "God’s command to return to Bethel after Dinah (Gen 35:1) shows grace calling the family back to covenant renewal.", a: true, expl: "True – Despite failure, God initiates return to the place of promise and purging of idols." },
+  { type: "tf", q: "Judah’s separation and moral failure in ch. 38 permanently disqualifies his line from the covenant.", a: false, expl: "False – God preserves the line through Tamar and Perez, leading to Messiah." },
+  { type: "tf", q: "Tamar’s actions, though morally complex, serve the greater purpose of covenant continuity.", a: true, expl: "True – She becomes ancestress of David and Christ (Ruth 4; Matt 1)." },
+  { type: "tf", q: "Joseph’s faithfulness in Potiphar’s house and prison demonstrates that obedience guarantees immediate blessing.", a: false, expl: "False – He suffers despite faithfulness; blessing comes through suffering (cf. 39:2,21)." },
+  { type: "tf", q: "The repeated phrase 'the LORD was with Joseph' (Gen 39) shows God’s presence is tied to visible success.", a: false, expl: "False – It is repeated in suffering and prison, showing covenant presence amid affliction." },
+  { type: "tf", q: "Joseph’s interpretation of dreams consistently gives glory to God rather than himself.", a: true, expl: "True – 'Interpretations belong to God' (40:8; 41:16)." },
+  { type: "tf", q: "The cupbearer’s forgetting of Joseph (Gen 40:23) proves God’s promises can fail.", a: false, expl: "False – It sets the stage for God’s perfect timing in the larger plan (Gen 41)." },
+  { type: "tf", q: "The Dinah incident demonstrates that covenant people can become indistinguishable from the nations.", a: true, expl: "True – Dinah’s intermingling and the violent response both show danger of assimilation." },
+  { type: "tf", q: "Jacob’s renaming of Benjamin reflects covenant hope triumphing over death and sorrow.", a: true, expl: "True – From 'son of my sorrow' to 'son of the right hand' (35:18)." },
+  { type: "tf", q: "God’s election of the covenant line repeatedly operates through human weakness and failure.", a: true, expl: "True – Seen in Jacob’s deception, Judah’s compromise, yet God preserves the line." },
+  { type: "tf", q: "The story of Joseph up to ch. 40 primarily teaches that faithfulness always prevents suffering.", a: false, expl: "False – Joseph suffers precisely because of his faithfulness (cf. 39:9)." },
+  { type: "tf", q: "The theme of reversal (Leah over Rachel, younger over elder) continues in the patriarchal narratives.", a: true, expl: "True – God chooses the unexpected and humbles the proud." },
+  { type: "tf", q: "Genesis 29–40 ultimately shows God’s covenant purposes advancing despite human sin and failure.", a: true, expl: "True – From deception to idolatry to injustice, God remains faithful to His promises." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
