@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 11-20 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 11-20 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "What was the last plague God sent on Egypt?", a: "Death of the firstborn", opts: ["Death of the firstborn", "Darkness for three days", "Locusts", "Boils"], expl: "Exodus 11:4–5; 12:29 – The LORD struck down all the firstborn in Egypt." },
+
+  { type: "mc", q: "What did God tell the Israelites to put on their doorposts so the destroyer would pass over them?", a: "Blood of a lamb", opts: ["Blood of a lamb", "Olive oil", "Ash", "Salt"], expl: "Exodus 12:7,13 – They put the blood on the doorposts and lintel; when God saw the blood, He passed over." },
+
+  { type: "mc", q: "What was the name of the meal the Israelites ate before leaving Egypt?", a: "Passover", opts: ["Passover", "Feast of Unleavened Bread", "Day of Atonement", "Feast of Tabernacles"], expl: "Exodus 12:11,27 – It is the LORD’s Passover." },
+
+  { type: "mc", q: "How many years did the Israelites live in Egypt according to Exodus 12?", a: "430 years", opts: ["40 years", "430 years", "70 years", "400 years"], expl: "Exodus 12:40 – The time that the people of Israel lived in Egypt was 430 years." },
+
+  { type: "mc", q: "What did the Israelites ask the Egyptians for as they left Egypt?", a: "Articles of silver and gold and clothing", opts: ["Articles of silver and gold and clothing", "Food and water", "Weapons", "Camels"], expl: "Exodus 12:35–36 – They asked for silver, gold, and clothing, and the Egyptians gave them what they asked." },
+
+  { type: "mc", q: "Who led the Israelites out of Egypt?", a: "Moses", opts: ["Moses", "Aaron", "Joshua", "Miriam"], expl: "Exodus 13:21; 14:31 – The LORD led them by Moses." },
+
+  { type: "mc", q: "How did God lead the Israelites by day and by night after leaving Egypt?", a: "Pillar of cloud by day and pillar of fire by night", opts: ["Pillar of cloud by day and pillar of fire by night", "A star", "An angel", "A rainbow"], expl: "Exodus 13:21–22 – Pillar of cloud by day, pillar of fire by night." },
+
+  { type: "mc", q: "Where did God tell Moses to camp by the sea so Pharaoh would pursue them?", a: "Before Pi-hahiroth, between Migdol and the sea", opts: ["Before Pi-hahiroth, between Migdol and the sea", "At Sinai", "At Marah", "At Elim"], expl: "Exodus 14:2 – 'Encamp before Pi-hahiroth, between Migdol and the sea.'" },
+
+  { type: "mc", q: "How did God divide the Red Sea?", a: "By a strong east wind all night", opts: ["By a strong east wind all night", "By Moses' staff alone", "By thunder and lightning", "By an earthquake"], expl: "Exodus 14:21 – The LORD drove the sea back by a strong east wind all night." },
+
+  { type: "mc", q: "What happened to Pharaoh's army in the Red Sea?", a: "The waters returned and covered them", opts: ["The waters returned and covered them", "They turned back", "They joined the Israelites", "They drowned in the desert"], expl: "Exodus 14:27–28 – The sea returned and covered the chariots and horsemen." },
+
+  { type: "mc", q: "What song did Moses and the Israelites sing after crossing the Red Sea?", a: "The Song of the Sea (or Song of Moses)", opts: ["The Song of the Sea (or Song of Moses)", "The Song of Deborah", "The Song of Hannah", "The Song of Miriam"], expl: "Exodus 15:1 – 'Then Moses and the people of Israel sang this song to the LORD…'" },
+
+  { type: "mc", q: "Who led the women in dancing and singing after the Red Sea crossing?", a: "Miriam", opts: ["Miriam", "Zipporah", "Jochebed", "Pharaoh's daughter"], expl: "Exodus 15:20 – Miriam the prophetess took a tambourine and all the women followed her with tambourines and dancing." },
+
+  { type: "mc", q: "At Marah, what made the bitter water sweet?", a: "A tree thrown into the water", opts: ["A tree thrown into the water", "Salt", "Prayer alone", "Boiling"], expl: "Exodus 15:25 – The LORD showed Moses a tree; he threw it into the water and the water became sweet." },
+
+  { type: "mc", q: "What did God promise the Israelites at Marah if they obeyed Him?", a: "None of the diseases of Egypt would come on them", opts: ["None of the diseases of Egypt would come on them", "Long life", "Riches", "Many children"], expl: "Exodus 15:26 – 'If you will diligently listen to the voice of the LORD… I will put none of the diseases on you… for I am the LORD, your healer.'" },
+
+  { type: "mc", q: "Where did the Israelites find twelve springs and seventy palm trees?", a: "Elim", opts: ["Elim", "Marah", "Sin", "Rephidim"], expl: "Exodus 15:27 – They came to Elim, where there were twelve springs of water and seventy palm trees." },
+
+  { type: "mc", q: "In the wilderness of Sin, what did the people grumble about?", a: "Lack of food", opts: ["Lack of food", "Lack of water", "Too much walking", "The heat"], expl: "Exodus 16:2–3 – 'Would that we had died… in Egypt… for you have brought us out into this wilderness to kill this whole assembly with hunger.'" },
+
+  { type: "mc", q: "What did God provide for the Israelites to eat in the wilderness?", a: "Manna and quail", opts: ["Manna and quail", "Bread from heaven only", "Fish from the sea", "Fruit from trees"], expl: "Exodus 16:13–15 – Quail in the evening; in the morning, manna." },
+
+  { type: "mc", q: "How many days were the Israelites to gather manna each week?", a: "Six days (double on the sixth day)", opts: ["Six days (double on the sixth day)", "Seven days", "Five days", "One day"], expl: "Exodus 16:22–26 – Gather for six days; on the sixth day, twice as much; no gathering on the Sabbath." },
+
+  { type: "mc", q: "Where did God provide water from a rock for the people?", a: "At Rephidim", opts: ["At Rephidim", "At Sinai", "At Elim", "At Marah"], expl: "Exodus 17:1,6 – At Rephidim, Moses struck the rock at Horeb and water came out." },
+
+  { type: "mc", q: "Who fought against Israel at Rephidim?", a: "Amalek", opts: ["Amalek", "Philistines", "Canaanites", "Edomites"], expl: "Exodus 17:8 – Amalek came and fought with Israel at Rephidim." },
+
+  { type: "mc", q: "Who held up Moses' hands during the battle with Amalek?", a: "Aaron and Hur", opts: ["Aaron and Hur", "Joshua and Caleb", "Miriam and Zipporah", "Jethro and Hobab"], expl: "Exodus 17:12 – Aaron and Hur held up his hands, one on each side." },
+
+  { type: "mc", q: "What did Moses build after the victory over Amalek?", a: "An altar called The LORD Is My Banner", opts: ["An altar called The LORD Is My Banner", "A tabernacle", "A pillar", "A monument"], expl: "Exodus 17:15 – He built an altar and called it The LORD Is My Banner." },
+
+  { type: "mc", q: "Who visited Moses at Rephidim and brought Zipporah and the sons?", a: "Jethro", opts: ["Jethro", "Aaron", "Pharaoh", "Miriam"], expl: "Exodus 18:1–5 – Jethro, Moses' father-in-law, brought Zipporah and Gershom and Eliezer." },
+
+  { type: "mc", q: "What did Jethro advise Moses to do about judging the people?", a: "Appoint able men to judge small cases", opts: ["Appoint able men to judge small cases", "Judge everything himself", "Stop judging", "Let Aaron judge"], expl: "Exodus 18:21–22 – Select capable men… let them judge the small cases." },
+
+  { type: "mc", q: "Where did the Israelites arrive three months after leaving Egypt?", a: "The wilderness of Sinai", opts: ["The wilderness of Sinai", "The Red Sea", "Marah", "Rephidim"], expl: "Exodus 19:1 – In the third month after leaving Egypt, they came to the wilderness of Sinai." },
+
+  { type: "mc", q: "What did God say Israel would be to Him if they obeyed His voice?", a: "A kingdom of priests and a holy nation", opts: ["A kingdom of priests and a holy nation", "A great army", "A rich nation", "A powerful empire"], expl: "Exodus 19:5–6 – 'You shall be to me a kingdom of priests and a holy nation.'" },
+
+  { type: "mc", q: "On which day did the LORD come down on Mount Sinai in fire?", a: "The third day", opts: ["The third day", "The seventh day", "The first day", "The tenth day"], expl: "Exodus 19:11,16 – On the third day the LORD came down on Mount Sinai." },
+
+  { type: "mc", q: "What did the people do when they saw the thunder, lightning, and mountain smoking?", a: "They trembled and stood far off", opts: ["They trembled and stood far off", "They ran to the mountain", "They sang praises", "They built an altar"], expl: "Exodus 20:18 – The people were afraid and trembled… and stood far off." },
+
+  { type: "mc", q: "How many commandments did God speak directly to the people?", a: "Ten", opts: ["Ten", "Seven", "Twelve", "Four"], expl: "Exodus 20:1–17 – God spoke all these words (the Ten Commandments)." },
+
+  { type: "mc", q: "What is the first of the Ten Commandments?", a: "You shall have no other gods before me", opts: ["You shall have no other gods before me", "Honor your father and mother", "You shall not murder", "Keep the Sabbath day holy"], expl: "Exodus 20:3 – 'You shall have no other gods before me.'" },
+
+  { type: "mc", q: "What did God command regarding the Sabbath?", a: "Remember the Sabbath day, to keep it holy", opts: ["Remember the Sabbath day, to keep it holy", "Work six days and rest one", "Offer sacrifices on the Sabbath", "Fast on the Sabbath"], expl: "Exodus 20:8 – 'Remember the Sabbath day, to keep it holy.'" },
+
+  { type: "mc", q: "What did the people say after hearing the Ten Commandments?", a: "All that the LORD has spoken we will do", opts: ["All that the LORD has spoken we will do", "We cannot obey", "Tell us more", "We want to see God again"], expl: "Exodus 20:19; 24:3 (later repeated) – The people promised obedience." },
+
+  { type: "tf", q: "God told Moses He would bring one more plague on Pharaoh that would cause him to let Israel go.", a: true, expl: "True – Exodus 11:1 – 'I will bring one plague more on Pharaoh and on Egypt; afterward he will let you go.'" },
+
+  { type: "tf", q: "The Passover lamb had to be eaten with bitter herbs and unleavened bread.", a: true, expl: "True – Exodus 12:8 – 'They shall eat the flesh that night, roasted on the fire; with unleavened bread and bitter herbs they shall eat it.'" },
+
+  { type: "tf", q: "The Israelites left Egypt in orderly ranks (armed and organized).", a: true, expl: "True – Exodus 13:18 – 'The people of Israel went up out of the land of Egypt equipped for battle.'" },
+
+  { type: "tf", q: "God led the people the short way through the land of the Philistines.", a: false, expl: "False – Exodus 13:17 – God did not lead them by the way of the land of the Philistines, though it was near." },
+
+  { type: "tf", q: "The pillar of cloud and fire never left the people day or night.", a: true, expl: "True – Exodus 13:22 – 'The pillar of cloud by day and the pillar of fire by night did not depart from before the people.'" },
+
+  { type: "tf", q: "The Egyptian army drowned in the Red Sea, but the Israelites walked on dry ground.", a: true, expl: "True – Exodus 14:29–30 – 'The people of Israel walked on dry ground in the midst of the sea… the sea returned… and covered the chariots and horsemen.'" },
+
+  { type: "tf", q: "Miriam led the women in singing and dancing after the Red Sea crossing.", a: true, expl: "True – Exodus 15:20–21 – 'Miriam… took a tambourine… and all the women went out after her with tambourines and dancing.'" },
+
+  { type: "tf", q: "At Marah the water was sweet, so the people named it Marah.", a: false, expl: "False – Exodus 15:23 – The water was bitter, so they called it Marah ('bitter')." },
+
+  { type: "tf", q: "God rained bread from heaven called manna.", a: true, expl: "True – Exodus 16:4,15 – 'I will rain bread from heaven… when the people of Israel saw it, they said to one another, 'What is it?' For they did not know what it was.'" },
+
+  { type: "tf", q: "The Israelites were allowed to gather manna on the Sabbath.", a: false, expl: "False – Exodus 16:26 – 'Six days you shall gather it, but on the seventh day… there will be none.'" },
+
+  { type: "tf", q: "Moses struck the rock at Rephidim and water came out.", a: true, expl: "True – Exodus 17:6 – 'Strike the rock, and water shall come out of it, and the people will drink.'" },
+
+  { type: "tf", q: "Joshua fought Amalek while Moses held up his hands.", a: true, expl: "True – Exodus 17:9–13 – Joshua fought; Moses held up his hands with help from Aaron and Hur." },
+
+  { type: "tf", q: "Jethro told Moses he was doing too much judging alone.", a: true, expl: "True – Exodus 18:17–18 – 'What you are doing is not good… you and the people will certainly wear away.'" },
+
+  { type: "tf", q: "The Israelites arrived at Mount Sinai exactly one year after leaving Egypt.", a: false, expl: "False – Exodus 19:1 – They arrived in the third month after leaving Egypt." },
+
+  { type: "tf", q: "God told the people to wash their garments and consecrate themselves before He came down on Sinai.", a: true, expl: "True – Exodus 19:10–11 – 'Wash your garments and be ready for the third day.'" }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

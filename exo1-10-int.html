@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 1-10 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 1-10 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "What caused the new king of Egypt to fear the Israelites?", a: "They were too many and too strong", opts: ["They refused to work", "They were too many and too strong", "They wanted to leave Egypt", "They worshipped different gods"], expl: "Exodus 1:9–10 – 'The people of Israel are too many and too mighty for us.'" },
+  { type: "mc", q: "What were the names of the two Hebrew midwives who feared God?", a: "Shiphrah and Puah", opts: ["Rachel and Leah", "Shiphrah and Puah", "Miriam and Zipporah", "Deborah and Jael"], expl: "Exodus 1:15 – The king spoke to the Hebrew midwives, Shiphrah and Puah." },
+  { type: "mc", q: "How did the midwives save the Hebrew baby boys?", a: "They said the Hebrew women gave birth before they arrived", opts: ["They hid the boys", "They fought the soldiers", "They said the Hebrew women gave birth before they arrived", "They told the mothers to flee"], expl: "Exodus 1:19 – 'The Hebrew women are not like the Egyptian women; they are vigorous and give birth before the midwife comes.'" },
+  { type: "mc", q: "What did Pharaoh command all his people to do with every Hebrew boy?", a: "Throw him into the Nile", opts: ["Make him a slave", "Kill him at birth", "Throw him into the Nile", "Educate him in Egyptian ways"], expl: "Exodus 1:22 – 'Every boy that is born you shall cast into the Nile.'" },
+  { type: "mc", q: "What was the name of Moses' mother?", a: "Jochebed", opts: ["Zipporah", "Jochebed", "Miriam", "Asenath"], expl: "Exodus 6:20 (named later) – Jochebed, daughter of Levi, bore Moses." },
+  { type: "mc", q: "Where did Moses' mother hide him for the first three months?", a: "In her house", opts: ["In the fields", "In her house", "In the Nile", "In a basket"], expl: "Exodus 2:2 – She hid him three months because he was beautiful." },
+  { type: "mc", q: "What did Moses' mother make to place him in the Nile?", a: "A basket of papyrus", opts: ["A clay jar", "A wooden box", "A basket of papyrus", "A leather bag"], expl: "Exodus 2:3 – She made a basket of bulrushes (papyrus), daubed it with bitumen and pitch." },
+  { type: "mc", q: "Who found baby Moses in the Nile?", a: "Pharaoh's daughter", opts: ["An Egyptian woman", "Pharaoh's daughter", "A Hebrew slave", "Miriam"], expl: "Exodus 2:5 – Pharaoh’s daughter came down to bathe and saw the basket." },
+  { type: "mc", q: "Who suggested that Moses' own mother nurse him?", a: "Miriam", opts: ["Pharaoh's daughter", "Miriam", "Jochebed", "An Egyptian servant"], expl: "Exodus 2:7 – Miriam asked if she should get a Hebrew nurse (his mother)." },
+  { type: "mc", q: "Where did Moses flee after killing the Egyptian?", a: "To the land of Midian", opts: ["To Canaan", "To Goshen", "To the land of Midian", "To the wilderness"], expl: "Exodus 2:15 – Moses fled from Pharaoh and settled in Midian." },
+  { type: "mc", q: "Who was Moses' father-in-law?", a: "Jethro (also called Reuel)", opts: ["Aaron", "Jethro (also called Reuel)", "Pharaoh", "Amram"], expl: "Exodus 2:18; 3:1 – Reuel/Jethro, priest of Midian." },
+  { type: "mc", q: "What was Moses doing when he saw the burning bush?", a: "Tending the flock of Jethro", opts: ["Praying in the desert", "Tending the flock of Jethro", "Fleeing from Egypt", "Building a house"], expl: "Exodus 3:1 – He was keeping the flock of his father-in-law Jethro." },
+  { type: "mc", q: "What did God call the place where Moses stood before the burning bush?", a: "Holy ground", opts: ["Mount Sinai", "Holy ground", "The mountain of God", "The wilderness"], expl: "Exodus 3:5 – 'The place on which you are standing is holy ground.'" },
+  { type: "mc", q: "What name did God reveal to Moses at the burning bush?", a: "I AM WHO I AM (YHWH)", opts: ["El Shaddai", "Elohim", "I AM WHO I AM (YHWH)", "Adonai"], expl: "Exodus 3:14 – 'I AM WHO I AM… Say this to the people of Israel: I AM has sent me.'" },
+  { type: "mc", q: "Who did God appoint to speak for Moses because he felt he was slow of speech?", a: "Aaron, his brother", opts: ["Jethro", "Miriam", "Aaron, his brother", "Joshua"], expl: "Exodus 4:14–16 – Aaron will be your spokesman." },
+  { type: "mc", q: "What was the first sign Moses performed before the elders of Israel?", a: "His staff turned into a serpent", opts: ["His hand became leprous", "Water turned to blood", "His staff turned into a serpent", "Frogs appeared"], expl: "Exodus 4:30–31 – The staff became a serpent (one of the signs given in 4:2–9)." },
+  { type: "mc", q: "Who hardened Pharaoh's heart first so he would not let the people go?", a: "God", opts: ["Pharaoh himself", "Moses", "God", "Aaron"], expl: "Exodus 4:21 – 'I will harden his heart, so that he will not let the people go.'" },
+  { type: "mc", q: "What was the first plague God brought on Egypt?", a: "Water turned to blood", opts: ["Frogs", "Gnats", "Water turned to blood", "Locusts"], expl: "Exodus 7:17–21 – The Nile and all water in Egypt turned to blood." },
+  { type: "mc", q: "What did Pharaoh's magicians do in response to the first plague?", a: "They also turned water into blood", opts: ["They prayed to their gods", "They begged Moses to stop", "They also turned water into blood", "They fled"], expl: "Exodus 7:22 – The magicians of Egypt did the same by their secret arts." },
+  { type: "mc", q: "What was the second plague?", a: "Frogs", opts: ["Gnats", "Frogs", "Flies", "Hail"], expl: "Exodus 8:1–6 – Frogs covered the land of Egypt." },
+  { type: "mc", q: "During the plague of frogs, what did Pharaoh ask Moses to do?", a: "Plead with the LORD to take the frogs away", opts: ["Leave Egypt", "Give him gold", "Plead with the LORD to take the frogs away", "Kill the frogs himself"], expl: "Exodus 8:8 – 'Plead with the LORD to take the frogs away from me and my people.'" },
+  { type: "mc", q: "What happened when Moses stretched out his hand for the plague of gnats/lice?", a: "Dust became gnats throughout Egypt", opts: ["Frogs died", "The Nile dried up", "Dust became gnats throughout Egypt", "Hail fell"], expl: "Exodus 8:16–17 – Aaron struck the dust, and it became gnats." },
+  { type: "mc", q: "Why could the magicians not produce gnats?", a: "They said, 'This is the finger of God'", opts: ["Pharaoh stopped them", "They said, 'This is the finger of God'", "Moses forbade them", "They ran out of magic"], expl: "Exodus 8:18–19 – 'This is the finger of God.'" },
+  { type: "mc", q: "During the plague of flies, where did God say there would be no flies?", a: "In Goshen, where His people lived", opts: ["In Pharaoh's palace", "In the Nile", "In Goshen, where His people lived", "In the desert"], expl: "Exodus 8:22–23 – 'I will set apart the land of Goshen… no swarms of flies will be there.'" },
+  { type: "mc", q: "What was the fifth plague?", a: "Death of livestock", opts: ["Boils", "Locusts", "Death of livestock", "Darkness"], expl: "Exodus 9:1–6 – All Egyptian livestock died, but none of Israel's." },
+  { type: "mc", q: "What was the sixth plague?", a: "Boils breaking out on man and beast", opts: ["Frogs", "Hail", "Boils breaking out on man and beast", "Blood"], expl: "Exodus 9:8–11 – Sores/boils on people and animals." },
+  { type: "mc", q: "What was the seventh plague?", a: "Hail", opts: ["Locusts", "Darkness", "Hail", "Firstborn death"], expl: "Exodus 9:18–25 – Very heavy hail struck Egypt." },
+  { type: "mc", q: "Where was there no hail during the hail plague?", a: "In the land of Goshen", opts: ["In the cities", "In Pharaoh's palace", "In the fields", "In the land of Goshen"], expl: "Exodus 9:26 – 'Only in the land of Goshen was there no hail.'" },
+  { type: "mc", q: "What was the eighth plague?", a: "Locusts", opts: ["Darkness", "Boils", "Locusts", "Frogs"], expl: "Exodus 10:12–15 – Locusts covered the land and ate everything." },
+  { type: "mc", q: "What was the ninth plague?", a: "Darkness", opts: ["Death of firstborn", "Hail", "Darkness", "Blood"], expl: "Exodus 10:21–23 – Thick darkness over Egypt for three days." },
+  { type: "mc", q: "During the darkness, where was there light?", a: "In the dwellings of the Israelites", opts: ["In the fields", "In Pharaoh's palace", "In the dwellings of the Israelites", "Everywhere"], expl: "Exodus 10:23 – 'All the people of Israel had light where they lived.'" },
+  { type: "mc", q: "How old was Moses when he spoke to Pharaoh?", a: "80 years old", opts: ["60 years old", "40 years old", "120 years old", "80 years old"], expl: "Exodus 7:7 – Moses was eighty years old, and Aaron eighty-three." },
+  { type: "tf", q: "A new king arose in Egypt who did not know Joseph.", a: true, expl: "True – Exodus 1:8." },
+  { type: "tf", q: "Pharaoh made the Israelites build treasure cities named Pithom and Rameses.", a: true, expl: "True – Exodus 1:11." },
+  { type: "tf", q: "The Hebrew midwives Shiphrah and Puah obeyed Pharaoh and killed all the baby boys.", a: false, expl: "False – Exodus 1:17." },
+  { type: "tf", q: "Moses was hidden in a basket among the reeds of the Nile.", a: true, expl: "True – Exodus 2:3." },
+  { type: "tf", q: "Pharaoh's daughter adopted Moses and named him herself.", a: true, expl: "True – Exodus 2:10." },
+  { type: "tf", q: "Moses fled to Midian after killing an Egyptian taskmaster.", a: true, expl: "True – Exodus 2:11–15." },
+  { type: "tf", q: "The burning bush was consumed by the fire.", a: false, expl: "False – Exodus 3:2." },
+  { type: "tf", q: "God told Moses His name is 'I AM WHO I AM' (YHWH).", a: true, expl: "True – Exodus 3:14." },
+  { type: "tf", q: "Aaron was made Moses’ spokesman because Moses felt inadequate.", a: true, expl: "True – Exodus 4:14–16." },
+  { type: "tf", q: "The first sign was Moses’ staff turning into a serpent.", a: true, expl: "True – Exodus 4:3." },
+  { type: "tf", q: "God said He would harden Pharaoh’s heart.", a: true, expl: "True – Exodus 4:21." },
+  { type: "tf", q: "The first plague turned all Egypt’s water into blood.", a: true, expl: "True – Exodus 7:20–21." },
+  { type: "tf", q: "Pharaoh’s magicians could not produce gnats/lice.", a: true, expl: "True – Exodus 8:18–19." },
+  { type: "tf", q: "During the flies plague, Goshen had no flies.", a: true, expl: "True – Exodus 8:22–23." },
+  { type: "tf", q: "The hail plague destroyed everything in Goshen.", a: false, expl: "False – Exodus 9:26." },
+  { type: "tf", q: "The darkness plague lasted three days.", a: true, expl: "True – Exodus 10:22." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

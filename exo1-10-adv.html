@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 1-10 Theologically Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 1-10 Theologically Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "The new king’s fear that Israel might 'multiply and join our enemies' (Ex 1:10) most theologically illustrates:", a: "Human anxiety in the face of God’s unstoppable promise to Abraham (Gen 15:5; 22:17)", opts: ["Rational state policy", "Human anxiety in the face of God’s unstoppable promise to Abraham (Gen 15:5; 22:17)", "Divine permission to oppress", "Israel’s moral failure"], expl: "Pharaoh’s fear is the direct outworking of God’s earlier promise of innumerable descendants; human power opposes divine decree yet cannot stop it." },
+
+  { type: "mc", q: "The midwives’ refusal to kill the boys (Ex 1:17) is best understood as:", a: "Fear of God taking precedence over fear of man (Heb 11:23; Acts 5:29)", opts: ["Civil disobedience for its own sake", "Fear of God taking precedence over fear of man (Heb 11:23; Acts 5:29)", "Ethnic loyalty only", "Personal compassion"], expl: "They 'feared God' → classic OT pattern of obedience to God over human authority (cf. Peter in Acts 5:29)." },
+
+  { type: "mc", q: "Moses being hidden for three months and then placed in the Nile (Ex 2:2–3) most strongly typifies:", a: "Christ hidden from Herod and preserved as the true Israel (Matt 2:13–15)", opts: ["Human ingenuity", "Christ hidden from Herod and preserved as the true Israel (Matt 2:13–15)", "Egyptian cruelty", "Maternal love"], expl: "A child targeted for death by a wicked ruler, hidden, then sent in a vessel on water → clear type of the infant Christ’s preservation (Hos 11:1 applied in Matt 2)." },
+
+  { type: "mc", q: "God’s self-revelation as 'I AM WHO I AM' (Ex 3:14) most directly grounds:", a: "The aseity and self-existence of God (John 8:58; Rev 1:8)", opts: ["A temporary name for the exodus only", "The aseity and self-existence of God (John 8:58; Rev 1:8)", "Moses’ personal authority", "Egyptian polytheism"], expl: "YHWH = absolute, self-existent being → Jesus claims this name (John 8:58), and Revelation applies it to Christ (Rev 1:8; 22:13)." },
+
+  { type: "mc", q: "God’s statement 'I will harden Pharaoh’s heart' (Ex 4:21; 7:3) is best understood as:", a: "Judicial hardening: God confirms Pharaoh in his already-chosen rebellion (Rom 9:17–18)", opts: ["Arbitrary divine cruelty", "Judicial hardening: God confirms Pharaoh in his already-chosen rebellion (Rom 9:17–18)", "Temporary influence", "Pharaoh’s moral neutrality"], expl: "Paul cites this in Romans 9 to show God’s sovereign mercy & hardening — Pharaoh hardens his own heart first (Ex 8:15,32), then God confirms it." },
+
+  { type: "mc", q: "The first sign (staff → serpent) and Pharaoh’s magicians imitating it (Ex 7:10–12) most theologically demonstrates:", a: "Satanic counterfeits of divine power that are ultimately swallowed by God’s authority", opts: ["Equal power of magic", "Satanic counterfeits of divine power that are ultimately swallowed by God’s authority", "Egyptian superiority", "Moses’ fear"], expl: "Aaron’s serpent swallows theirs → type of Christ’s victory over counterfeit powers (cf. Rev 12:9; Col 2:15)." },
+
+  { type: "mc", q: "The plague of blood on the Nile (Ex 7:17–21) most clearly judges:", a: "Egypt’s deification of the Nile as life-source (cf. Ezek 29:3)", opts: ["Egypt’s agriculture", "Egypt’s deification of the Nile as life-source (cf. Ezek 29:3)", "Israel’s sin", "Moses’ leadership"], expl: "The Nile was worshiped as Hapi, giver of life → God turns it to death, showing He alone is the true source of life (John 1:4)." },
+
+  { type: "mc", q: "The magicians’ confession 'This is the finger of God' (Ex 8:19) at the gnats plague most typologically anticipates:", a: "The recognition of divine power in Christ’s miracles (Luke 11:20)", opts: ["Egyptian defeat", "The recognition of divine power in Christ’s miracles (Luke 11:20)", "Moses’ superiority", "Pharaoh’s repentance"], expl: "Finger of God = divine act → Jesus says 'if it is by the finger of God that I cast out demons…' (Luke 11:20)." },
+
+  { type: "mc", q: "God setting apart Goshen during the flies plague (Ex 8:22–23) most clearly foreshadows:", a: "The distinction between God’s people and the world (2 Cor 6:17; Rev 18:4)", opts: ["Geographical favor", "The distinction between God’s people and the world (2 Cor 6:17; Rev 18:4)", "Egyptian mercy", "Pharaoh’s power"], expl: "No flies in Goshen → type of separation/call to 'come out' from the world system." },
+
+  { type: "mc", q: "The death of Egyptian livestock but not Israel’s (Ex 9:4–6) most directly illustrates:", a: "God’s covenant distinction between Israel and the nations (Ex 8:23; 11:7)", opts: ["Economic sabotage", "God’s covenant distinction between Israel and the nations (Ex 8:23; 11:7)", "Natural coincidence", "Pharaoh’s neglect"], expl: "'The LORD will make a distinction between Israel and Egypt' → redemptive separation culminating in Christ’s work." },
+
+  { type: "mc", q: "The boils plague (Ex 9:8–11) most typologically points to:", a: "The outpouring of wrath on unrepentant humanity (Rev 16:2)", opts: ["Medical judgment", "The outpouring of wrath on unrepentant humanity (Rev 16:2)", "Egyptian hygiene", "Moses’ anger"], expl: "Sores on man and beast → first bowl of wrath in Revelation 16:2 mirrors this plague." },
+
+  { type: "mc", q: "The hail plague destroying everything except Goshen (Ex 9:26) most clearly demonstrates:", a: "God’s protective distinction of His people in the midst of judgment (cf. Rev 7:3)", opts: ["Weather anomaly", "God’s protective distinction of His people in the midst of judgment (cf. Rev 7:3)", "Pharaoh’s mercy", "Natural disaster"], expl: "No hail in Goshen → type of sealing/protection of God’s servants during wrath (Rev 7:3–4)." },
+
+  { type: "mc", q: "Pharaoh’s partial offers (only men, leave flocks) during plagues most typologically represent:", a: "Half-hearted repentance that falls short of full surrender to God (cf. Matt 7:21–23)", opts: ["Reasonable compromise", "Half-hearted repentance that falls short of full surrender to God (cf. Matt 7:21–23)", "Economic wisdom", "Political strategy"], expl: "Pharaoh wants to keep control → type of partial obedience that is actually rebellion." },
+
+  { type: "mc", q: "The darkness plague (Ex 10:21–23) most directly judges:", a: "Egypt’s worship of Ra, the sun god", opts: ["Egypt’s agriculture", "Egypt’s worship of Ra, the sun god", "Israel’s sin", "Moses’ leadership"], expl: "Ra was chief deity → God blots out the sun, showing He alone is light (John 1:4–5; 8:12)." },
+
+  { type: "mc", q: "Israel having light in their dwellings during darkness (Ex 10:23) most typologically foreshadows:", a: "Christ as light of the world while the world lies in darkness (John 8:12; 1 John 1:5–7)", opts: ["Egyptian kindness", "Christ as light of the world while the world lies in darkness (John 8:12; 1 John 1:5–7)", "Natural phenomenon", "Pharaoh’s favor"], expl: "Light for God’s people amid darkness → type of Christ’s light shining in a dark world." },
+
+  { type: "tf", q: "The hardening of Pharaoh’s heart is solely God’s action with no human responsibility.", a: false, expl: "False – Pharaoh hardens his own heart first (Ex 8:15,32); God later confirms it (Rom 9:17–18)." },
+
+  { type: "tf", q: "The Passover lamb without blemish typifies Christ the spotless Lamb of God.", a: true, expl: "True – Ex 12:5 → John 1:29; 1 Pet 1:19; Heb 9:14." },
+
+  { type: "tf", q: "The blood on the doorposts was a sign of faith and obedience, not magic.", a: true, expl: "True – Ex 12:13,23 – God saw the blood and passed over; it was a covenant sign." },
+
+  { type: "tf", q: "The exodus occurred after exactly 400 years in Egypt.", a: false, expl: "False – 430 years (Ex 12:40)." },
+
+  { type: "tf", q: "The pillar of cloud/fire was a temporary guide only until Sinai.", a: false, expl: "False – It continued throughout the wilderness (Ex 13:22; Num 9:15–23)." },
+
+  { type: "tf", q: "Moses’ staff becoming a serpent and swallowing the magicians’ serpents typifies Christ’s victory over Satan.", a: true, expl: "True – Ex 7:12 → foreshadowing Col 2:15; Rev 12:9." },
+
+  { type: "tf", q: "The plagues were primarily natural phenomena with no supernatural element.", a: false, expl: "False – Explicitly supernatural acts of judgment to show 'I am the LORD' (Ex 7:5)." },
+
+  { type: "tf", q: "The distinction between Goshen and Egypt during plagues foreshadows the separation of God’s people from the world.", a: true, expl: "True – Ex 8:22–23; cf. 2 Cor 6:17; Rev 18:4." },
+
+  { type: "tf", q: "Pharaoh’s partial concessions represent genuine repentance.", a: false, expl: "False – He hardens his heart again each time (Ex 8:32; 9:34)." },
+
+  { type: "tf", q: "The darkness plague was a judgment on the sun god Ra.", a: true, expl: "True – Ex 10:21–23; Ra was chief deity, yet powerless." },
+
+  { type: "tf", q: "Moses’ reluctance and excuses at the burning bush typify human weakness overcome by divine grace.", a: true, expl: "True – Ex 3–4 → God uses weak vessels (1 Cor 1:27–29)." },
+
+  { type: "tf", q: "The Passover blood protected from physical death only.", a: false, expl: "False – It typifies protection from eternal judgment (Heb 9:22; 1 Pet 1:18–19)." },
+
+  { type: "tf", q: "The exodus was primarily a political liberation.", a: false, expl: "False – It was redemptive — God redeeming His people for Himself (Ex 6:6–7; 15:13)." },
+
+  { type: "tf", q: "The Song of the Sea (Ex 15) celebrates both deliverance and the future reign of God.", a: true, expl: "True – Ex 15:18 – 'The LORD will reign forever and ever.'" },
+
+  { type: "tf", q: "Manna was a test of obedience concerning the Sabbath.", a: true, expl: "True – Ex 16:4–5,22–30 – double portion on sixth day, none on seventh." },
+
+  { type: "tf", q: "Water from the rock at Rephidim typifies Christ as the source of living water.", a: true, expl: "True – Ex 17:6 → 1 Cor 10:4 – 'the Rock was Christ.'" },
+
+  { type: "tf", q: "Amalek’s attack on Israel typifies Satan’s opposition to God’s redeemed people.", a: true, expl: "True – Ex 17:8–16 → Deut 25:17–19; spiritual warfare theme." },
+
+  { type: "tf", q: "Jethro’s advice to Moses prefigures the NT principle of delegation and plurality of leadership.", a: true, expl: "True – Ex 18:13–27 → cf. Acts 6:1–6; 1 Tim 3." },
+
+  { type: "tf", q: "The Ten Commandments were given to earn salvation.", a: false, expl: "False – Given after redemption (Ex 20:2 – 'I am the LORD your God who brought you out…')." },
+
+  { type: "tf", q: "The thunder, lightning, and smoke on Sinai were meant to inspire terror and distance.", a: true, expl: "True – Ex 19:16–18; 20:18 – people trembled and stood far off." },
+
+  { type: "tf", q: "The first commandment 'no other gods' establishes monotheism as the foundation of covenant relationship.", a: true, expl: "True – Ex 20:3 – exclusive devotion required after redemption." },
+
+  { type: "tf", q: "The Sabbath command looks back to creation and forward to eschatological rest.", a: true, expl: "True – Ex 20:8–11 (creation); Heb 4:9–11 (future rest)." },
+
+  { type: "tf", q: "The giving of the law at Sinai was primarily punitive.", a: false, expl: "False – It was gracious revelation to a redeemed people (Ex 19:4–6)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

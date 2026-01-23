@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 11-20 Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 11-20 Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "The announcement of the death of the firstborn (Ex 11:4–5) most directly reveals God’s judgment as:", a: "Retributive justice mirroring Pharaoh’s earlier decree to kill Hebrew boys (Ex 1:22)", opts: ["Arbitrary divine cruelty", "Retributive justice mirroring Pharaoh’s earlier decree to kill Hebrew boys (Ex 1:22)", "Temporary national discipline", "Economic punishment"], expl: "Measure-for-measure: Pharaoh targeted sons → God strikes the firstborn (cf. Rom 2:5–6; Gal 6:7)." },
+
+  { type: "mc", q: "The requirement of an unblemished male lamb (Ex 12:5) most clearly typifies:", a: "Christ the sinless Lamb of God (1 Pet 1:19; Heb 9:14)", opts: ["Ritual purity only", "Christ the sinless Lamb of God (1 Pet 1:19; Heb 9:14)", "Economic value", "Egyptian custom"], expl: "Without blemish → direct foreshadowing of Christ’s perfect sacrifice (John 1:29; Heb 9:14)." },
+
+  { type: "mc", q: "The blood on the doorposts and lintel (Ex 12:13) functions theologically as:", a: "A covenant sign of substitutionary atonement shielding from wrath (Heb 9:22; Rom 5:9)", opts: ["Magical ward", "A covenant sign of substitutionary atonement shielding from wrath (Heb 9:22; Rom 5:9)", "Ethnic marker", "Pharaoh’s recognition"], expl: "When I see the blood I will pass over → type of Christ’s blood protecting from judgment." },
+
+  { type: "mc", q: "Eating the Passover in haste with loins girded and staff in hand (Ex 12:11) most typologically represents:", a: "Urgency of redemption and readiness for pilgrimage (Luke 12:35–40)", opts: ["Casual meal", "Urgency of redemption and readiness for pilgrimage (Luke 12:35–40)", "Egyptian hospitality", "Family tradition"], expl: "Belt fastened, sandals on, staff in hand → type of watchful readiness for the Lord’s return." },
+
+  { type: "mc", q: "The seven days of unleavened bread (Ex 12:15) most clearly symbolize:", a: "Putting away the old life of sin after redemption (1 Cor 5:7–8)", opts: ["Dietary restriction", "Putting away the old life of sin after redemption (1 Cor 5:7–8)", "Agricultural cycle", "Mourning period"], expl: "Purge out the old leaven → Paul applies it to cleansing from sin after Christ our Passover." },
+
+  { type: "mc", q: "God’s declaration 'I will pass through the land of Egypt' (Ex 12:12) most directly shows:", a: "Divine personal involvement in judgment and redemption", opts: ["Delegation to an angel", "Divine personal involvement in judgment and redemption", "Egyptian sovereignty", "Moses’ authority"], expl: "I myself will pass through → prefigures the incarnation and direct saving work of Christ." },
+
+  { type: "mc", q: "The pillar of cloud by day and fire by night (Ex 13:21–22) most typologically foreshadows:", a: "The guiding presence of the Holy Spirit (John 16:13; Rom 8:14)", opts: ["Military strategy", "The guiding presence of the Holy Spirit (John 16:13; Rom 8:14)", "Natural phenomenon", "Egyptian pursuit"], expl: "Never departed → type of the Spirit leading God’s people (cf. Neh 9:19–20; 1 Cor 10:1–2)." },
+
+  { type: "mc", q: "God leading Israel the long way around Philistia (Ex 13:17–18) most clearly demonstrates:", a: "Sovereign care protecting from premature battle (cf. Heb 4:1–11)", opts: ["Poor navigation", "Sovereign care protecting from premature battle (cf. Heb 4:1–11)", "Pharaoh’s plan", "Israel’s weakness"], expl: "Lest they see war and return → God guides according to what they can bear (progressive sanctification)." },
+
+  { type: "mc", q: "The Red Sea crossing on dry ground (Ex 14:21–22) most directly typifies:", a: "Baptism into Moses and deliverance from bondage (1 Cor 10:1–2)", opts: ["Military miracle only", "Baptism into Moses and deliverance from bondage (1 Cor 10:1–2)", "Natural event", "Egyptian defeat"], expl: "Paul calls it baptism in the cloud and sea → type of passing through death to new life (Rom 6:3–4)." },
+
+  { type: "mc", q: "The drowning of Pharaoh’s army (Ex 14:28) most clearly prefigures:", a: "The final defeat of sin and death in Christ (Rom 6:6–7; Heb 2:14–15)", opts: ["Temporary setback", "The final defeat of sin and death in Christ (Rom 6:6–7; Heb 2:14–15)", "Egyptian tragedy", "Israel’s guilt"], expl: "Enemies destroyed in water → type of old self crucified and buried with Christ (Rom 6:4–6)." },
+
+  { type: "mc", q: "The Song of the Sea (Ex 15:1–18) most significantly celebrates:", a: "YHWH as warrior-king who redeems and will reign forever (Rev 15:3)", opts: ["Military victory only", "YHWH as warrior-king who redeems and will reign forever (Rev 15:3)", "Moses’ leadership", "Israel’s bravery"], expl: "The LORD is a man of war… The LORD will reign forever → sung again by victors in Revelation 15:3." },
+
+  { type: "mc", q: "Miriam’s song with tambourines (Ex 15:20–21) most typologically represents:", a: "The joyful worship of the redeemed community (Rev 5:9–10; 14:3)", opts: ["Female leadership", "The joyful worship of the redeemed community (Rev 5:9–10; 14:3)", "Temporary celebration", "Musical tradition"], expl: "Women with timbrels and dancing → prefigures the new song of the redeemed in Revelation." },
+
+  { type: "mc", q: "The bitter waters made sweet at Marah by a tree (Ex 15:25) most clearly foreshadows:", a: "The cross turning curse into blessing (Gal 3:13)", opts: ["Natural remedy", "The cross turning curse into blessing (Gal 3:13)", "Moses’ power", "Egyptian magic"], expl: "Tree thrown in → type of the tree/cross making bitter judgment sweet (cf. Rev 22:2)." },
+
+  { type: "mc", q: "God’s promise 'I will put none of Egypt’s diseases on you' (Ex 15:26) most directly points to:", a: "Christ as the ultimate healer (Isa 53:5; 1 Pet 2:24)", opts: ["Medical law", "Christ as the ultimate healer (Isa 53:5; 1 Pet 2:24)", "Obedience earning health", "Egyptian medicine"], expl: "I am the LORD your healer → fulfilled in Christ’s atoning work (Matt 8:17; 1 Pet 2:24)." },
+
+  { type: "mc", q: "Manna as daily bread (Ex 16:4) most typologically corresponds to:", a: "Christ the bread from heaven (John 6:32–35,51)", opts: ["Temporary provision", "Christ the bread from heaven (John 6:32–35,51)", "Agricultural miracle", "Moses’ authority"], expl: "Bread from heaven → Jesus says 'I am the bread of life' (John 6:35)." },
+
+  { type: "mc", q: "The double portion on the sixth day and none on Sabbath (Ex 16:22–26) most clearly teaches:", a: "The Sabbath as sign of covenant rest fulfilled in Christ (Heb 4:9–10)", opts: ["Work ethic", "The Sabbath as sign of covenant rest fulfilled in Christ (Heb 4:9–10)", "Food storage", "Egyptian influence"], expl: "Rest on seventh day → type of entering God’s rest through Christ (Heb 4)." },
+
+  { type: "mc", q: "Water from the rock at Rephidim (Ex 17:6) is explicitly identified by Paul as:", a: "Christ Himself (1 Cor 10:4)", opts: ["Miraculous spring", "Christ Himself (1 Cor 10:4)", "Natural source", "Moses’ power"], expl: "They drank from the spiritual Rock that followed them, and the Rock was Christ." },
+
+  { type: "mc", q: "Amalek’s attack on weary Israel (Ex 17:8) most typologically represents:", a: "Satan’s opposition to the redeemed people of God (1 Pet 5:8; Eph 6:12)", opts: ["Random war", "Satan’s opposition to the redeemed people of God (1 Pet 5:8; Eph 6:12)", "Egyptian revenge", "Tribal conflict"], expl: "Attacking the weak at the rear → type of spiritual warfare against the church." },
+
+  { type: "mc", q: "Moses’ raised hands during battle (Ex 17:11–12) most clearly typifies:", a: "The intercession of Christ our great High Priest (Heb 7:25)", opts: ["Physical strength", "The intercession of Christ our great High Priest (Heb 7:25)", "Military tactic", "Aaron’s support"], expl: "Hands raised until sunset → type of Christ’s continual intercession (Heb 7:25; Rom 8:34)." },
+
+  { type: "mc", q: "Jethro’s counsel to delegate judgment (Ex 18:21–22) most directly prefigures:", a: "Plurality of leadership and delegation in the NT church (Acts 6:1–6; 1 Tim 3)", opts: ["Egyptian bureaucracy", "Plurality of leadership and delegation in the NT church (Acts 6:1–6; 1 Tim 3)", "Moses’ laziness", "Tribal hierarchy"], expl: "Able men over thousands, hundreds, etc. → pattern for NT church governance." },
+
+  { type: "mc", q: "Israel’s arrival at Sinai in the third month (Ex 19:1) most theologically signifies:", a: "Grace preceding law — redemption first, then covenant obedience (Ex 20:2)", opts: ["Chronological coincidence", "Grace preceding law — redemption first, then covenant obedience (Ex 20:2)", "Punitive arrival", "Egyptian pursuit"], expl: "Delivered first → then given law (Ex 20:2: 'I am the LORD your God who brought you out…')." },
+
+  { type: "mc", q: "God’s promise 'you shall be to me a kingdom of priests' (Ex 19:6) is fulfilled in the NT as:", a: "The church as a royal priesthood (1 Pet 2:9; Rev 1:6)", opts: ["National Israel only", "The church as a royal priesthood (1 Pet 2:9; Rev 1:6)", "Levitical succession", "Egyptian influence"], expl: "Directly applied to believers in Christ (1 Pet 2:9; Rev 5:10)." },
+
+  { type: "mc", q: "The thunder, lightning, smoke, and trumpet on Sinai (Ex 19:16–19) most directly prefigures:", a: "The terrifying majesty of God’s presence (Heb 12:18–21)", opts: ["Natural storm", "The terrifying majesty of God’s presence (Heb 12:18–21)", "Moses’ authority", "Egyptian magic"], expl: "The people trembled → contrasted with the better covenant at Zion (Heb 12:18–24)." },
+
+  { type: "mc", q: "The giving of the Ten Commandments after redemption (Ex 20:2) most clearly teaches:", a: "Law follows grace — obedience flows from salvation (Titus 2:11–12)", opts: ["Salvation by law", "Law follows grace — obedience flows from salvation (Titus 2:11–12)", "Legalism", "Egyptian influence"], expl: "I am the LORD your God who brought you out → grace precedes command." },
+
+  { type: "mc", q: "The first commandment 'no other gods' (Ex 20:3) most fundamentally establishes:", a: "Exclusive covenant loyalty to the Redeemer God", opts: ["Monotheism alone", "Exclusive covenant loyalty to the Redeemer God", "Egyptian polytheism", "Tribal unity"], expl: "Given after redemption → loyalty to the God who saved them (cf. Eph 4:6)." },
+
+  { type: "mc", q: "The Sabbath command (Ex 20:8–11) looks back to creation and forward to:", a: "Eschatological rest in Christ (Heb 4:9–11)", opts: ["Weekly rest only", "Eschatological rest in Christ (Heb 4:9–11)", "Egyptian work cycle", "Agricultural calendar"], expl: "Creation rest → future Sabbath rest for the people of God (Heb 4)." },
+
+  { type: "tf", q: "The Passover blood protected from physical death only.", a: false, expl: "False – Typifies protection from eternal wrath (Heb 9:22; Rom 5:9)." },
+
+  { type: "tf", q: "The exodus was primarily political liberation.", a: false, expl: "False – Redemptive: God buys a people for Himself (Ex 6:6–7; 15:13)." },
+
+  { type: "tf", q: "The pillar of cloud/fire never left the people.", a: true, expl: "True – Ex 13:22; continued throughout wilderness." },
+
+  { type: "tf", q: "The Red Sea crossing is called baptism by Paul in 1 Corinthians 10:1–2.", a: true, expl: "True – 'All were baptized into Moses in the cloud and in the sea.'" },
+
+  { type: "tf", q: "Miriam’s song with tambourines typifies the joyful worship of the redeemed in Revelation.", a: true, expl: "True – Ex 15:20–21 → Rev 5:9–10; 14:3." },
+
+  { type: "tf", q: "The bitter waters at Marah made sweet by a tree typifies the cross reversing curse.", a: true, expl: "True – Tree thrown in → type of cross (Gal 3:13; Rev 22:2)." },
+
+  { type: "tf", q: "God’s promise at Marah of no Egypt diseases typifies Christ as healer.", a: true, expl: "True – Ex 15:26 → Isa 53:5; 1 Pet 2:24." },
+
+  { type: "tf", q: "Manna was a test of obedience concerning the Sabbath.", a: true, expl: "True – Ex 16:4–5,22–30." },
+
+  { type: "tf", q: "Water from the rock is called Christ by Paul.", a: true, expl: "True – 1 Cor 10:4." },
+
+  { type: "tf", q: "Amalek’s attack typifies Satan’s opposition to God’s redeemed.", a: true, expl: "True – Ex 17:8–16; cf. spiritual warfare." },
+
+  { type: "tf", q: "Jethro’s counsel prefigures NT plurality of leadership.", a: true, expl: "True – Ex 18 → Acts 6; 1 Tim 3." },
+
+  { type: "tf", q: "The law was given to earn salvation.", a: false, expl: "False – Given after redemption (Ex 20:2)." },
+
+  { type: "tf", q: "Sinai’s terror (thunder, smoke) is contrasted with the better covenant in Hebrews 12.", a: true, expl: "True – Heb 12:18–24." },
+
+  { type: "tf", q: "The first commandment establishes exclusive loyalty to the Redeemer.", a: true, expl: "True – Ex 20:2–3." },
+
+  { type: "tf", q: "The Sabbath command looks forward to rest in Christ.", a: true, expl: "True – Heb 4:9–11." },
+
+  { type: "tf", q: "The Ten Commandments were given before redemption.", a: false, expl: "False – After deliverance (Ex 20:2)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
