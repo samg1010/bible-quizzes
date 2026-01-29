@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 31-40 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 31-40 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "Who was filled with the Spirit of God, wisdom, understanding, and knowledge to do skillful work on the tabernacle?", a: "Bezalel son of Uri", opts: ["Aaron", "Bezalel son of Uri", "Joshua", "Hur"], expl: "Exodus 31:2–3 – 'I have called by name Bezalel… and I have filled him with the Spirit of God.'" },
+
+  { type: "mc", q: "Who was appointed to assist Bezalel in the tabernacle construction?", a: "Oholiab son of Ahisamach", opts: ["Oholiab son of Ahisamach", "Caleb", "Miriam", "Jethro"], expl: "Exodus 31:6 – 'I have appointed with him Oholiab… of the tribe of Dan.'" },
+
+  { type: "mc", q: "Why did God emphasize keeping the Sabbath even during tabernacle building?", a: "It is a sign between God and Israel forever", opts: ["To rest from work", "It is a sign between God and Israel forever", "To avoid punishment", "To honor Moses"], expl: "Exodus 31:13–17 – 'It is a sign between me and you throughout your generations… a covenant forever.'" },
+
+  { type: "mc", q: "What did the people ask Aaron to make while Moses was on the mountain?", a: "Gods who shall go before us", opts: ["An altar", "Gods who shall go before us", "A new tent", "A golden staff"], expl: "Exodus 32:1 – 'Make us gods who shall go before us.'" },
+
+  { type: "mc", q: "What material did the people give to Aaron to make the calf?", a: "Gold earrings from their ears", opts: ["Gold earrings from their ears", "Silver rings", "Bronze tools", "Wood carvings"], expl: "Exodus 32:2–3 – 'Take off the rings of gold… and bring them to me.'" },
+
+  { type: "mc", q: "What did the people say when they saw the golden calf?", a: "These are your gods, O Israel, who brought you up out of Egypt", opts: ["These are your gods, O Israel, who brought you up out of Egypt", "This is the LORD our God", "We will worship only Yahweh", "Aaron is our leader"], expl: "Exodus 32:4 – 'These are your gods, O Israel, who brought you up out of the land of Egypt.'" },
+
+  { type: "mc", q: "What did Moses do when he saw the calf and the dancing?", a: "Threw down the tablets and broke them", opts: ["Threw down the tablets and broke them", "Joined the celebration", "Prayed quietly", "Built a new altar"], expl: "Exodus 32:19 – 'He threw the tablets out of his hands and broke them at the foot of the mountain.'" },
+
+  { type: "mc", q: "Who gathered around Moses when he called 'Who is on the LORD’s side?'", a: "All the sons of Levi", opts: ["All the sons of Levi", "The elders only", "The women", "The Egyptians"], expl: "Exodus 32:26 – 'All the sons of Levi gathered around him.'" },
+
+  { type: "mc", q: "What did Moses make the people drink after grinding the calf to powder?", a: "Water mixed with the powder", opts: ["Water mixed with the powder", "Wine", "Milk", "Nothing"], expl: "Exodus 32:20 – 'He… ground it to powder and scattered it on the water and made the people of Israel drink it.'" },
+
+  { type: "mc", q: "After the golden calf, what did God initially say He would do with Israel?", a: "Consume them and make a great nation from Moses", opts: ["Consume them and make a great nation from Moses", "Forgive them immediately", "Send them back to Egypt", "Give them new laws"], expl: "Exodus 32:10 – 'Let me alone… that I may consume them… and make a great nation of you.'" },
+
+  { type: "mc", q: "Where did Moses pitch the tent of meeting after the calf incident?", a: "Outside the camp, some distance away", opts: ["Outside the camp, some distance away", "Inside the camp", "On top of Sinai", "By the Red Sea"], expl: "Exodus 33:7 – 'Moses used to take the tent and pitch it outside the camp… a good way off from the camp.'" },
+
+  { type: "mc", q: "What happened when Moses entered the tent of meeting?", a: "The pillar of cloud descended and God spoke", opts: ["The pillar of cloud descended and God spoke", "The people entered too", "The tent caught fire", "Aaron joined him"], expl: "Exodus 33:9 – 'The pillar of cloud would descend… and the LORD would speak with Moses.'" },
+
+  { type: "mc", q: "What did Moses ask God to show him in Exodus 33?", a: "His glory", opts: ["His glory", "The promised land", "The new tablets", "The angel"], expl: "Exodus 33:18 – 'Moses said, “Please show me your glory.”'" },
+
+  { type: "mc", q: "What did God say no one could see and still live?", a: "His face", opts: ["His face", "His hands", "His back", "His throne"], expl: "Exodus 33:20 – 'You cannot see my face, for man shall not see me and live.'" },
+
+  { type: "mc", q: "Where did God place Moses to see His back?", a: "In the cleft of the rock", opts: ["In the cleft of the rock", "On top of Sinai", "In the tent", "By the sea"], expl: "Exodus 33:22 – 'I will put you in a cleft of the rock… and you shall see my back.'" },
+
+  { type: "mc", q: "What did God proclaim when He passed before Moses?", a: "The LORD, a God merciful and gracious, slow to anger", opts: ["The LORD, a God merciful and gracious, slow to anger", "I am the Judge", "I am the Creator", "I am the King"], expl: "Exodus 34:6–7 – 'The LORD passed before him and proclaimed, “The LORD, the LORD, a God merciful and gracious…”'" },
+
+  { type: "mc", q: "What did Moses do the second time he went up Mount Sinai?", a: "Cut two new tablets of stone", opts: ["Cut two new tablets of stone", "Built an altar", "Prayed for Aaron", "Sacrificed animals"], expl: "Exodus 34:1 – 'Cut two tablets of stone like the first…'" },
+
+  { type: "mc", q: "What happened to Moses’ face after speaking with God the second time?", a: "The skin of his face shone", opts: ["The skin of his face shone", "It became pale", "It was scarred", "It turned red"], expl: "Exodus 34:29 – 'The skin of his face shone because he had been talking with God.'" },
+
+  { type: "mc", q: "Why did Moses put a veil on his face when speaking to the people?", a: "Because the glory was fading and they were afraid", opts: ["Because the glory was fading and they were afraid", "To hide his anger", "To protect from dust", "To look mysterious"], expl: "Exodus 34:33–35 – Moses veiled his face until he went in to speak with God again." },
+
+  { type: "mc", q: "Who was filled with the Spirit to oversee the tabernacle construction?", a: "Bezalel and Oholiab", opts: ["Bezalel and Oholiab", "Moses and Aaron", "Joshua and Caleb", "Miriam and Zipporah"], expl: "Exodus 36:1 – 'Bezalel and Oholiab and every craftsman…'" },
+
+  { type: "mc", q: "What did the people bring so much of that Moses had to stop them?", a: "Freewill offerings for the sanctuary", opts: ["Freewill offerings for the sanctuary", "Food for the journey", "Weapons", "Animals"], expl: "Exodus 36:5–7 – 'The people bring much more than enough…'" },
+
+  { type: "mc", q: "What was the first item constructed for the tabernacle?", a: "The ark of the covenant", opts: ["The ark of the covenant", "The altar", "The lampstand", "The table"], expl: "Exodus 37:1 – 'Bezalel made the ark of acacia wood…'" },
+
+  { type: "mc", q: "What was placed on the table in the Holy Place?", a: "The bread of the Presence", opts: ["The bread of the Presence", "Incense", "Oil lamps", "The tablets"], expl: "Exodus 40:23 – 'He set the bread in order on it before the LORD.'" },
+
+  { type: "mc", q: "How many lamps did the golden lampstand have?", a: "Seven", opts: ["Seven", "Six", "Twelve", "Three"], expl: "Exodus 37:23 – 'He made its seven lamps…'" },
+
+  { type: "mc", q: "What was the altar of incense made of?", a: "Acacia wood overlaid with gold", opts: ["Acacia wood overlaid with gold", "Bronze", "Stone", "Silver"], expl: "Exodus 37:25–26 – 'He made the altar of incense of acacia wood… overlaid with pure gold.'" },
+
+  { type: "mc", q: "What was used to anoint the tabernacle and priests?", a: "Holy anointing oil", opts: ["Holy anointing oil", "Olive oil", "Water", "Blood"], expl: "Exodus 40:9 – 'You shall take the anointing oil and anoint the tabernacle…'" },
+
+  { type: "mc", q: "What was burned on the altar of incense?", a: "Fragrant incense", opts: ["Fragrant incense", "Animal sacrifices", "Bread", "Oil"], expl: "Exodus 30:7–8 – 'Aaron shall burn fragrant incense on it every morning…'" },
+
+  { type: "mc", q: "Who offered the first sacrifices after the tabernacle was set up?", a: "Aaron", opts: ["Aaron", "Moses", "Bezalel", "The elders"], expl: "Exodus 40:27 – 'He [Aaron] burned fragrant incense on it…'" },
+
+  { type: "mc", q: "What filled the tabernacle when it was finished?", a: "The glory of the LORD", opts: ["The glory of the LORD", "Smoke from incense", "Light from lamps", "The sound of trumpets"], expl: "Exodus 40:34 – 'The glory of the LORD filled the tabernacle.'" },
+
+  { type: "mc", q: "Why could Moses not enter the tabernacle when the glory filled it?", a: "The cloud and glory covered it", opts: ["The cloud and glory covered it", "It was locked", "He was afraid", "Aaron forbade him"], expl: "Exodus 40:35 – 'Moses was not able to enter… because the cloud settled on it, and the glory of the LORD filled the tabernacle.'" },
+
+  { type: "mc", q: "What guided the Israelites when to move the tabernacle?", a: "The cloud of the LORD", opts: ["The cloud of the LORD", "Moses’ command", "Trumpets", "The priests"], expl: "Exodus 40:36–37 – 'Whenever the cloud lifted… they set out; if the cloud did not lift… they did not set out.'" },
+
+  { type: "tf", q: "Bezalel was filled with the Spirit of God to do skillful work.", a: true, expl: "True – Exodus 31:3." },
+
+  { type: "tf", q: "The Sabbath was to be kept even during tabernacle construction.", a: true, expl: "True – Exodus 31:13–15." },
+
+  { type: "tf", q: "The people made a golden calf while Moses was on the mountain.", a: true, expl: "True – Exodus 32:1–4." },
+
+  { type: "tf", q: "Aaron made the golden calf.", a: true, expl: "True – Exodus 32:4." },
+
+  { type: "tf", q: "Moses broke the tablets when he saw the golden calf.", a: true, expl: "True – Exodus 32:19." },
+
+  { type: "tf", q: "The Levites stood with Moses against the idolaters.", a: true, expl: "True – Exodus 32:26." },
+
+  { type: "tf", q: "Moses made the people drink water mixed with ground-up golden calf.", a: true, expl: "True – Exodus 32:20." },
+
+  { type: "tf", q: "God said He would go with Israel after the golden calf incident.", a: false, expl: "False – He said He would send an angel instead (Exodus 33:2–3)." },
+
+  { type: "tf", q: "Moses pitched the tent of meeting outside the camp.", a: true, expl: "True – Exodus 33:7." },
+
+  { type: "tf", q: "Moses asked to see God’s glory.", a: true, expl: "True – Exodus 33:18." },
+
+  { type: "tf", q: "No one can see God’s face and live.", a: true, expl: "True – Exodus 33:20." },
+
+  { type: "tf", q: "God let Moses see His back.", a: true, expl: "True – Exodus 33:23." },
+
+  { type: "tf", q: "God proclaimed Himself as merciful and gracious in Exodus 34.", a: true, expl: "True – Exodus 34:6–7." },
+
+  { type: "tf", q: "Moses’ face shone after speaking with God.", a: true, expl: "True – Exodus 34:29." },
+
+  { type: "tf", q: "Moses wore a veil when speaking to the people.", a: true, expl: "True – Exodus 34:33–35." },
+
+  { type: "tf", q: "The people gave too much for the tabernacle and Moses had to stop them.", a: true, expl: "True – Exodus 36:5–7." },
+
+  { type: "tf", q: "The tabernacle was completed exactly as God commanded.", a: true, expl: "True – Exodus 39:32–43." },
+
+  { type: "tf", q: "The glory of the LORD filled the tabernacle when it was finished.", a: true, expl: "True – Exodus 40:34." },
+
+  { type: "tf", q: "Moses could enter the tabernacle whenever he wanted after it was filled with glory.", a: false, expl: "False – He could not enter when the glory filled it (Exodus 40:35)." },
+
+  { type: "tf", q: "The cloud guided the Israelites when to move the tabernacle.", a: true, expl: "True – Exodus 40:36–38." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

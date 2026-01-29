@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 21-30 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 21-30 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "In Exodus 21:2, how many years could a Hebrew slave serve before being set free?", a: "Six years", opts: ["Three years", "Six years", "Ten years", "Forever"], expl: "Exodus 21:2 – 'When you buy a Hebrew slave, he shall serve six years, and in the seventh he shall go out free.'" },
+
+  { type: "mc", q: "What happens if a Hebrew slave loves his master and wants to stay after six years?", a: "His ear is pierced with an awl against the doorpost", opts: ["He is punished", "His ear is pierced with an awl against the doorpost", "He pays a fine", "He is sold again"], expl: "Exodus 21:5–6 – 'If he plainly says, “I love my master… I will not go out free,” then his master shall bring him to God, and he shall bring him to the door… and pierce his ear with an awl.'" },
+
+  { type: "mc", q: "What does Exodus 21:12 say about someone who strikes another person so that he dies?", a: "He shall be put to death", opts: ["He shall pay a fine", "He shall be put to death", "He shall flee to a city of refuge", "He shall serve as a slave"], expl: "Exodus 21:12 – 'Whoever strikes a man so that he dies shall be put to death.'" },
+
+  { type: "mc", q: "If a man strikes his father or mother, what is the penalty?", a: "He shall be put to death", opts: ["He shall be put to death", "He shall be beaten", "He shall pay money", "He shall be forgiven"], expl: "Exodus 21:15 – 'Whoever strikes his father or his mother shall be put to death.'" },
+
+  { type: "mc", q: "What is the penalty for kidnapping someone and selling him or keeping him?", a: "The kidnapper shall be put to death", opts: ["The kidnapper shall be put to death", "The kidnapper shall pay a ransom", "The kidnapper shall be exiled", "The kidnapper shall serve the victim"], expl: "Exodus 21:16 – 'Whoever steals a man and sells him, and anyone found in possession of him, shall be put to death.'" },
+
+  { type: "mc", q: "If a man curses his father or mother, what happens?", a: "He shall be put to death", opts: ["He shall be forgiven", "He shall be put to death", "He shall be beaten", "He shall pay a fine"], expl: "Exodus 21:17 – 'Whoever curses his father or his mother shall be put to death.'" },
+
+  { type: "mc", q: "If men fight and one hurts the other’s wife so she miscarries, what is the penalty?", a: "The husband may demand payment as he imposes", opts: ["The man is put to death", "The husband may demand payment as he imposes", "No penalty if no harm", "The man pays double"], expl: "Exodus 21:22 – 'He shall pay as the husband demands…'" },
+
+  { type: "mc", q: "If a man’s ox gores someone to death, what happens to the ox?", a: "The ox shall be stoned and its flesh not eaten", opts: ["The ox shall be sold", "The ox shall be stoned and its flesh not eaten", "The ox is forgiven", "The owner is punished"], expl: "Exodus 21:28 – 'The ox shall be stoned, and its flesh shall not be eaten.'" },
+
+  { type: "mc", q: "If the ox was known to gore before and the owner was warned but did not keep it in, what happens?", a: "The owner shall be put to death", opts: ["The owner pays a fine", "The owner shall be put to death", "The ox is killed only", "No penalty"], expl: "Exodus 21:29 – 'The ox shall be stoned, and its owner also shall be put to death.'" },
+
+  { type: "mc", q: "What must a person do if his animal falls into a pit he dug?", a: "He must make restitution to the owner", opts: ["He must make restitution to the owner", "He is not responsible", "He must kill the animal", "He must fill the pit"], expl: "Exodus 21:33–34 – 'The owner of the pit shall make restitution.'" },
+
+  { type: "mc", q: "If a man borrows an animal and it dies or is injured, what must he do?", a: "He shall make full restitution", opts: ["He shall make full restitution", "He is not liable", "He pays half", "He returns nothing"], expl: "Exodus 22:14 – 'If anyone borrows anything… he shall make full restitution.'" },
+
+  { type: "mc", q: "What does Exodus 22:21 forbid?", a: "You shall not wrong a sojourner or oppress him", opts: ["You shall not wrong a sojourner or oppress him", "You shall not steal", "You shall not lie", "You shall not murder"], expl: "Exodus 22:21 – 'You shall not wrong a sojourner or oppress him, for you were sojourners in Egypt.'" },
+
+  { type: "mc", q: "What does Exodus 22:22–23 say about widows and fatherless children?", a: "If you afflict them, God will hear their cry and His wrath will burn", opts: ["They must work harder", "If you afflict them, God will hear their cry and His wrath will burn", "They are protected by the king", "They must leave Egypt"], expl: "Exodus 22:22–23 – 'If you do afflict them… I will surely hear their cry… My wrath will burn.'" },
+
+  { type: "mc", q: "What must a person do if he finds lost property belonging to his enemy?", a: "He must return it", opts: ["He must keep it", "He must return it", "He must destroy it", "He must sell it"], expl: "Exodus 23:4 – 'If you meet your enemy’s ox or his donkey going astray, you shall bring it back to him.'" },
+
+  { type: "mc", q: "What does Exodus 23:6 forbid?", a: "You shall not pervert the justice due to your poor in his lawsuit", opts: ["You shall not pervert the justice due to your poor in his lawsuit", "You shall not steal", "You shall not lie", "You shall not kill"], expl: "Exodus 23:6 – 'You shall not pervert the justice due to your poor in his lawsuit.'" },
+
+  { type: "mc", q: "What is the command regarding the Sabbath year?", a: "Let the land rest and lie fallow", opts: ["Work harder", "Let the land rest and lie fallow", "Sell the land", "Plant more crops"], expl: "Exodus 23:10–11 – 'Six years you shall sow your land… but the seventh year you shall let it rest and lie fallow.'" },
+
+  { type: "mc", q: "What must be done with the firstborn of animals?", a: "They belong to the LORD", opts: ["They belong to the LORD", "They are eaten immediately", "They are sold", "They are given to the poor"], expl: "Exodus 22:29–30 – 'The firstborn of your sons you shall give to me… the firstborn of your cattle…'" },
+
+  { type: "mc", q: "What does Exodus 23:19 forbid?", a: "You shall not boil a young goat in its mother’s milk", opts: ["You shall not boil a young goat in its mother’s milk", "You shall not eat meat", "You shall not drink milk", "You shall not cook"], expl: "Exodus 23:19 – 'You shall not boil a young goat in its mother’s milk.'" },
+
+  { type: "mc", q: "What does God promise if Israel obeys His laws?", a: "He will bless their food and water and take sickness away", opts: ["He will bless their food and water and take sickness away", "They will become rich", "They will conquer all enemies", "They will live forever"], expl: "Exodus 23:25–26 – 'I will bless your bread and your water, and I will take sickness away from you.'" },
+
+  { type: "mc", q: "What did God promise to send before Israel to drive out the Canaanites?", a: "An angel", opts: ["An army", "An angel", "A plague", "Fire"], expl: "Exodus 23:20 – 'Behold, I send an angel before you to guard you on the way…'" },
+
+  { type: "mc", q: "What was the purpose of the tabernacle?", a: "A place for God to dwell among His people", opts: ["A place for God to dwell among His people", "A royal palace", "A storage building", "A prison"], expl: "Exodus 25:8 – 'Let them make me a sanctuary, that I may dwell in their midst.'" },
+
+  { type: "mc", q: "What was placed inside the ark of the covenant?", a: "The tablets of the testimony", opts: ["Gold coins", "The tablets of the testimony", "Manna", "Aaron’s staff"], expl: "Exodus 25:16,21 – 'You shall put into the ark the testimony that I shall give you.'" },
+
+  { type: "mc", q: "What was on top of the ark called?", a: "The mercy seat", opts: ["The mercy seat", "The throne", "The lid", "The cover"], expl: "Exodus 25:17 – 'You shall make a mercy seat of pure gold.'" },
+
+  { type: "mc", q: "How many cherubim were on the mercy seat?", a: "Two", opts: ["Two", "Four", "Six", "Twelve"], expl: "Exodus 25:18 – 'You shall make two cherubim of gold.'" },
+
+  { type: "mc", q: "What was the table in the tabernacle made for?", a: "The showbread", opts: ["The showbread", "Sacrifices", "Incense", "Oil lamps"], expl: "Exodus 25:30 – 'You shall set the bread of the Presence on the table before me regularly.'" },
+
+  { type: "mc", q: "How many branches did the golden lampstand (menorah) have?", a: "Six branches plus the central shaft", opts: ["Six branches plus the central shaft", "Seven branches", "Twelve branches", "Three branches"], expl: "Exodus 25:32–37 – Six branches extending from the sides, making seven lamps total." },
+
+  { type: "mc", q: "What was the altar of incense made of?", a: "Acacia wood overlaid with gold", opts: ["Stone", "Acacia wood overlaid with gold", "Bronze", "Silver"], expl: "Exodus 30:1–3 – 'You shall make an altar on which to burn incense… of acacia wood… overlay it with pure gold.'" },
+
+  { type: "mc", q: "What was the bronze altar used for?", a: "Burnt offerings and sacrifices", opts: ["Burnt offerings and sacrifices", "Incense", "Bread", "Oil"], expl: "Exodus 27:1–8 – The altar for burnt offering." },
+
+  { type: "mc", q: "Who was chosen to serve as priests?", a: "Aaron and his sons", opts: ["Aaron and his sons", "Moses and his sons", "The Levites", "The elders"], expl: "Exodus 28:1 – 'Bring near to you Aaron your brother… to serve me as priests.'" },
+
+  { type: "mc", q: "What was the high priest’s breastpiece called?", a: "The breastpiece of judgment", opts: ["The breastpiece of judgment", "The ephod", "The robe", "The turban"], expl: "Exodus 28:15 – 'You shall make a breastpiece of judgment.'" },
+
+  { type: "mc", q: "How many precious stones were on the high priest’s breastpiece?", a: "Twelve", opts: ["Twelve", "Ten", "Seven", "Four"], expl: "Exodus 28:17–21 – Twelve stones representing the twelve tribes." },
+
+  { type: "mc", q: "What did the high priest wear on his turban?", a: "A plate of pure gold inscribed 'Holy to the LORD'", opts: ["A plate of pure gold inscribed 'Holy to the LORD'", "A crown", "A veil", "A ribbon"], expl: "Exodus 28:36–38 – 'You shall make a plate of pure gold and engrave on it… “Holy to the LORD.”'" },
+
+  { type: "tf", q: "Exodus 21 begins with laws about Hebrew slaves serving six years.", a: true, expl: "True – Exodus 21:2." },
+
+  { type: "tf", q: "A Hebrew slave could choose to stay with his master forever.", a: true, expl: "True – Exodus 21:5–6 (ear pierced against the doorpost)." },
+
+  { type: "tf", q: "Striking a parent was punishable by death.", a: true, expl: "True – Exodus 21:15,17." },
+
+  { type: "tf", q: "Kidnapping and selling a person was punishable by death.", a: true, expl: "True – Exodus 21:16." },
+
+  { type: "tf", q: "If an ox gored someone to death, the ox was stoned and its flesh not eaten.", a: true, expl: "True – Exodus 21:28." },
+
+  { type: "tf", q: "If an owner knew his ox was dangerous and did not keep it in, the owner was also put to death.", a: true, expl: "True – Exodus 21:29." },
+
+  { type: "tf", q: "If a man digs a pit and an animal falls in, he is not responsible.", a: false, expl: "False – He must make restitution (Exodus 21:33–34)." },
+
+  { type: "tf", q: "A person who borrows an animal that dies must make full restitution.", a: true, expl: "True – Exodus 22:14." },
+
+  { type: "tf", q: "Israel was commanded not to wrong or oppress a sojourner.", a: true, expl: "True – Exodus 22:21." },
+
+  { type: "tf", q: "If Israel afflicted widows or fatherless children, God would hear their cry.", a: true, expl: "True – Exodus 22:22–23." },
+
+  { type: "tf", q: "If a man finds his enemy’s lost animal, he may keep it.", a: false, expl: "False – He must return it (Exodus 23:4)." },
+
+  { type: "tf", q: "The land was to rest every seventh year.", a: true, expl: "True – Exodus 23:10–11." },
+
+  { type: "tf", q: "The firstborn of animals belonged to the LORD.", a: true, expl: "True – Exodus 22:29–30." },
+
+  { type: "tf", q: "Boiling a young goat in its mother’s milk was forbidden.", a: true, expl: "True – Exodus 23:19." },
+
+  { type: "tf", q: "God promised to send an angel to guard Israel.", a: true, expl: "True – Exodus 23:20." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

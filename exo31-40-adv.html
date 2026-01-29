@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exodus 31-40 Theologically Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Exodus 31-40 Theologically Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • 35 Multiple Choice & 15 True/False • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+<script>
+const questions = [
+  { type: "mc", q: "The placement of the Sabbath command in the middle of tabernacle instructions (Ex 31:12–17) most theologically signifies:", a: "The Sabbath is the covenant sign that sanctifies the dwelling project and the people", opts: ["Work stoppage reminder", "The Sabbath is the covenant sign that sanctifies the dwelling project and the people", "Punishment for idolatry", "Egyptian influence"], expl: "Sabbath is the perpetual sign of covenant relationship (31:16–17) → tabernacle is the place of covenant presence; both point to rest & holiness." },
+
+  { type: "mc", q: "Bezalel being filled with the Spirit of God for skillful work (Ex 31:3) most clearly foreshadows:", a: "The Spirit’s gifting for building the new temple — the church (1 Cor 3:16; Eph 2:21–22)", opts: ["Artistic talent only", "The Spirit’s gifting for building the new temple — the church (1 Cor 3:16; Eph 2:21–22)", "Priestly anointing", "Moses’ authority"], expl: "Spirit-filled craftsmanship for God’s dwelling → type of Spirit-empowered building of the living temple (1 Cor 3:16)." },
+
+  { type: "mc", q: "The golden calf incident (Ex 32) most profoundly reveals:", a: "The immediate reversion to idolatry when the mediator is absent", opts: ["Aaron’s leadership failure only", "The immediate reversion to idolatry when the mediator is absent", "Egyptian nostalgia", "Economic greed"], expl: "Absence of Moses → return to Egyptian-style worship → type of apostasy when the true Mediator is not visibly present (Heb 3:1–6)." },
+
+  { type: "mc", q: "Aaron’s statement 'these are your gods… who brought you up out of Egypt' (Ex 32:4) most clearly shows:", a: "Syncretistic confusion between Yahweh and Canaanite imagery", opts: ["Syncretistic confusion between Yahweh and Canaanite imagery", "Rejection of Moses", "Political rebellion", "Economic motive"], expl: "They attribute exodus deliverance to the calf → classic syncretism (cf. Hos 8:5–6; Acts 7:39–41)." },
+
+  { type: "mc", q: "Moses breaking the tablets (Ex 32:19) most theologically signifies:", a: "The broken covenant relationship caused by idolatry", opts: ["Accidental damage", "The broken covenant relationship caused by idolatry", "Anger at Aaron", "Preparation for new tablets"], expl: "Tablets written by God’s finger → shattered by human sin → type of the law’s inability to save (Rom 7:7–12; Heb 8:7–8)." },
+
+  { type: "mc", q: "The Levites’ willingness to kill 3,000 idolaters (Ex 32:27–28) most directly prefigures:", a: "The zeal required for covenant loyalty and the cost of holiness (cf. Num 25; Rom 12:1)", opts: ["Tribal violence", "The zeal required for covenant loyalty and the cost of holiness (cf. Num 25; Rom 12:1)", "Moses’ revenge", "Egyptian influence"], expl: "Consecration through judgment → type of presenting bodies as living sacrifices (Rom 12:1)." },
+
+  { type: "mc", q: "Moses’ intercession 'blot me out of your book' (Ex 32:32) most powerfully typifies:", a: "Christ’s willingness to be cursed for His people (Rom 9:3; Gal 3:13)", opts: ["Moses’ despair", "Christ’s willingness to be cursed for His people (Rom 9:3; Gal 3:13)", "Aaron’s failure", "Israel’s repentance"], expl: "Willingness to be cut off for Israel → clearest OT type of substitutionary atonement." },
+
+  { type: "mc", q: "The tent of meeting pitched outside the camp (Ex 33:7) most clearly symbolizes:", a: "Separation from the camp after idolatry — yet God still meets with Moses", opts: ["Permanent exile", "Separation from the camp after idolatry — yet God still meets with Moses", "Moses’ anger", "Egyptian custom"], expl: "Tent outside → relational distance after sin → yet God speaks face to face (33:11)." },
+
+  { type: "mc", q: "Moses’ request to see God’s glory (Ex 33:18) most theologically reveals:", a: "The longing for direct experience of God that is only fully satisfied in Christ (John 1:18; 14:9)", opts: ["Moses’ pride", "The longing for direct experience of God that is only fully satisfied in Christ (John 1:18; 14:9)", "Fear of judgment", "Egyptian influence"], expl: "Show me your glory → answered ultimately in the face of Christ (2 Cor 4:6)." },
+
+  { type: "mc", q: "God’s refusal to show His face but allowing Moses to see His back (Ex 33:20–23) most directly teaches:", a: "The mediated nature of divine revelation until the incarnation", opts: ["God’s wrath", "The mediated nature of divine revelation until the incarnation", "Moses’ unworthiness", "Egyptian magic"], expl: "No one sees My face and lives → yet Christ is the image of the invisible God (Col 1:15; John 1:18)." },
+
+  { type: "mc", q: "God proclaiming His name 'merciful and gracious… forgiving iniquity' (Ex 34:6–7) most clearly grounds:", a: "The new covenant promise of forgiveness (Heb 8:12; Jer 31:34)", opts: ["Legalistic fear", "The new covenant promise of forgiveness (Heb 8:12; Jer 31:34)", "Egyptian polytheism", "Moses’ authority"], expl: "Proclamation of mercy → fulfilled in Christ’s atoning work (Heb 8:12)." },
+
+  { type: "mc", q: "Moses’ shining face after speaking with God (Ex 34:29) most typologically represents:", a: "The reflected glory of the old covenant (2 Cor 3:7–11)", opts: ["Physical health", "The reflected glory of the old covenant (2 Cor 3:7–11)", "Moses’ anger", "Egyptian magic"], expl: "Paul calls it 'ministry of death' with glory → surpassed by the surpassing glory of the new covenant." },
+
+  { type: "mc", q: "Moses wearing a veil when speaking to the people (Ex 34:33–35) most directly signifies:", a: "The veiled glory of the old covenant ministry (2 Cor 3:13–16)", opts: ["Protection from sun", "The veiled glory of the old covenant ministry (2 Cor 3:13–16)", "Humility", "Fear of the people"], expl: "Veil so Israel could not see the fading glory → type of hardened minds until Christ removes the veil." },
+
+  { type: "mc", q: "The people bringing more than enough for the tabernacle (Ex 36:5–7) most theologically illustrates:", a: "Overflowing generosity in response to grace (2 Cor 9:8–15)", opts: ["Wastefulness", "Overflowing generosity in response to grace (2 Cor 9:8–15)", "Competition", "Moses’ poor planning"], expl: "More than enough → type of abundant grace producing generous giving." },
+
+  { type: "mc", q: "The tabernacle being built exactly according to the pattern shown on the mountain (Ex 39:42–43) most clearly points to:", a: "Heavenly reality revealed and fulfilled in Christ (Heb 8:5; 9:11)", opts: ["Moses’ control", "Heavenly reality revealed and fulfilled in Christ (Heb 8:5; 9:11)", "Egyptian architecture", "Human effort"], expl: "Pattern from the mountain → type of the true tabernacle in heaven (Heb 8:5)." },
+
+  { type: "mc", q: "The anointing of the tabernacle and priests (Ex 40:9–15) most typologically foreshadows:", a: "Christ anointed by the Holy Spirit for His priestly work (Heb 1:9; Acts 10:38)", opts: ["Ceremonial custom", "Christ anointed by the Holy Spirit for His priestly work (Heb 1:9; Acts 10:38)", "Egyptian ritual", "Moses’ authority"], expl: "Anointing for service → Christ the Anointed One (Messiah)." },
+
+  { type: "mc", q: "The glory of the LORD filling the tabernacle (Ex 40:34) most directly prefigures:", a: "The incarnation — God dwelling among us (John 1:14)", opts: ["Temporary presence", "The incarnation — God dwelling among us (John 1:14)", "Moses’ power", "Egyptian magic"], expl: "Glory filled the tabernacle → Word became flesh and tabernacled among us." },
+
+  { type: "mc", q: "Moses being unable to enter the tabernacle because of the glory (Ex 40:35) most theologically teaches:", a: "Even the greatest mediator cannot stand in God’s full presence until the new covenant", opts: ["Moses’ sin", "Even the greatest mediator cannot stand in God’s full presence until the new covenant", "Tabernacle defect", "Egyptian curse"], expl: "Glory so thick Moses cannot enter → type of the old covenant’s limitation (Heb 9:8)." },
+
+  { type: "mc", q: "The cloud guiding when to move the tabernacle (Ex 40:36–38) most clearly symbolizes:", a: "The Spirit’s leading in the new covenant (Rom 8:14; Gal 5:18)", opts: ["Military strategy", "The Spirit’s leading in the new covenant (Rom 8:14; Gal 5:18)", "Moses’ authority", "Egyptian practice"], expl: "When the cloud lifted they journeyed → type of being led by the Spirit." },
+
+  { type: "tf", q: "Bezalel was filled with the Spirit for tabernacle craftsmanship.", a: true, expl: "True – Ex 31:3." },
+
+  { type: "tf", q: "The Sabbath command is repeated in the tabernacle section to show its centrality.", a: true, expl: "True – Ex 31:12–17." },
+
+  { type: "tf", q: "The golden calf was made to replace Moses, not Yahweh.", a: false, expl: "False – They said the calf brought them out of Egypt (Ex 32:4)." },
+
+  { type: "tf", q: "Moses’ intercession 'blot me out' is a type of Christ’s substitution.", a: true, expl: "True – Ex 32:32 → Rom 9:3." },
+
+  { type: "tf", q: "The tent of meeting was moved outside the camp after the calf.", a: true, expl: "True – Ex 33:7." },
+
+  { type: "tf", q: "Moses saw God’s face on Sinai.", a: false, expl: "False – No one can see His face and live (Ex 33:20)." },
+
+  { type: "tf", q: "God proclaimed His name as merciful and gracious in Ex 34.", a: true, expl: "True – Ex 34:6–7." },
+
+  { type: "tf", q: "Moses’ face shone because he had been talking with God.", a: true, expl: "True – Ex 34:29." },
+
+  { type: "tf", q: "Moses veiled his face because the glory was fading.", a: true, expl: "True – Ex 34:33–35; 2 Cor 3:13." },
+
+  { type: "tf", q: "The people brought more than enough for the tabernacle.", a: true, expl: "True – Ex 36:5–7." },
+
+  { type: "tf", q: "The tabernacle was built exactly according to the pattern.", a: true, expl: "True – Ex 39:43." },
+
+  { type: "tf", q: "The glory of the LORD filled the tabernacle.", a: true, expl: "True – Ex 40:34." },
+
+  { type: "tf", q: "Moses could freely enter the tabernacle when the glory filled it.", a: false, expl: "False – Ex 40:35." },
+
+  { type: "tf", q: "The cloud determined when Israel was to move.", a: true, expl: "True – Ex 40:36–38." },
+
+  { type: "tf", q: "The veil on Moses’ face typifies the veil over the heart until Christ.", a: true, expl: "True – 2 Cor 3:14–16." },
+
+  { type: "tf", q: "The tabernacle construction shows human effort alone can please God.", a: false, expl: "False – Spirit-filled and according to God’s pattern." },
+
+  { type: "tf", q: "The glory filling the tabernacle prefigures the Spirit filling the church.", a: true, expl: "True – Ex 40:34 → 1 Cor 3:16." },
+
+  { type: "tf", q: "Moses’ shining face was permanent.", a: false, expl: "False – It was fading (2 Cor 3:13)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    } else {
+        ["True", "False"].forEach(bool => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = bool;
+            radio.required = true;
+            const span = document.createElement("span");
+            span.textContent = bool;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        let correctAnswer = q.a;
+        if (q.type === "tf") {
+            correctAnswer = q.a === true ? "True" : "False";
+        }
+        const isCorrect = userAnswer === correctAnswer.toString();
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
