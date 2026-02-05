@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 11-20 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 11-20 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "Leviticus 11:3–8 requires land animals to be clean if they both chew the cud **and** have fully divided hooves. Which animal is unclean because it has one but not the other?", a: "The pig (divided hooves but does not chew the cud)", opts: ["The camel (chews the cud but hooves not fully divided)", "The pig (divided hooves but does not chew the cud)", "The sheep (both)", "The goat (both)"], expl: "Lev 11:7 – pig is explicitly unclean because it does not chew the cud." },
+  { type: "mc", q: "Why does Leviticus 11:44–47 connect the clean/unclean food laws directly to 'be holy, for I am holy'?", a: "To train Israel in constant moral and ritual discernment reflecting God’s character", opts: ["To improve physical health only", "To train Israel in constant moral and ritual discernment reflecting God’s character", "To prepare for war", "To limit trade with Canaanites"], expl: "The laws create habitual distinction-making (holy/common, clean/unclean) as a way of life that mirrors divine holiness." },
+  { type: "mc", q: "Leviticus 12:2–5 gives a longer purification period after the birth of a girl (80 days total) than a boy (40 days). The text’s silence on the reason most likely indicates", a: "The distinction is part of divine sovereign prescription, not necessarily tied to moral or medical logic", opts: ["Girls are inherently more impure", "The distinction is part of divine sovereign prescription, not necessarily tied to moral or medical logic", "Boys need less purification because of circumcision", "Mothers sin more during girl births"], expl: "No explicit reason given; highlights that purity laws are God-given, not always humanly explainable." },
+  { type: "mc", q: "In Leviticus 13:2–46, the priest declares a person unclean immediately if the skin disease shows", a: "White hair in the affected area and the lesion deeper than the skin surface", opts: ["Redness only", "White hair in the affected area and the lesion deeper than the skin surface", "Itching without color change", "Spreading very slowly"], expl: "Lev 13:3,10–11 – These signs indicate serious (chronic) condition; instant uncleanness." },
+  { type: "mc", q: "The two-bird ritual for cleansing a healed leper (Lev 14:4–7) uses one bird killed and one released. This most likely symbolizes", a: "Substitutionary death (killed bird) followed by new life and freedom (released bird)", opts: ["Only blood shedding", "Substitutionary death (killed bird) followed by new life and freedom (released bird)", "Priestly anointing only", "Wealth offering"], expl: "Common interpretation: death deals with impurity; release signifies restoration to community." },
+  { type: "mc", q: "Leviticus 14:33–53 describes cleansing a house infected with mildew (tzara'at). If the plague keeps spreading after scraping and replastering, the house must be", a: "Torn down completely and the materials carried outside the camp", opts: ["Painted red", "Torn down completely and the materials carried outside the camp", "Abandoned forever", "Offered as a sacrifice"], expl: "Lev 14:43–45 – Radical removal; impurity cannot remain in the community." },
+  { type: "mc", q: "Leviticus 15:19–24 states that during normal menstruation a woman is unclean for", a: "Seven days, and anything she lies or sits on becomes unclean", opts: ["Three days only", "Seven days, and anything she lies or sits on becomes unclean", "Until evening only", "Fourteen days"], expl: "Standard seven-day period; contagious uncleanness to objects." },
+  { type: "mc", q: "The main stated purpose of the sexual laws in Leviticus 18:1–30 is to prevent Israel from", a: "Being defiled and vomited out of the land like the Canaanites were", opts: ["Becoming wealthy", "Being defiled and vomited out of the land like the Canaanites were", "Losing military strength", "Forgetting the exodus"], expl: "Lev 18:24–28 – Land itself reacts to sexual immorality; same judgment that fell on Canaan." },
+  { type: "mc", q: "Leviticus 18:21 forbids giving offspring to Molech. Leviticus 20:2–5 adds that if the community ignores this sin, God will", a: "Cut off the offender and his family himself", opts: ["Ignore it", "Cut off the offender and his family himself", "Only fine them", "Exile only"], expl: "Lev 20:5 – Divine judgment when community fails to enforce the penalty." },
+  { type: "mc", q: "Leviticus 19:2 ('be holy, for I am holy') is the theological center of chapters 17–26 (Holiness Code). It demands that Israel imitate God in", a: "Both ritual purity and ethical behavior toward others", opts: ["Ritual purity only", "Both ritual purity and ethical behavior toward others", "Military conquest", "Economic success"], expl: "Holiness is comprehensive – cultic, moral, social – because God is holy in every aspect." },
+  { type: "mc", q: "Leviticus 19:9–10 and 23:22 command leaving harvest edges and gleanings for", a: "The poor, the sojourner, the fatherless, and the widow", opts: ["Priests and Levites only", "The poor, the sojourner, the fatherless, and the widow", "Foreign kings", "Animals only"], expl: "Social welfare is embedded in holiness and harvest laws." },
+  { type: "mc", q: "Leviticus 19:15 forbids showing partiality in judgment toward", a: "The poor or the great – justice must be equal", opts: ["Only foreigners", "The poor or the great – justice must be equal", "Priests", "Women"], expl: "Impartial justice is a mark of holiness; no favoritism either way." },
+  { type: "mc", q: "Leviticus 19:17–18 commands 'do not hate your brother in your heart' and 'love your neighbor as yourself'. This places hatred in the category of", a: "Moral defilement equivalent to murder in intent", opts: ["Minor emotion", "Moral defilement equivalent to murder in intent", "Personal freedom", "Unrelated to holiness"], expl: "Jesus intensifies this in Matt 5:21–22; internal hatred violates neighbor-love." },
+  { type: "mc", q: "Leviticus 19:33–34 commands loving the sojourner as oneself because", a: "Israel was a sojourner in Egypt; empathy flows from redemptive history", opts: ["Universal human rights abstractly", "Israel was a sojourner in Egypt; empathy flows from redemptive history", "Economic benefit", "No motivation given"], expl: "Grace-based ethics: remember your own vulnerability and God’s deliverance." },
+  { type: "mc", q: "Leviticus 20:7–8 says 'consecrate yourselves… be holy… I am the LORD who sanctifies you'. This reveals holiness as", a: "Both commanded by God and ultimately enabled by God", opts: ["Human self-effort alone", "Both commanded by God and ultimately enabled by God", "Optional devotion", "Ritual only"], expl: "Divine initiative in sanctification despite human responsibility (cf. Ezek 36:27; Phil 2:12–13)." },
+  { type: "mc", q: "Leviticus 20:22–26 warns that disobeying the statutes will cause the land to", a: "Vomit Israel out just as it vomited out the Canaanites", opts: ["Become more fertile", "Vomit Israel out just as it vomited out the Canaanites", "Be neutral", "Reward disobedience"], expl: "Moral cause-and-effect: land responds to defilement (creation as moral agent)." },
+  { type: "mc", q: "The repeated penalty phrase in Leviticus 20 ('their blood is upon them') after capital offenses means", a: "The guilty bear full responsibility; the community is not liable for executing justice", opts: ["Community guilt", "The guilty bear full responsibility; the community is not liable for executing justice", "Blood atones", "Priests must collect blood"], expl: "Legal formula: guilt rests on the offender, not those who carry out the sentence." },
+  { type: "mc", q: "Leviticus 11:47 says the clean/unclean laws exist to teach Israel", a: "To distinguish between the unclean and the clean", opts: ["How to cook better", "To distinguish between the unclean and the clean", "Health benefits only", "War strategy"], expl: "Discernment training is the explicit purpose." },
+  { type: "mc", q: "Leviticus 15:31 warns that uncleanness must be kept separate from the tabernacle so that", a: "The people do not die when they defile God’s dwelling place", opts: ["Priests stay safe", "The people do not die when they defile God’s dwelling place", "Offerings increase", "They can enter freely"], expl: "God’s holy presence is dangerous to impurity (cf. Nadab & Abihu, Lev 10)." },
+  { type: "mc", q: "Leviticus 18:5 promises that keeping God’s statutes leads to life, but Paul (Rom 7:10; Gal 3:21) uses this verse to show", a: "The law cannot give life because of human sinfulness", opts: ["Perfect obedience is possible", "The law cannot give life because of human sinfulness", "Life comes by works", "No NT connection"], expl: "Law reveals sin and cannot justify; points to need for grace." },
+  { type: "mc", q: "Leviticus 19:26–31 prohibits divination, sorcery, cuttings/tattoos for the dead, and mediums because these practices", a: "Belong to Canaanite religion and profane God’s holiness", opts: ["Are harmless", "Belong to Canaanite religion and profane God’s holiness", "Save money", "Help healing"], expl: "Separation from pagan ways that contact the realm of death or rival God’s authority." },
+  { type: "mc", q: "The Holiness Code repeatedly uses 'I am the LORD' to ground commands in", a: "God’s self-revelation and covenant relationship", opts: ["Threat only", "God’s self-revelation and covenant relationship", "Priestly authority", "No reason"], expl: "Motivates obedience through who God is and what He has done." },
+  { type: "mc", q: "Leviticus 11:9–12 declares sea creatures clean only if they have", a: "Fins and scales", opts: ["Shells", "Fins and scales", "Tentacles", "Any shape"], expl: "Lev 11:9 – No fins and scales = unclean (e.g., shrimp, lobster, catfish)." },
+  { type: "mc", q: "Leviticus 11:13–19 lists certain birds as unclean. Which category is most represented?", a: "Birds of prey and scavengers", opts: ["Seed-eating birds", "Birds of prey and scavengers", "Water birds only", "Small songbirds"], expl: "Vultures, eagles, hawks, owls – animals that eat carrion or blood." },
+  { type: "mc", q: "Leviticus 11:20–23 allows eating certain", a: "Winged insects that hop and have jointed legs for leaping (locusts, crickets)", opts: ["All flying insects", "Winged insects that hop and have jointed legs for leaping (locusts, crickets)", "Bees and wasps", "Butterflies"], expl: "Lev 11:21–22 – Specific locust types permitted; most winged swarming things unclean." },
+  { type: "mc", q: "Leviticus 11:24–40 extends uncleanness from touching dead animals or carcasses to", a: "Anything the unclean person or carcass touches (vessels, clothing, ovens)", opts: ["Only the person who touched", "Anything the unclean person or carcass touches (vessels, clothing, ovens)", "Only food", "Nothing else"], expl: "Contagious impurity to objects; requires washing and time until evening." },
+  { type: "mc", q: "Leviticus 12:6–8 requires a sin offering and burnt offering after childbirth. If the mother is poor, she may bring", a: "Two turtledoves or pigeons instead of a lamb", opts: ["A bull", "Two turtledoves or pigeons instead of a lamb", "Fine flour only", "No offering"], expl: "Lev 12:8 – Provision for the poor (cf. Luke 2:24 – Mary’s offering)." },
+  { type: "mc", q: "Leviticus 13:47–59 deals with tzara'at (mildew-like plague) on garments or leather. The priest must", a: "Isolate the article for seven days and inspect again", opts: ["Burn it immediately", "Isolate the article for seven days and inspect again", "Wash it once", "Ignore it"], expl: "Lev 13:50–51 – Observation period; if spreading, destroy by fire." },
+  { type: "mc", q: "Leviticus 14:8–9 requires the cleansed leper to shave his head, beard, and eyebrows on the seventh day, symbolizing", a: "Complete renewal and removal of old life/impurity", opts: ["Humiliation", "Complete renewal and removal of old life/impurity", "Priestly status", "No symbolism"], expl: "Shaving = shedding old identity; common in purification rites." },
+  { type: "mc", q: "Leviticus 15:13–15 requires a man healed of abnormal discharge to wait seven days, wash, and offer", a: "Two turtledoves or pigeons (one sin offering, one burnt offering)", opts: ["A bull", "Two turtledoves or pigeons (one sin offering, one burnt offering)", "Fine flour", "Nothing"], expl: "Lev 15:14–15 – Atonement for impurity; poor provision parallel." },
+  { type: "mc", q: "Leviticus 18:3–5 frames the sexual laws as opposition to the practices of", a: "Egypt (where Israel lived) and Canaan (where they are going)", opts: ["Babylon only", "Egypt (where Israel lived) and Canaan (where they are going)", "Greece", "Rome"], expl: "Lev 18:3 – Distinct identity; avoid pagan sexual immorality." },
+  { type: "mc", q: "Leviticus 19:18 ('love your neighbor as yourself') appears in a context that also forbids", a: "Hating in the heart, taking vengeance, or bearing grudges", opts: ["Eating with neighbors", "Hating in the heart, taking vengeance, or bearing grudges", "Trading goods", "Visiting the sick"], expl: "Lev 19:17–18 – Love is active; hatred is moral violation." },
+  { type: "mc", q: "Leviticus 19:29 forbids making a daughter a prostitute lest the land fall into", a: "Prostitution and become full of depravity", opts: ["Wealth", "Prostitution and become full of depravity", "Peace", "No consequence"], expl: "Moral defilement spreads to the whole community and land." },
+  { type: "mc", q: "Leviticus 20:6 warns that turning to mediums or spiritists will result in God", a: "Setting His face against that person and cutting them off", opts: ["Blessing them", "Setting His face against that person and cutting them off", "Ignoring them", "Rewarding curiosity"], expl: "Lev 20:6 – Spiritual adultery; separation from covenant community." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

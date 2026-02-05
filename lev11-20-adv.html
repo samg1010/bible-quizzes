@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 11-20 Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 11-20 Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "The clean/unclean laws in Leviticus 11 theologically function primarily to train Israel in", a: "Discernment between holy/common and clean/unclean as reflection of God's character", opts: ["Health benefits alone", "Discernment between holy/common and clean/unclean as reflection of God's character", "Economic restrictions", "Preparation for warfare"], expl: "Lev 11:44–47 – 'Be holy, for I am holy'; laws teach separation and distinction mirroring divine holiness (imitatio Dei)." },
+  { type: "mc", q: "In the Holiness Code (Lev 17–26), 'be holy for I am holy' (Lev 19:2; cf. 11:44–45; 20:26) most profoundly demands", a: "Comprehensive imitation of God's separateness in ritual, ethical, and social spheres", opts: ["Ritual purity only", "Comprehensive imitation of God's separateness in ritual, ethical, and social spheres", "Moral effort without divine enablement", "Separation from Gentiles exclusively"], expl: "Holiness is God's ontological otherness; Israel called to reflect it holistically, not just ceremonially." },
+  { type: "mc", q: "The impurity laws (Lev 11–15) portray uncleanness as symbolic of", a: "Death, disorder, and boundary violation threatening God's holy presence", opts: ["Moral guilt exclusively", "Death, disorder, and boundary violation threatening God's holy presence", "Physical contagion only", "Economic impurity"], expl: "Death-associated (corpses, discharges, skin diseases) pollutes; requires separation to preserve sanctuary holiness (Lev 15:31)." },
+  { type: "mc", q: "Christologically, the reversal of impurity contagion in Jesus' ministry (e.g., touching leper, hemorrhaging woman) signifies", a: "Christ's holiness overcomes death and impurity, making unclean clean", opts: ["Abolition of all purity laws", "Christ's holiness overcomes death and impurity, making unclean clean", "Temporary miracle only", "No theological shift"], expl: "Jesus touches unclean yet remains holy and imparts cleanness; fulfills and transcends OT system (Mark 1:40–45; 5:25–34)." },
+  { type: "mc", q: "Leviticus 18–20 frames sexual immorality as defiling the land because", a: "Such sins pollute the covenant community and provoke divine judgment on the nation", opts: ["They are private matters", "Such sins pollute the covenant community and provoke divine judgment on the nation", "Only idolatry defiles land", "Land is literal entity"], expl: "Lev 18:24–28 – Canaan vomited out previous inhabitants; Israel risks same if imitating (moral defilement concept)." },
+  { type: "mc", q: "The prohibition in Leviticus 18:22 and 20:13 against male same-sex intercourse is theologically rooted in", a: "Violation of creational order (male/female complementarity) and boundary of holiness", opts: ["Cultural prejudice only", "Violation of creational order (male/female complementarity) and boundary of holiness", "Ritual purity alone", "No deeper reason"], expl: "Placed amid incest/bestiality/child sacrifice; disrupts God's design (Gen 1–2) and pollutes holiness." },
+  { type: "mc", q: "Leviticus 19:18 ('love your neighbor as yourself') theologically summarizes the ethical demands of holiness by", a: "Linking vertical love for God with horizontal love for others as fulfillment of Torah", opts: ["Limiting love to Israelites", "Linking vertical love for God with horizontal love for others as fulfillment of Torah", "Promoting self-love primarily", "Excluding sojourners"], expl: "Paul/Romans 13:8–10; Galatians 5:14; Jesus (Matt 22:39) – second greatest commandment, fulfilling law." },
+  { type: "mc", q: "The inclusion of social justice commands (e.g., gleanings for poor/sojourner, honest weights – Lev 19) within the Holiness Code shows holiness encompasses", a: "Ethical treatment of vulnerable as imitation of God's character", opts: ["Ritual only", "Ethical treatment of vulnerable as imitation of God's character", "Priestly monopoly", "Economic gain"], expl: "Holiness is not abstract; includes justice/mercy reflecting Yahweh's nature (Lev 19:33–34 – love sojourner as self, recalling Egypt)." },
+  { type: "mc", q: "Impurity from bodily discharges, childbirth, skin diseases (Lev 12–15) theologically highlights human", a: "Mortality and frailty, requiring atonement and purification to approach holy God", opts: ["Inherent sinfulness", "Mortality and frailty, requiring atonement and purification to approach holy God", "Moral superiority", "No connection to sin"], expl: "Not sin per se, but associates with death/decay; sin offerings in cleansing rites link to broader atonement need." },
+  { type: "mc", q: "The bird ritual for cleansed leper (Lev 14:4–7 – one killed, one released) typologically foreshadows", a: "Death and resurrection: substitutionary death brings new life and freedom", opts: ["Only blood shedding", "Death and resurrection: substitutionary death brings new life and freedom", "Priestly anointing", "No typology"], expl: "Killed bird = death for impurity; live bird released = restored life; echoes Christ's death/resurrection overcoming death." },
+  { type: "mc", q: "Leviticus 20:26 ('I have separated you… be holy to me') underscores election as", a: "Divine initiative in setting Israel apart for covenant relationship and holy living", opts: ["Human achievement", "Divine initiative in setting Israel apart for covenant relationship and holy living", "Temporary status", "National superiority"], expl: "Holiness flows from God's prior act of redemption/separation (cf. Exod 19:5–6)." },
+  { type: "mc", q: "The land 'vomiting out' inhabitants (Lev 18:28; 20:22) portrays creation as", a: "Morally responsive to human sin, groaning under defilement", opts: ["Neutral environment", "Morally responsive to human sin, groaning under defilement", "Economic resource only", "No theological role"], expl: "Land defiled by immorality; anticipates Romans 8:19–22 creation groaning." },
+  { type: "mc", q: "Prohibitions against mediums/spiritists (Lev 19:31; 20:6,27) protect holiness by forbidding", a: "Attempts to contact realm of death, usurping God's sovereignty over life", opts: ["Curiosity only", "Attempts to contact realm of death, usurping God's sovereignty over life", "Social interaction", "No deeper issue"], expl: "Death domain belongs to God; necromancy pollutes and rivals divine revelation." },
+  { type: "mc", q: "Leviticus 19:2's 'be holy' repeated across chapters theologically promises that", a: "God who commands holiness also enables it through covenant and atonement", opts: ["Human self-effort suffices", "God who commands holiness also enables it through covenant and atonement", "Holiness optional", "Only priests holy"], expl: "Lev 20:7–8 – 'I am the LORD who sanctifies you'; grace enables obedience." },
+  { type: "mc", q: "The cleansing of house from mildew (Lev 14:33–53) symbolizes", a: "Pervasiveness of impurity/death affecting even dwellings; requires radical removal", opts: ["Architectural flaw", "Pervasiveness of impurity/death affecting even dwellings; requires radical removal", "Economic loss", "No symbolism"], expl: "If persistent, house demolished; echoes need for thorough purging of sin (cf. 1 Cor 5:6–7 leaven metaphor)." },
+  { type: "mc", q: "Christ's fulfillment of purity laws means believers are", a: "Declared clean through His blood, empowered by Spirit to pursue holiness", opts: ["Freed from all moral law", "Declared clean through His blood, empowered by Spirit to pursue holiness", "Still bound by rituals", "Automatically sinless"], expl: "Heb 9–10; 1 Pet 1:15–16 quotes Lev – called to holiness in new covenant power." },
+  { type: "mc", q: "The 'abomination' (to'evah) language in Lev 18:22; 20:13 emphasizes", a: "Particular revulsion at perversion of creational norms in covenant context", opts: ["Cultural taboo only", "Particular revulsion at perversion of creational norms in covenant context", "Mild disapproval", "No distinction"], expl: "Used for idolatry/sexual sins polluting holiness; not arbitrary but boundary violation." },
+  { type: "mc", q: "Leviticus 19:18's love command theologically integrates", a: "Self-regard as model for neighbor-love, reflecting imago Dei dignity", opts: ["Self-hatred", "Self-regard as model for neighbor-love, reflecting imago Dei dignity", "Indifference to self", "Only communal love"], expl: "Jesus/Paul affirm; natural self-care basis for other-care (Eph 5:28–29 marriage analogy)." },
+  { type: "mc", q: "The sojourner commands (Lev 19:33–34) root love in", a: "Israel's redemptive history as strangers in Egypt", opts: ["Universal human rights abstractly", "Israel's redemptive history as strangers in Egypt", "Economic benefit", "No motivation"], expl: "Empathy from shared experience; grace-based ethics." },
+  { type: "mc", q: "Purity laws separating clean/unclean theologically prepare for", a: "Understanding need for comprehensive atonement on Day of Atonement", opts: ["No connection", "Understanding need for comprehensive atonement on Day of Atonement", "Daily sacrifices only", "Priestly privilege"], expl: "Accumulated impurities pollute sanctuary; annual purification (Lev 16) cleanses both sin and impurity." },
+  { type: "mc", q: "In NT perspective, Lev 11–15 purity laws are fulfilled in Christ who", a: "Touches unclean to heal and declares foods clean (Mark 7:19)", opts: ["Ignores them", "Touches unclean to heal and declares foods clean (Mark 7:19)", "Reinforces rituals", "Abolishes ethics"], expl: "Internal purity emphasized; external fulfilled in Him." },
+  { type: "mc", q: "The Holiness Code's integration of ritual and moral laws shows holiness as", a: "Undivided life wholly devoted to God in every sphere", opts: ["Compartmentalized", "Undivided life wholly devoted to God in every sphere", "Ritual priority", "Moral only"], expl: "No sacred/secular divide; all life under God's claim." },
+  { type: "mc", q: "Leviticus 20:7–8 ('I sanctify you') reveals sanctification as", a: "Divine work enabling human obedience to holiness command", opts: ["Human initiative alone", "Divine work enabling human obedience to holiness command", "Instant perfection", "Irrelevant today"], expl: "God commands and empowers; grace/obedience dynamic." },
+  { type: "mc", q: "The child sacrifice prohibition (Lev 18:21; 20:2–5) theologically opposes", a: "Offering life to false gods, violating God's sole lordship over life", opts: ["Family planning", "Offering life to false gods, violating God's sole lordship over life", "Cultural custom only", "No deeper issue"], expl: "Molech worship usurps God's prerogative; pollutes holiness." },
+  { type: "mc", q: "Leviticus 19:3 linking Sabbath and parents honors", a: "Both vertical (God) and horizontal (family) dimensions of covenant life", opts: ["Sabbath superior", "Both vertical (God) and horizontal (family) dimensions of covenant life", "Parental authority only", "No link"], expl: "Holiness includes worship and family order." },
+  { type: "mc", q: "Theological depth of Lev 19:36 (honest weights) lies in", a: "Economic justice reflecting God's truthful character", opts: ["Business regulation only", "Economic justice reflecting God's truthful character", "Priestly concern", "No theology"], expl: "Fairness mirrors Yahweh's integrity." },
+  { type: "mc", q: "Leviticus 11–15 impurity laws anticipate Christ's work by showing", a: "Human inability to self-purify; need for divine intervention", opts: ["Self-cleansing possible", "Human inability to self-purify; need for divine intervention", "Irrelevance", "Ritual efficacy alone"], expl: "Repeated washings/offerings point beyond to perfect cleansing." },
+  { type: "mc", q: "In Holiness Code, land's moral responsiveness (vomiting out) prefigures", a: "New creation where righteousness dwells", opts: ["No future hope", "New creation where righteousness dwells", "Eternal curse", "Land independent"], expl: "Anticipates eschatological renewal (Rev 21–22 no more curse)." },
+  { type: "mc", q: "The cleansing ritual involving blood, oil, and anointing (Lev 14:10–20 for healed leper) theologically parallels", a: "Priestly consecration (Lev 8) and points to Christ's anointing and atoning work", opts: ["Daily grain offering", "Priestly consecration (Lev 8) and points to Christ's anointing and atoning work", "No parallel", "Only physical healing"], expl: "Blood for atonement + oil for consecration; Christ as both sacrifice and anointed High Priest." },
+  { type: "mc", q: "Leviticus 20:6,27's severe penalty for consulting mediums underscores", a: "The exclusive claim of Yahweh as source of life, guidance, and revelation", opts: ["Social taboo", "The exclusive claim of Yahweh as source of life, guidance, and revelation", "Minor idolatry", "No spiritual danger"], expl: "Contact with dead rivals God's authority over life/death (Deut 18:10–12)." },
+  { type: "mc", q: "The repeated formula 'I am the LORD your God' in Leviticus 19–20 serves to", a: "Ground every command in covenant relationship and redemptive history", opts: ["Fill space", "Ground every command in covenant relationship and redemptive history", "Emphasize ritual only", "Threaten judgment"], expl: "God's identity grounds commands; covenantal reminder." },
+  { type: "mc", q: "Leviticus 18:5 ('keep my statutes… by which a man may live if he does them') theologically anticipates", a: "The impossibility of life through law-keeping apart from grace (cf. Rom 7:10; Gal 3:21)", opts: ["Perfect obedience possible", "The impossibility of life through law-keeping apart from grace (cf. Rom 7:10; Gal 3:21)", "Eternal life by works", "No NT connection"], expl: "Paul cites it to show law reveals sin and cannot justify." },
+  { type: "mc", q: "The prohibition on mixtures (Lev 19:19) within Holiness Code context symbolizes", a: "Preservation of created distinctions and boundaries ordained by God", opts: ["Practical farming", "Preservation of created distinctions and boundaries ordained by God", "Economic efficiency", "No symbolism"], expl: "Holiness involves maintaining God-given order (cf. Deut 22:9–11)." },
+  { type: "mc", q: "Leviticus 19:17–18 ('do not hate… love your neighbor') presents hatred as", a: "Active moral defilement equivalent to bloodshed in the heart", opts: ["Minor emotion", "Active moral defilement equivalent to bloodshed in the heart", "Personal matter only", "Unrelated to holiness"], expl: "Internal hatred violates neighbor-love; Jesus intensifies in Sermon on Mount (Matt 5:21–22)." },
+  { type: "mc", q: "Theologically, the Holiness Code's emphasis on fearing God (Lev 19:14,30,32) roots ethical behavior in", a: "Reverential awe before the holy God who sees all", opts: ["Social pressure", "Reverential awe before the holy God who sees all", "Legal fear only", "No motivation"], expl: "Fear of the LORD = beginning of wisdom; motivates integrity." },
+  { type: "mc", q: "Leviticus 20:22–24 links obedience to statutes with possession of the land because", a: "Holiness secures covenant blessing; disobedience forfeits it", opts: ["Geopolitical strength", "Holiness secures covenant blessing; disobedience forfeits it", "No connection", "Land is earned"], expl: "Covenant conditional: holiness = life in land; sin = exile." },
+  { type: "mc", q: "The bird-and-cedar-wood cleansing (Lev 14) echoes", a: "Passover blood and hyssop (Exod 12), linking purification to redemption", opts: ["No earlier ritual", "Passover blood and hyssop (Exod 12), linking purification to redemption", "Only priestly rite", "Random elements"], expl: "Hyssop used in Passover; connects cleansing to exodus deliverance." },
+  { type: "mc", q: "In NT theology, 1 Peter 1:15–16 directly quotes Leviticus 11:44–45; 19:2 to call believers to", a: "Holiness in conduct corresponding to God's character in new covenant", opts: ["Old covenant rituals", "Holiness in conduct corresponding to God's character in new covenant", "Moral relativism", "No obligation"], expl: "Peter applies OT holiness call to church under grace." },
+  { type: "mc", q: "The Holiness Code's prohibition on eating blood (Lev 17:10–14) roots in", a: "Blood as symbol of life belonging exclusively to God", opts: ["Taste preference", "Blood as symbol of life belonging exclusively to God", "Health regulation", "No theology"], expl: "Life is in blood; atonement requires it (Lev 17:11); cf. Acts 15:20,29." },
+  { type: "mc", q: "Leviticus 19:4's 'do not turn to idols' within holiness commands shows", a: "Idolatry as fundamental breach of exclusive covenant loyalty", opts: ["Minor sin", "Idolatry as fundamental breach of exclusive covenant loyalty", "Only ritual issue", "No link to ethics"], expl: "Holiness demands undivided allegiance to Yahweh alone." },
+  { type: "mc", q: "Theologically, Leviticus 11–20 presents Israel's vocation as", a: "A kingdom of priests and holy nation witnessing God's character to nations", opts: ["Military power", "A kingdom of priests and holy nation witnessing God's character to nations", "Economic leader", "Isolated group"], expl: "Exod 19:5–6 fulfilled through holiness laws; cf. 1 Pet 2:9." },
+  { type: "mc", q: "The severe penalties in Leviticus 20 (stoning, cutting off) theologically serve to", a: "Protect communal holiness and deter defiling sins", opts: ["Punish arbitrarily", "Protect communal holiness and deter defiling sins", "Show cruelty", "No purpose"], expl: "Purity of community safeguards God's dwelling presence." },
+  { type: "mc", q: "Leviticus 14:53's release of live bird after cleansing typifies", a: "The removal of sin/impurity and restoration to community life", opts: ["Random symbol", "The removal of sin/impurity and restoration to community life", "Only physical cure", "Priestly power"], expl: "Scapegoat parallel (Lev 16); sin carried away." },
+  { type: "mc", q: "The Holiness Code's repeated 'I am the LORD' formula functions as", a: "Self-revelation of God as basis and motivation for obedience", opts: ["Threat only", "Self-revelation of God as basis and motivation for obedience", "Filler phrase", "No significance"], expl: "God's identity grounds commands; covenantal reminder." },
+  { type: "mc", q: "In canonical theology, Leviticus 19:18's neighbor-love command finds ultimate fulfillment in", a: "Christ's self-sacrificial love and the new commandment (John 13:34–35)", opts: ["OT only", "Christ's self-sacrificial love and the new commandment (John 13:34–35)", "Human effort", "No fulfillment"], expl: "Jesus elevates it; cross displays love as self-giving." },
+  { type: "mc", q: "Overall, Leviticus 11–20 reveals God's holiness as both", a: "Consuming judgment on sin and gracious provision for atonement and sanctification", opts: ["Distant attribute", "Consuming judgment on sin and gracious provision for atonement and sanctification", "Moral ideal only", "Unapproachable"], expl: "Nadab/Abihu vs. cleansing rituals; wrath and mercy together." },
+  { type: "mc", q: "The leper's re-integration ritual (Lev 14:14–18 – blood and oil on ear, thumb, toe) theologically parallels", a: "Priestly ordination (Lev 8:23–24) and signifies total consecration of the redeemed person", opts: ["Random symbolism", "Priestly ordination (Lev 8:23–24) and signifies total consecration of the redeemed person", "Only physical therapy", "No deeper meaning"], expl: "Hearing, doing, walking in God's ways through atonement and Spirit (oil); points to believer's consecration in Christ." },
+  { type: "mc", q: "Leviticus 17:11 ('the life of the flesh is in the blood… to make atonement') establishes blood as", a: "The divinely appointed means of atonement, belonging to God alone", opts: ["Merely symbolic", "The divinely appointed means of atonement, belonging to God alone", "A health concern", "Priestly invention"], expl: "Core theology of substitutionary atonement; foundational for Lev 16 and NT (Heb 9:22)." },
+  { type: "mc", q: "The Holiness Code's commands regarding the vulnerable (poor, sojourner, widow – Lev 19) reflect God's character as", a: "Defender of the oppressed and model for covenant ethics", opts: ["Indifferent to social status", "Defender of the oppressed and model for covenant ethics", "Favoring the strong", "No concern for justice"], expl: "Israel must imitate God's justice/mercy seen in exodus deliverance." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

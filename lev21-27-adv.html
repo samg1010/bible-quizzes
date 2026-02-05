@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 21-27 Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 21-27 Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "Leviticus 21:10–15's stricter holiness demands on the high priest (no mourning, no defilement, virgin bride) most profoundly typify", a: "Christ the spotless High Priest who never defiles Himself and is eternally united to His pure bride (the church)", opts: ["Priestly superiority over Israel", "Christ the spotless High Priest who never defiles Himself and is eternally united to His pure bride (the church)", "Mourning rituals in ancient Near East", "Human perfection impossible"], expl: "Heb 7:26–28 – Jesus, holy, blameless, undefiled; Eph 5:27 – church presented spotless." },
+  { type: "mc", q: "The exclusion of priests with physical defects from altar service (Lev 21:16–23) theologically signifies", a: "The necessity of perfect representation in approaching a holy God, fulfilled only in Christ", opts: ["Discrimination against the disabled", "The necessity of perfect representation in approaching a holy God, fulfilled only in Christ", "Practical inability to perform duties", "Symbolic of moral perfection only"], expl: "Heb 7:26 – High Priest must be 'holy, innocent, unstained'; OT priests imperfect types." },
+  { type: "mc", q: "Leviticus 22:17–25's insistence on unblemished offerings reflects", a: "The principle that acceptable worship requires the best, prefiguring Christ's sinless self-offering", opts: ["Economic burden on the poor", "The principle that acceptable worship requires the best, prefiguring Christ's sinless self-offering", "Priestly greed", "No theological depth"], expl: "Heb 9:14 – Christ offered Himself without blemish to God." },
+  { type: "mc", q: "The Sabbath as the first appointed time (Lev 23:3) theologically establishes", a: "Creation rest as the foundational rhythm of covenant life and worship", opts: ["Weekly fasting", "Creation rest as the foundational rhythm of covenant life and worship", "Only priestly rest", "No connection to feasts"], expl: "Exod 20:8–11; Heb 4:9–11 – Sabbath rest points to eschatological rest in Christ." },
+  { type: "mc", q: "The firstfruits sheaf waved during Unleavened Bread (Lev 23:10–11) typologically foreshadows", a: "Christ's resurrection as the firstfruits of those who have fallen asleep", opts: ["Annual harvest only", "Christ's resurrection as the firstfruits of those who have fallen asleep", "Priestly wave offering", "No NT link"], expl: "1 Cor 15:20–23 – Christ the firstfruits; resurrection day after Sabbath." },
+  { type: "mc", q: "The two leavened loaves waved at Pentecost (Lev 23:17) are unique because leaven is normally forbidden in offerings. This signifies", a: "Inclusion of sinful humanity (leaven = corruption) in the new covenant harvest", opts: ["Accidental allowance", "Inclusion of sinful humanity (leaven = corruption) in the new covenant harvest", "Priestly error", "No symbolism"], expl: "Pentecost = Spirit outpouring on Jews and Gentiles (Acts 2); leavened loaves = church as mixed body offered to God." },
+  { type: "mc", q: "The Day of Atonement (Lev 23:26–32) is the only feast requiring soul affliction because it most directly", a: "Confronts sin's pollution of the sanctuary and people, requiring comprehensive atonement", opts: ["Celebrates victory", "Confronts sin's pollution of the sanctuary and people, requiring comprehensive atonement", "Marks harvest end", "Is optional"], expl: "Lev 16; Heb 9:23–28 – Christ's once-for-all atonement cleanses the heavenly sanctuary." },
+  { type: "mc", q: "The Feast of Tabernacles (Lev 23:33–43) commemorates wilderness dwelling and anticipates", a: "Eschatological ingathering and God's permanent dwelling with humanity", opts: ["Temporary shelters only", "Eschatological ingathering and God's permanent dwelling with humanity", "Agricultural success", "No future hope"], expl: "Zech 14:16–19; Rev 21:3 – Nations worship in booths; God tabernacles with man forever." },
+  { type: "mc", q: "The showbread (Lev 24:5–9) continually set before the LORD symbolizes", a: "Israel's perpetual covenant presence and dependence on God for sustenance", opts: ["Priestly meal only", "Israel's perpetual covenant presence and dependence on God for sustenance", "Twelve months", "No covenant link"], expl: "Twelve loaves = twelve tribes; renewed weekly; John 6:35 – Christ the Bread of Life." },
+  { type: "mc", q: "The 'life for life' principle (Lev 24:17–22) applied equally to native and stranger reflects", a: "God's impartial justice as foundation for covenant community", opts: ["Racial superiority", "God's impartial justice as foundation for covenant community", "Priestly favoritism", "No theological basis"], expl: "Lev 24:22 – One law; foreshadows impartial judgment in Christ (Acts 10:34–35)." },
+  { type: "mc", q: "The Sabbath year (Lev 25:1–7) and Jubilee (Lev 25:8–12) together reveal God's intention for", a: "Creation rest extended to land, people, and economy as sign of redemption", opts: ["Economic collapse", "Creation rest extended to land, people, and economy as sign of redemption", "Priestly control", "No rest"], expl: "Heb 4:9–11 – Ultimate Sabbath rest remains; Jubilee previews kingdom renewal." },
+  { type: "mc", q: "Leviticus 25:23 ('the land is Mine') theologically grounds Jubilee in", a: "God's absolute ownership; human possession is stewardship under His lordship", opts: ["Israelite conquest", "God's absolute ownership; human possession is stewardship under His lordship", "Economic theory", "Priestly taxation"], expl: "No permanent sale; anticipates new creation where God dwells directly (Rev 21:3)." },
+  { type: "mc", q: "The kinsman-redeemer right in Leviticus 25:25–28 points forward to", a: "Christ as ultimate Kinsman-Redeemer who buys back lost inheritance", opts: ["Human family only", "Christ as ultimate Kinsman-Redeemer who buys back lost inheritance", "Legal contract", "No redemption"], expl: "Ruth/Boaz typology; Eph 1:7,14 – Christ redeems us as possession." },
+  { type: "mc", q: "Leviticus 25:39–43's command to treat poor Israelites as hired servants (not slaves) in Jubilee context shows God's desire to prevent", a: "Permanent oppression and loss of covenant identity", opts: ["All debt", "Permanent oppression and loss of covenant identity", "Foreign labor", "Priestly poverty"], expl: "Lev 25:42 – 'They are My servants whom I brought out of Egypt'; liberation motif." },
+  { type: "mc", q: "The Jubilee release of Israelite servants (Lev 25:54–55) is ultimately rooted in", a: "God's prior act of redemption from Egypt; they belong to Him alone", opts: ["Economic reset only", "God's prior act of redemption from Egypt; they belong to Him alone", "Slave rebellion", "No theological reason"], expl: "Lev 25:55 – Redemption from slavery precludes permanent human ownership." },
+  { type: "mc", q: "Leviticus 25:20–22's promise of three-year provision before Sabbath/Jubilee years demonstrates", a: "Faithful obedience to God's rest commands results in supernatural abundance", opts: ["Miracle without obedience", "Faithful obedience to God's rest commands results in supernatural abundance", "Land independence", "Priestly storage"], expl: "Trust in God's provision (cf. manna; Matt 6:25–34)." },
+  { type: "mc", q: "The Feast of Trumpets (Lev 23:24) as prelude to Atonement and Jubilee theologically signals", a: "God's sovereign announcement of judgment, atonement, and eschatological liberation", opts: ["Harvest celebration only", "God's sovereign announcement of judgment, atonement, and eschatological liberation", "Priestly coronation", "No future significance"], expl: "Trumpet = alarm/judgment/ingathering; Rev 11:15 – kingdom trumpets." },
+  { type: "mc", q: "Leviticus 26:34–35's exile allowing land to enjoy Sabbaths reveals", a: "Creation's right to rest; human disobedience disrupts divine order", opts: ["Land's independence", "Creation's right to rest; human disobedience disrupts divine order", "God's punishment only", "No moral order"], expl: "Land as moral agent; anticipates Romans 8:19–22 creation groaning/liberation." },
+  { type: "mc", q: "Leviticus 26:40–45 promises restoration after judgment if Israel confesses because", a: "God remembers His covenant with the patriarchs despite Israel's unfaithfulness", opts: ["Israel earns it back", "God remembers His covenant with the patriarchs despite Israel's unfaithfulness", "Exile is temporary anyway", "No covenant"], expl: "Lev 26:42,45 – Unilateral faithfulness of God (cf. Rom 11:29)." },
+  { type: "mc", q: "The cherem (devoted to destruction) in Leviticus 27:28–29 cannot be redeemed because", a: "It is most holy to the LORD and irrevocable, often involving total judgment", opts: ["It is worthless", "It is most holy to the LORD and irrevocable, often involving total judgment", "Owner regrets", "Priests sell it"], expl: "Lev 27:28 – Irrevocable; cf. Jericho (Josh 6:17–19); points to final judgment." },
+  { type: "mc", q: "The tithe in Leviticus 27:30–33 is holy to the LORD and cannot be selectively chosen because", a: "God owns the tenth by right; human selection would usurp His claim", opts: ["Tithe is voluntary", "God owns the tenth by right; human selection would usurp His claim", "Only firstborn holy", "Priests choose"], expl: "Lev 27:33 – Tenth is holy regardless; echoes God's sovereign choice." },
+  { type: "mc", q: "Leviticus 21:10–12 forbids the high priest from mourning outwardly to symbolize", a: "The unchanging, undying nature of his mediatorial office", opts: ["Emotional coldness", "The unchanging, undying nature of his mediatorial office", "Priestly superiority", "No mourning allowed"], expl: "Heb 7:24 – Christ has an unchangeable priesthood; no need for succession." },
+  { type: "mc", q: "The Sabbath and Jubilee cycles (Lev 25) together point to God's ultimate purpose of", a: "Restoring creation to Edenic shalom and liberating from bondage", opts: ["Economic control", "Restoring creation to Edenic shalom and liberating from bondage", "Priestly wealth", "No rest"], expl: "Heb 4:9–11; Rev 21 – Final Sabbath rest and Jubilee in new creation." },
+  { type: "mc", q: "Leviticus 26:11–12's promise 'I will set My dwelling among you… I will walk among you' anticipates", a: "The incarnation and indwelling Spirit in the new covenant", opts: ["Tabernacle only", "The incarnation and indwelling Spirit in the new covenant", "Temple destruction", "No presence"], expl: "John 1:14; 2 Cor 6:16; Rev 21:3 – God tabernacling with man." },
+  { type: "mc", q: "Leviticus 27:2–8's fixed valuation for vowed persons shows that", a: "Human life is precious and belongs to God; vows acknowledge His ownership", opts: ["People are commodities", "Human life is precious and belongs to God; vows acknowledge His ownership", "Redemption is cheap", "No value system"], expl: "Lev 27:2–8 – Scale exists; redemption price reflects worth before God." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

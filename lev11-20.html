@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 11-20 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 11-20 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "What is the main theme of Leviticus 11?", a: "Clean and unclean animals for food", opts: ["Sacrifices and offerings", "Clean and unclean animals for food", "Priestly ordination", "Day of Atonement"], expl: "Leviticus 11 gives dietary laws to distinguish clean from unclean foods." },
+  { type: "mc", q: "Which land animal is clean to eat according to Leviticus 11?", a: "Animal that chews the cud and has split hooves", opts: ["Animal with only split hooves", "Animal that chews the cud and has split hooves", "Any animal that swims", "Animals that fly"], expl: "Lev 11:3 – Must have both characteristics (e.g., cow, sheep)." },
+  { type: "mc", q: "Why is the pig considered unclean in Leviticus 11?", a: "It has split hooves but does not chew the cud", opts: ["It flies", "It has split hooves but does not chew the cud", "It lives in water", "It has scales"], expl: "Lev 11:7 – 'It does not chew the cud; it is unclean for you.'" },
+  { type: "mc", q: "Which sea creature is clean to eat according to Leviticus 11?", a: "Anything with fins and scales", opts: ["Anything that looks like a fish", "Anything with fins and scales", "Shellfish only", "All sea animals"], expl: "Lev 11:9 – Fins and scales required (e.g., salmon); no shellfish." },
+  { type: "mc", q: "What birds are listed as unclean in Leviticus 11?", a: "Birds of prey and certain others like vultures", opts: ["All birds", "Birds of prey and certain others like vultures", "Only eagles", "Chickens and doves"], expl: "Lev 11:13–19 lists eagles, vultures, owls, etc., as unclean." },
+  { type: "mc", q: "What creatures that swarm on the ground are unclean (Leviticus 11)?", a: "Most insects, except some locusts", opts: ["All insects", "Most insects, except some locusts", "Only snakes", "Birds that walk"], expl: "Lev 11:20–23 – Most swarming things unclean; locusts allowed." },
+  { type: "mc", q: "What does Leviticus 11:44–45 say God commands?", a: "Be holy because I am holy", opts: ["Eat only vegetables", "Be holy because I am holy", "Offer daily sacrifices", "Build a new tabernacle"], expl: "Lev 11:44–45 – 'Be holy, for I am holy.'" },
+  { type: "mc", q: "After giving birth to a boy, how many days is a woman unclean (Leviticus 12)?", a: "7 days", opts: ["30 days", "7 days", "14 days", "66 days"], expl: "Lev 12:2 – Unclean for 7 days, then purification continues." },
+  { type: "mc", q: "What offering did a poor woman bring after childbirth if she could not afford a lamb (Leviticus 12)?", a: "Two doves or pigeons", opts: ["A bull", "Two doves or pigeons", "Fine flour only", "A goat"], expl: "Lev 12:8 – Provision for the poor, like Mary's offering (Luke 2:24)." },
+  { type: "mc", q: "What does Leviticus 13 mainly describe?", a: "Laws about skin diseases (leprosy)", opts: ["Clean foods", "Laws about skin diseases (leprosy)", "Sexual sins", "Feasts"], expl: "Lev 13 – Diagnosis and quarantine for skin conditions." },
+  { type: "mc", q: "Who examined skin diseases to declare clean or unclean (Leviticus 13)?", a: "The priest", opts: ["The king", "The priest", "The family", "Moses"], expl: "Lev 13:2–3 – Priest inspects and decides." },
+  { type: "mc", q: "What happened to a house with spreading mildew (Leviticus 14)?", a: "Torn down if not cleansed", opts: ["Painted over", "Torn down if not cleansed", "Abandoned forever", "Offered as sacrifice"], expl: "Lev 14:43–45 – House demolished if mildew persists." },
+  { type: "mc", q: "Leviticus 14 describes cleansing rituals for a person healed of skin disease using what?", a: "Two birds, cedar wood, scarlet yarn, hyssop", opts: ["Blood only", "Two birds, cedar wood, scarlet yarn, hyssop", "Water and oil", "Salt and flour"], expl: "Lev 14:4–7 – Birds, wood, yarn, hyssop for ritual." },
+  { type: "mc", q: "What causes uncleanness in Leviticus 15?", a: "Bodily discharges", opts: ["Eating unclean food", "Bodily discharges", "Touching animals", "Working on Sabbath"], expl: "Lev 15 – Covers discharges from men and women." },
+  { type: "mc", q: "How many days after a normal discharge must a person wait before being clean (Leviticus 15 example)?", a: "7 days", opts: ["1 day", "7 days", "30 days", "No waiting"], expl: "Lev 15:13,19,28 – Often 7 days + washing/offering." },
+  { type: "mc", q: "What is the main command repeated in Leviticus 18?", a: "Do not do as the Egyptians or Canaanites do", opts: ["Offer daily burnt offerings", "Do not do as the Egyptians or Canaanites do", "Love your neighbor", "Keep the Sabbath"], expl: "Lev 18:3 – Avoid pagan practices, especially sexual sins." },
+  { type: "mc", q: "Leviticus 18 lists prohibitions against what kind of sexual relations?", a: "Incest and other forbidden relations", opts: ["Marriage", "Incest and other forbidden relations", "Eating together", "Praying together"], expl: "Lev 18 – Detailed laws against incest, adultery, etc." },
+  { type: "mc", q: "What famous command is in Leviticus 19:2?", a: "Be holy because I the LORD your God am holy", opts: ["Love your enemies", "Be holy because I the LORD your God am holy", "Honor your father and mother", "Do not murder"], expl: "Lev 19:2 – Core holiness theme." },
+  { type: "mc", q: "Leviticus 19:18 says 'love your neighbor as yourself' – this is quoted by whom in the New Testament?", a: "Jesus", opts: ["Paul", "Jesus", "Peter", "Moses"], expl: "Lev 19:18 – Jesus calls it the second greatest commandment (Matt 22:39)." },
+  { type: "mc", q: "What does Leviticus 19:26 forbid?", a: "Eating blood and practicing divination", opts: ["Eating bread", "Eating blood and practicing divination", "Wearing wool", "Planting trees"], expl: "Lev 19:26 – No sorcery or blood consumption." },
+  { type: "mc", q: "Leviticus 19:28 prohibits what?", a: "Cutting the body or tattoos for the dead", opts: ["Eating pork", "Cutting the body or tattoos for the dead", "Praying aloud", "Giving offerings"], expl: "Lev 19:28 – No cuttings or marks for the dead." },
+  { type: "mc", q: "What does Leviticus 19:33–34 command regarding foreigners?", a: "Love them as yourself", opts: ["Send them away", "Love them as yourself", "Charge them extra", "Ignore them"], expl: "Lev 19:34 – 'Love him as yourself' (stranger/foreigner)." },
+  { type: "mc", q: "Leviticus 20 repeats many laws from chapter 18, but adds what?", a: "Penalties (death, being cut off)", opts: ["Rewards only", "Penalties (death, being cut off)", "New foods", "Feast days"], expl: "Lev 20 – Punishments for sexual sins and idolatry." },
+  { type: "mc", q: "What penalty is given for child sacrifice to Molech (Leviticus 20)?", a: "Death by stoning", opts: ["Fine", "Death by stoning", "Exile", "Offering"], expl: "Lev 20:2 – Stoning for Molech worship." },
+  { type: "mc", q: "Leviticus 20:6 warns against turning to mediums because", a: "It defiles and God will cut them off", opts: ["It is fun", "It defiles and God will cut them off", "It costs money", "It helps healing"], expl: "Lev 20:6 – Spiritual adultery; separation from God." },
+  { type: "mc", q: "What is the purpose of the laws in Leviticus 11–20?", a: "To make Israel holy and distinct from other nations", opts: ["To make them rich", "To make Israel holy and distinct from other nations", "To teach farming", "To build cities"], expl: "Repeated: 'Be holy, for I am holy' (Lev 11:44; 19:2; 20:26)." },
+  { type: "mc", q: "Which chapter lists the 'Holiness Code' summary verse 'You shall be holy'?", a: "Leviticus 19", opts: ["Leviticus 11", "Leviticus 19", "Leviticus 16", "Leviticus 1"], expl: "Lev 19:2 – Central to chapters 17–26." },
+  { type: "mc", q: "In Leviticus 11, why were clean/unclean food laws given?", a: "To teach Israel to distinguish and be holy", opts: ["For health only", "To teach Israel to distinguish and be holy", "To save money", "For taste"], expl: "Lev 11:47 – 'To distinguish between the unclean and the clean.'" },
+  { type: "mc", q: "What animal is unclean because it chews the cud but does not have split hooves (Leviticus 11)?", a: "Camel", opts: ["Cow", "Camel", "Sheep", "Goat"], expl: "Lev 11:4 – Camel unclean." },
+  { type: "mc", q: "What sea animal is unclean (Leviticus 11)?", a: "Shrimp or lobster", opts: ["Tuna", "Shrimp or lobster", "Cod", "Salmon"], expl: "Lev 11:10 – No fins/scales = unclean." },
+  { type: "mc", q: "After touching a dead animal, what must a person do to become clean (Leviticus 11)?", a: "Wash clothes and wait until evening", opts: ["Offer a sacrifice immediately", "Wash clothes and wait until evening", "Eat clean food", "Pray only"], expl: "Lev 11:24–25, etc. – Washing and time." },
+  { type: "mc", q: "Leviticus 12 requires purification after childbirth because", a: "Childbirth involves blood and life", opts: ["Babies are unclean", "Childbirth involves blood and life", "Mothers sin", "Fathers help"], expl: "Symbolic of life/impurity cycle." },
+  { type: "mc", q: "In Leviticus 13, if a skin mark turns white hair, what might it be?", a: "Serious skin disease (leprosy)", opts: ["Normal rash", "Serious skin disease (leprosy)", "Sunburn", "Allergy"], expl: "Lev 13:10–11 – White hair indicates deeper issue." },
+  { type: "mc", q: "Leviticus 15 says a man with discharge makes what unclean?", a: "Anything he touches or sits on", opts: ["Only food", "Anything he touches or sits on", "Only water", "Nothing"], expl: "Lev 15:4–12 – Contagious uncleanness." },
+  { type: "mc", q: "Leviticus 18 begins by saying not to follow the practices of", a: "Egypt and Canaan", opts: ["Israel's neighbors only", "Egypt and Canaan", "Babylon", "Rome"], expl: "Lev 18:3 – Avoid pagan immorality." },
+  { type: "mc", q: "Leviticus 19:9–10 commands leaving gleanings for", a: "The poor and foreigner", opts: ["Priests", "The poor and foreigner", "Animals only", "Kings"], expl: "Lev 19:9–10 – Welfare for needy." },
+  { type: "mc", q: "Leviticus 19:15 forbids what in judgment?", a: "Partiality or favoritism", opts: ["Honest weighing", "Partiality or favoritism", "Quick decisions", "Prayer"], expl: "Lev 19:15 – Justice without bias." },
+  { type: "mc", q: "What does Leviticus 19:11 forbid?", a: "Stealing, lying, and false swearing", opts: ["Eating pork", "Stealing, lying, and false swearing", "Dancing", "Singing"], expl: "Lev 19:11 – Basic moral commands." },
+  { type: "mc", q: "Leviticus 20:13 prescribes the penalty for certain homosexual acts as", a: "Death", opts: ["Fine", "Death", "Exile", "Offering"], expl: "Lev 20:13 – Part of sexual laws with penalties." },
+  { type: "mc", q: "Leviticus 20:26 repeats the call to", a: "Be holy and separate from the nations", opts: ["Be rich", "Be holy and separate from the nations", "Build temples", "Fight wars"], expl: "Lev 20:26 – 'Be holy to me, for I am holy.'" },
+  { type: "mc", q: "The laws in Leviticus 11–20 help Israel to be", a: "A holy nation set apart for God", opts: ["A powerful army", "A holy nation set apart for God", "Wealthy traders", "Famous artists"], expl: "Overall purpose: holiness and separation (Lev 20:26)." },
+  { type: "mc", q: "Which verse in Leviticus 19 is known as the 'Golden Rule' precursor?", a: "Love your neighbor as yourself", opts: ["Do not murder", "Love your neighbor as yourself", "Honor parents", "Keep Sabbath"], expl: "Lev 19:18 – Love neighbor as self." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

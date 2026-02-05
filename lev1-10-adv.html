@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 1-10 Advanced Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 1-10 Advanced Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "The burnt offering (Lev 1) is theologically prominent as it primarily portrays Christ's work in terms of", a: "Voluntary, wholehearted self-dedication to God as a pleasing aroma", opts: ["Expiation of specific sins only", "Voluntary, wholehearted self-dedication to God as a pleasing aroma", "Purification of the sanctuary from defilement", "Restitution for breaches of trust"], expl: "Lev 1:9,13,17 – 'a pleasing aroma to the LORD'; typifies Christ's perfect obedience and self-offering (Eph 5:2), not merely sin-bearing but glorifying God (cf. Hebrews 10:5–10)." },
+  { type: "mc", q: "In Lev 1:4, 'he shall be accepted on his behalf to make atonement for him' most directly reflects which theological concept?", a: "Imputation of sin to the substitute and acceptance through substitutionary death", opts: ["Moral influence on the offerer", "Imputation of sin to the substitute and acceptance through substitutionary death", "Ritual purification of the altar", "Covenantal renewal without blood"], expl: "Substitutionary atonement: sin transferred via laying on hands; animal dies in place, securing acceptance (cf. penal substitution typology in Reformed theology)." },
+  { type: "mc", q: "The continual burnt offering (tamid, Lev 6:9–13) theologically underscores", a: "The perpetual need for atonement and God's ongoing acceptance through sacrifice", opts: ["Human self-maintained holiness", "The perpetual need for atonement and God's ongoing acceptance through sacrifice", "Priestly autonomy in worship", "Seasonal rather than constant mediation"], expl: "Fire never goes out (Lev 6:13); points to unceasing mediation, fulfilled in Christ's ever-living intercession (Heb 7:25)." },
+  { type: "mc", q: "The grain offering (Lev 2) highlights Christ's", a: "Perfect humanity offered to God without corruption (no leaven/honey)", opts: ["Sin-bearing role exclusively", "Perfect humanity offered to God without corruption (no leaven/honey)", "Restorative payment to others", "Communal fellowship only"], expl: "No leaven (corruption) or honey (natural sweetness); fine flour + oil + frankincense = spotless life presented to God (cf. Christ's sinless humanity, Heb 7:26)." },
+  { type: "mc", q: "Lev 2:13 requires salt in every grain offering because it symbolizes", a: "The enduring covenant relationship and preservation from corruption", opts: ["Temporary ritual purity", "The enduring covenant relationship and preservation from corruption", "Economic restitution", "Priestly privilege"], expl: "'Salt of the covenant' (Num 18:19); eternal faithfulness, contrasting decay." },
+  { type: "mc", q: "The peace/fellowship offering (Lev 3; 7) theologically emphasizes", a: "Restored communion with God and one another after atonement", opts: ["Exclusive priestly access", "Restored communion with God and one another after atonement", "Penal wrath absorption only", "Individual purification"], expl: "Parts eaten by offerer, priests, and burned; horizontal/vertical shalom prefiguring Eucharistic fellowship (1 Cor 10:16–18)." },
+  { type: "mc", q: "In the sin offering (Lev 4), blood application inside the veil for high priest/congregation (4:6–7,17) typifies", a: "Atonement reaching the very presence of God, cleansing defilement of sanctuary", opts: ["Only external forgiveness", "Atonement reaching the very presence of God, cleansing defilement of sanctuary", "Personal restitution", "Daily devotion"], expl: "Sin pollutes holy space; blood purifies throne room, pointing to Christ's heavenly entry (Heb 9:23–24)." },
+  { type: "mc", q: "The guilt/reparation offering (Lev 5:14–6:7) uniquely combines", a: "Satisfaction for objective wrong (restitution + fifth) with substitutionary atonement", opts: ["Only moral influence", "Satisfaction for objective wrong (restitution + fifth) with substitutionary atonement", "Communal eating", "No blood requirement"], expl: "Ram + restitution addresses sacrilege/trespass; holistic repair of relationship with God/neighbor." },
+  { type: "mc", q: "Lev 6:27 ('whatever touches its flesh shall become holy') in the sin offering context reveals", a: "Contagious holiness of the atoning sacrifice, demanding purity", opts: ["Sin contagion to the sacrifice", "Contagious holiness of the atoning sacrifice, demanding purity", "Neutral ritual transfer", "Priestly immunity"], expl: "Paradox: sacrifice bears sin yet imparts holiness; foreshadows Christ's sanctifying death (Heb 13:12)." },
+  { type: "mc", q: "The ordination offerings (Lev 8) theologically portray priestly consecration as", a: "Identification with substitutionary death, anointing for service, and blood application to faculties", opts: ["Mere ritual washing", "Identification with substitutionary death, anointing for service, and blood application to faculties", "Autonomous authority", "Communal vote"], expl: "Blood on ear/thumb/toe (hearing, doing, walking) + oil; priests as mediators set apart through atonement." },
+  { type: "mc", q: "Fire from the LORD consuming the eighth-day offerings (Lev 9:24) signifies", a: "Divine acceptance and initiation of true worship", opts: ["Human achievement", "Divine acceptance and initiation of true worship", "Judgment on priests", "Natural phenomenon"], expl: "God ignites; parallels Pentecost fire, showing divine initiative in acceptable worship." },
+  { type: "mc", q: "Nadab and Abihu's 'unauthorized fire' (Lev 10:1) theologically illustrates", a: "The deadly seriousness of approaching God contrary to His revealed will", opts: ["Minor liturgical error", "The deadly seriousness of approaching God contrary to His revealed will", "Innovation in worship", "Priestly privilege"], expl: "'Which he had not commanded'; violates holiness; God must be approached only as He prescribes (cf. John 14:6)." },
+  { type: "mc", q: "Lev 10:3 ('Among those who are near me I will be sanctified') most profoundly teaches", a: "God's holiness demands either judgment on sin or sanctification through atonement", opts: ["Leniency toward priests", "God's holiness demands either judgment on sin or sanctification through atonement", "Human moral effort suffices", "Worship is optional"], expl: "Moses interprets deaths; nearness to God heightens accountability; points to need for perfect Mediator." },
+  { type: "mc", q: "The restriction on wine when entering the tent (Lev 10:9) theologically guards against", a: "Confusion between holy/common, ensuring clear discernment", opts: ["Physical inebriation only", "Confusion between holy/common, ensuring clear discernment", "Economic waste", "Social fellowship"], expl: "Priests must distinguish holy/unclean; sobriety symbolizes vigilance in mediation." },
+  { type: "mc", q: "Lev 10:10–11 commissions priests to teach Israel to", a: "Distinguish holy from common, clean from unclean, reflecting God's character", opts: ["Focus on civil law", "Distinguish holy from common, clean from unclean, reflecting God's character", "Prioritize wealth", "Ignore ritual"], expl: "Post-Nadab/Abihu; holiness education flows from fear of God." },
+  { type: "mc", q: "The burnt offering's complete consumption (except skin) typifies Christ's", a: "Total self-emptying and devotion to the Father's will unto death", opts: ["Partial obedience", "Total self-emptying and devotion to the Father's will unto death", "Temporary covering", "Communal meal"], expl: "Whole ascent to God (olah = 'that which goes up'); Phil 2:8; Eph 5:2." },
+  { type: "mc", q: "Theologically, the offerings in Lev 1–7 collectively portray atonement as", a: "Multifaceted: propitiation, expiation, substitution, consecration, communion", opts: ["Single mechanism of forgiveness", "Multifaceted: propitiation, expiation, substitution, consecration, communion", "Moral example only", "Ritual magic"], expl: "Burnt = propitiation/dedication; sin/guilt = expiation/substitution; peace = communion." },
+  { type: "mc", q: "Lev 7:20–21 ('cut off') for eating peace offering while unclean emphasizes", a: "Holiness incompatibility: sin defiles fellowship", opts: ["Minor impurity", "Holiness incompatibility: sin defiles fellowship", "Priestly monopoly", "Economic penalty"], expl: "Unclean eater profanes holy thing; anticipates 1 Cor 11:27–29 judgment." },
+  { type: "mc", q: "The wave/heave portions (Lev 7:30–34) given perpetually to priests foreshadow", a: "Christ sharing His priestly benefits with His people", opts: ["Temporary reward", "Christ sharing His priestly benefits with His people", "Levite taxation", "No theological depth"], expl: "Perpetual due; Christ as High Priest shares (Heb 7:24–25; Rev 1:6)." },
+  { type: "mc", q: "In Lev 8:15, blood on altar horns atones for the altar itself because", a: "Sin pollutes even sacred objects; atonement purifies worship space", opts: ["Altar is sinful", "Sin pollutes even sacred objects; atonement purifies worship space", "Symbolic decoration", "Priest's error"], expl: "Sanctuary defiled by Israel's sin; blood cleanses holy place (Heb 9:23)." },
+  { type: "mc", q: "The anointing oil sprinkled with blood (Lev 8:30) theologically signifies", a: "Consecration through atonement and Spirit empowerment", opts: ["Separate rituals", "Consecration through atonement and Spirit empowerment", "Royal coronation", "Economic value"], expl: "Blood (atonement) + oil (Spirit); points to Christ's anointing (Heb 1:9)." },
+  { type: "mc", q: "Aaron's blessing after sacrifices (Lev 9:22) followed by glory/fire reveals", a: "Accepted mediation brings divine presence and blessing", opts: ["Human initiative", "Accepted mediation brings divine presence and blessing", "Coincidental event", "Priestly power"], expl: "Blessing precedes glory; priestly intercession ushers presence (cf. Christ’s high-priestly prayer, John 17)." },
+  { type: "mc", q: "Nadab/Abihu incident immediately precedes Lev 10:10–11 to underscore that", a: "Worship must conform strictly to God's word to honor His holiness", opts: ["Innovation pleases God", "Worship must conform strictly to God's word to honor His holiness", "Priests override commands", "Death is arbitrary"], expl: "Unauthorized = not commanded; sola scriptura in worship." },
+  { type: "mc", q: "Moses' anger at Eleazar/Ithamar (Lev 10:16–20) concerns", a: "Failure to eat sin offering, missing symbolic participation in atonement", opts: ["Personal offense", "Failure to eat sin offering, missing symbolic participation in atonement", "Wine consumption", "Neglect of burnt offering"], expl: "Should have eaten to bear iniquity (Lev 10:17); Aaron's response shows grief altered ritual." },
+  { type: "mc", q: "Theologically, Lev 1–10 prepares for Lev 16 by showing", a: "Daily/individual atonement insufficient; annual comprehensive cleansing needed", opts: ["Self-sufficiency of rituals", "Daily/individual atonement insufficient; annual comprehensive cleansing needed", "No need for blood", "Priestly independence"], expl: "Repeated offerings vs. Yom Kippur's fuller purification (Heb 10:1–4)." },
+  { type: "mc", q: "The burnt offering's 'pleasing aroma' (Lev 1) ultimately fulfilled in Christ means", a: "His death satisfies divine justice and delights the Father", opts: ["God ignores sin", "His death satisfies divine justice and delights the Father", "Human works please God", "Ritual smell"], expl: "Propitiatory fragrance (Eph 5:2); wrath turned to favor." },
+  { type: "mc", q: "Leviticus' offerings collectively refute", a: "Moral influence or example theories of atonement alone", opts: ["Substitutionary views", "Moral influence or example theories of atonement alone", "No atonement needed", "Universalism without sacrifice"], expl: "Blood required for forgiveness (Lev 17:11); substitution central." },
+  { type: "mc", q: "Theologically, the skin given to priests (Lev 7:8) from burnt offering symbolizes", a: "Priests sharing in benefits of Christ's covering righteousness", opts: ["Economic perquisite", "Priests sharing in benefits of Christ's covering righteousness", "No significance", "Offerer's loss"], expl: "Only skin remains; priests clothed in atonement's fruit." },
+  { type: "mc", q: "Lev 4:20,26,31,35 ('he shall be forgiven') after sin offering stresses", a: "Objective forgiveness through blood application, not subjective feeling", opts: ["Emotional assurance only", "Objective forgiveness through blood application, not subjective feeling", "Works-based pardon", "Priestly absolution"], expl: "Formulaic assurance; based on God's provision, not merit." },
+  { type: "mc", q: "The poor's fine flour sin offering (Lev 5:11) theologically shows", a: "Atonement accessible by grace, not wealth; Christ sufficient for all", opts: ["Class distinction", "Atonement accessible by grace, not wealth; Christ sufficient for all", "No blood needed", "Ritual inferiority"], expl: "No blood (poverty provision); yet atonement made (Heb 10:10)." },
+  { type: "mc", q: "Lev 6:23 ('wholly burned; not eaten') for priest's grain offering means", a: "No priest eats his own atonement; points to Christ's unique self-sacrifice", opts: ["Wastefulness", "No priest eats his own atonement; points to Christ's unique self-sacrifice", "Communal sharing", "Daily meal"], expl: "Priest cannot benefit from own offering; Christ offers Himself once (Heb 7:27)." },
+  { type: "mc", q: "The continual altar fire (Lev 6:13) theologically prefigures", a: "Christ's unending intercession and eternal efficacy of His sacrifice", opts: ["Human effort", "Christ's unending intercession and eternal efficacy of His sacrifice", "Seasonal worship", "Priestly shift"], expl: "Never out; Heb 7:25 – 'always lives to intercede'." },
+  { type: "mc", q: "Nadab/Abihu's death by fire from God (Lev 10:2) mirrors", a: "Measure-for-measure justice: unauthorized fire met with divine fire", opts: ["Random tragedy", "Measure-for-measure justice: unauthorized fire met with divine fire", "Mercy withheld", "Priestly immunity"], expl: "Poetic justice; warns against presuming on grace." },
+  { type: "mc", q: "Aaron's silence (Lev 10:3) after sons' death theologically models", a: "Submission to God's righteous judgment in holiness", opts: ["Rebellion", "Submission to God's righteous judgment in holiness", "Denial", "Emotional outburst"], expl: "Accepts divine word; fear of God over human grief." },
+  { type: "mc", q: "The offerings' progression (burnt → grain → peace → sin/guilt) theologically moves from", a: "Dedication → provision → fellowship → dealing with sin", opts: ["Sin first", "Dedication → provision → fellowship → dealing with sin", "Random order", "Priestly focus"], expl: "Logical: approach in devotion, then address defilement." },
+  { type: "mc", q: "Leviticus 1–10 as a whole presents worship as", a: "Impossible without blood-mediated atonement and strict obedience", opts: ["Human invention", "Impossible without blood-mediated atonement and strict obedience", "Optional devotion", "Emotional experience"], expl: "Holiness demands atonement; grace provides it." },
+  { type: "mc", q: "Theologically, the ordination blood on ear/thumb/toe (Lev 8:23–24) signifies", a: "Total consecration: hear, do, walk in God's ways through atonement", opts: ["Physical healing", "Total consecration: hear, do, walk in God's ways through atonement", "Symbolic jewelry", "No deep meaning"], expl: "Faculties redeemed; cf. Rom 12:1 living sacrifice." },
+  { type: "mc", q: "Fire consuming offerings (Lev 9:24) after Aaron's ministry begins shows", a: "God's sovereign approval initiates acceptable worship", opts: ["Human success", "God's sovereign approval initiates acceptable worship", "Coincidence", "Priestly merit"], expl: "Divine ignition; all true worship from God (John 4:23–24)." },
+  { type: "mc", q: "Lev 10:17 ('to bear the iniquity') for eating sin offering theologically points to", a: "Priests vicariously bearing sin as mediators", opts: ["Personal guilt", "Priests vicariously bearing sin as mediators", "Symbolic meal", "No bearing"], expl: "Priests 'bear' iniquity (cf. Christ bears sins, Isa 53:11; Heb 9:28)." },
+  { type: "mc", q: "Theologically, Lev 1–10 reveals God's holiness as", a: "Consuming fire requiring either atonement or destruction", opts: ["Indifferent", "Consuming fire requiring either atonement or destruction", "Approachable casually", "Malleable"], expl: "Nadab/Abihu vs. accepted offerings; Heb 12:29." },
+  { type: "mc", q: "The sin offering's carcass burned outside camp (Lev 4:12) foreshadows", a: "Christ suffering outside the gate, bearing reproach", opts: ["Waste disposal", "Christ suffering outside the gate, bearing reproach", "Priestly privilege", "No significance"], expl: "Heb 13:11–13 – Jesus outside camp." },
+  { type: "mc", q: "Leviticus' emphasis on 'without defect' males typifies", a: "Christ the spotless Lamb, perfect substitute", opts: ["Aesthetic preference", "Christ the spotless Lamb, perfect substitute", "Gender hierarchy", "Economic value"], expl: "No blemish (Lev 1:3,10); 1 Pet 1:19." },
+  { type: "mc", q: "The peace offering's fat burned to God (Lev 3:16) shows", a: "Best portions belong to God; worship prioritizes Him", opts: ["Waste of good food", "Best portions belong to God; worship prioritizes Him", "Priest's share first", "No symbolism"], expl: "'All fat is the LORD's'; devotion of best." },
+  { type: "mc", q: "Theologically, Lev 1–10 culminates in priestly teaching role (Lev 10:11) to", a: "Guard holiness and mediate knowledge of God", opts: ["Civil governance", "Guard holiness and mediate knowledge of God", "Economic collection", "Ignore distinctions"], expl: "Holy/common distinction central to covenant life." },
+  { type: "mc", q: "Overall, Leviticus 1–10 presents atonement as", a: "God's gracious provision for sinful humanity to dwell in His presence", opts: ["Human achievement", "God's gracious provision for sinful humanity to dwell in His presence", "Temporary fix", "Unnecessary"], expl: "Tabernacle center; God dwells with redeemed sinners through blood." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

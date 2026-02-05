@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 21-27 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 21-27 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+  { type: "mc", q: "Leviticus 25:8–10 states that the Year of Jubilee is proclaimed on the Day of Atonement in the", a: "50th year", opts: ["7th year", "49th year", "50th year", "1st year"], expl: "Lev 25:9–10 – Trumpet sounded on the 10th day of the 7th month of the 50th year." },
+  { type: "mc", q: "In the Year of Jubilee, liberty is proclaimed throughout the land, meaning", a: "Return of property to original owners and release of Israelite slaves", opts: ["War is ended forever", "Return of property to original owners and release of Israelite slaves", "All debts forgiven only", "Land is redistributed equally"], expl: "Lev 25:10 – 'Proclaim liberty throughout the land… return every man to his possession and to his family.'" },
+  { type: "mc", q: "Leviticus 25:23 explains why land must return to its original family in Jubilee:", a: "The land belongs to God; Israelites are strangers and sojourners with Him", opts: ["Land prices were too high", "The land belongs to God; Israelites are strangers and sojourners with Him", "Only Levites can own land", "To prevent poverty forever"], expl: "Lev 25:23 – Theological foundation: God is the true owner; Israel holds land as tenants." },
+  { type: "mc", q: "According to Leviticus 25:24–28, if an Israelite sells family land, a relative has the right to", a: "Redeem (buy back) the land at any time", opts: ["Ignore the sale", "Redeem (buy back) the land at any time", "Double the price", "Wait until Jubilee only"], expl: "Lev 25:25–26 – Kinsman-redeemer can redeem; self-redemption also possible." },
+  { type: "mc", q: "If land is not redeemed before Jubilee, it automatically", a: "Returns to the original family in the Jubilee year", opts: ["Stays with the buyer forever", "Returns to the original family in the Jubilee year", "Goes to the priests", "Is burned"], expl: "Lev 25:28,31 – In Jubilee, the land reverts regardless of prior redemption." },
+  { type: "mc", q: "Leviticus 25:29–31 distinguishes house sales in walled cities from open-country land. In walled cities, the redemption period is", a: "One full year only", opts: ["Forever", "One full year only", "Until Jubilee", "No redemption allowed"], expl: "Lev 25:29–30 – One-year redemption window; after that, permanent if not redeemed." },
+  { type: "mc", q: "Leviticus 25:32–34 gives Levites a special right regarding their houses in Levitical cities: they can", a: "Redeem them at any time, even after Jubilee", opts: ["Sell them permanently", "Redeem them at any time, even after Jubilee", "Never sell them", "Give them to non-Levites"], expl: "Lev 25:32 – Levites have perpetual right of redemption for their city houses." },
+  { type: "mc", q: "In the context of Jubilee, Israelite servants were to be treated as", a: "Hired workers or temporary residents, not ruled over ruthlessly", opts: ["Permanent slaves", "Hired workers or temporary residents, not ruled over ruthlessly", "Foreigners without rights", "Priests"], expl: "Lev 25:39–40 – Like hired servants; released in Jubilee." },
+  { type: "mc", q: "Leviticus 25:47–49 allows an Israelite sold to a foreigner to be redeemed by", a: "His uncle, cousin, or any near relative", opts: ["Only the high priest", "His uncle, cousin, or any near relative", "The king", "No one"], expl: "Lev 25:48–49 – Kinsman-redeemer system applies even to foreign owners." },
+  { type: "mc", q: "Leviticus 25:54–55 states that even if an Israelite servant is not redeemed, in Jubilee he goes free because", a: "The Israelites belong to God as His servants whom He redeemed from Egypt", opts: ["He paid off the debt", "The Israelites belong to God as His servants whom He redeemed from Egypt", "Foreigners cannot own Israelites", "Jubilee cancels all debts automatically"], expl: "Lev 25:55 – Ultimate theological reason: they are God's servants." },
+  { type: "mc", q: "The Sabbath year (Lev 25:1–7) and Jubilee are connected because Jubilee occurs after", a: "Seven cycles of seven years (49 years), making the 50th year holy", opts: ["Five cycles of seven years", "Seven cycles of seven years (49 years), making the 50th year holy", "One Sabbath year", "No connection"], expl: "Lev 25:8 – Count seven Sabbaths of years = 49; 50th is Jubilee." },
+  { type: "mc", q: "Leviticus 25:11–12 says in Jubilee the land must not be sown or reaped because it is", a: "A year of complete rest and liberty for the land", opts: ["A year of famine", "A year of complete rest and liberty for the land", "Only a rest for people", "A year of planting"], expl: "Lev 25:11 – Sabbath of Sabbaths; land rests fully." },
+  { type: "mc", q: "Leviticus 25:20–22 promises supernatural provision in the year before Jubilee (48th year harvest for three years) to show that", a: "Obedience to God's rest commands brings divine blessing", opts: ["God ignores rest laws", "Obedience to God's rest commands brings divine blessing", "Land never needs rest", "People must hoard food"], expl: "Lev 25:21 – God provides abundantly for obedience to land rest." },
+  { type: "mc", q: "The Jubilee law on land and servants reflects God's concern for", a: "Preventing permanent inequality and preserving family inheritance", opts: ["Permanent slavery", "Preventing permanent inequality and preserving family inheritance", "Only priestly land", "Foreign ownership"], expl: "Lev 25:10,23–24 – Economic reset to maintain tribal allotments and justice." },
+  { type: "mc", q: "Leviticus 25:35–38 forbids charging interest to a poor Israelite brother because", a: "It would treat him as an outsider; Israelites are family under God", opts: ["Interest was illegal worldwide", "It would treat him as an outsider; Israelites are family under God", "Loans were forbidden", "Only priests could lend"], expl: "Lev 25:36–38 – No usury; fear God and remember redemption from Egypt." },
+  { type: "mc", q: "In Leviticus 25:46, non-Israelite slaves could be passed as inheritance because", a: "They were permanent property, unlike Israelite servants who were freed in Jubilee", opts: ["They were equals", "They were permanent property, unlike Israelite servants who were freed in Jubilee", "They were freed every seven years", "They belonged to priests"], expl: "Lev 25:44–46 – Distinction: foreigners permanent; Israelites temporary." },
+  { type: "mc", q: "The Jubilee trumpet (Lev 25:9) was sounded on the Day of Atonement to signify", a: "Release from sin's burden and restoration of freedom and inheritance", opts: ["Start of war", "Release from sin's burden and restoration of freedom and inheritance", "End of harvest", "Beginning of fasting"], expl: "Lev 25:9 – Jubilee proclaimed on most solemn day; atonement + liberation." },
+  { type: "mc", q: "Leviticus 25:23's statement 'the land is Mine' theologically means", a: "God is the ultimate owner; human possession is stewardship", opts: ["Land is worthless", "God is the ultimate owner; human possession is stewardship", "Israel owns it forever", "Only kings own land"], expl: "Core Jubilee theology: no permanent private ownership apart from God." },
+  { type: "mc", q: "Leviticus 21:17–23 excludes priests with physical defects from altar service because the priest must", a: "Symbolize the perfection required in approaching a holy God", opts: ["Be physically strong", "Symbolize the perfection required in approaching a holy God", "Avoid public shame", "Focus on teaching only"], expl: "Lev 21:21–23 – No blemish; typifies ideal holiness in mediation." },
+  { type: "mc", q: "Leviticus 22:17–25 insists that voluntary offerings must be", a: "Without defect to be acceptable", opts: ["Cheap", "Without defect to be acceptable", "From foreigners", "Offered at night"], expl: "Lev 22:19–20 – Defective animals not accepted; perfection in worship." },
+  { type: "mc", q: "Leviticus 23:24 calls the Feast of Trumpets", a: "A memorial proclaimed with trumpet blasts", opts: ["A day of feasting only", "A memorial proclaimed with trumpet blasts", "A fast day", "A work day"], expl: "Lev 23:24 – Solemn rest, trumpet sound, memorial offering." },
+  { type: "mc", q: "Leviticus 24:17–22 applies 'life for life' to both Israelite and foreigner to show", a: "One standard of justice for all in the community", opts: ["Only Israelites protected", "One standard of justice for all in the community", "Foreigners exempt", "Priests judge differently"], expl: "Lev 24:22 – 'One law for you and the stranger'; impartial justice." },
+  { type: "mc", q: "Leviticus 26:34–35 says the land will enjoy its Sabbaths in exile because", a: "Israel did not observe the land's rest during their disobedience", opts: ["The land was tired", "Israel did not observe the land's rest during their disobedience", "God forgot the land", "Exile was permanent"], expl: "Lev 26:34–35 – Exile enforces neglected Sabbaths." },
+  { type: "mc", q: "Leviticus 27:30–33 says the tithe of herds and flocks is holy to the LORD, and when counting", a: "No selection or exchange allowed – the tenth is holy regardless", opts: ["Owner picks the best", "No selection or exchange allowed – the tenth is holy regardless", "Only firstborn counted", "Tithe is voluntary"], expl: "Lev 27:33 – Cannot make good for bad or bad for good; no swapping." },
+  { type: "mc", q: "Leviticus 21:13–14 requires the high priest to marry", a: "A virgin of his own people", opts: ["A widow", "A virgin of his own people", "Any woman", "A divorced woman"], expl: "Lev 21:13–14 – Virgin from his people; symbolic purity." },
+  { type: "mc", q: "Leviticus 25:18–19 promises that obedience to Jubilee and Sabbath laws will result in", a: "Security to dwell in the land safely", opts: ["Constant war", "Security to dwell in the land safely", "No crops", "Exile"], expl: "Lev 25:18–19 – Obedience brings peace and abundance." },
+  { type: "mc", q: "The Jubilee release of land and servants reflects God's concern for", a: "Preventing generational poverty and preserving tribal inheritance", opts: ["Permanent inequality", "Preventing generational poverty and preserving tribal inheritance", "Only priestly wealth", "Foreign land ownership"], expl: "Lev 25:10,23–24 – Economic and social reset every 50 years." },
+  { type: "mc", q: "Leviticus 25:55 emphasizes that Israelites cannot be held permanently as slaves because", a: "They are God's servants redeemed from Egypt", opts: ["They are too strong", "They are God's servants redeemed from Egypt", "Slavery is illegal", "Foreigners forbid it"], expl: "Lev 25:55 – Ultimate ownership belongs to God." },
+  { type: "mc", q: "In Leviticus 26:40–45, God promises to remember the covenant even in exile if Israel", a: "Confesses their sins and the sins of their fathers", opts: ["Offers more sacrifices", "Confesses their sins and the sins of their fathers", "Builds a new altar", "Returns immediately"], expl: "Lev 26:40–42 – Confession leads to covenant remembrance." },
+  { type: "mc", q: "Leviticus 27:28–29 declares that a person or thing devoted as cherem (devoted to destruction)", a: "Cannot be redeemed and is most holy to the LORD", opts: ["Can be bought back", "Cannot be redeemed and is most holy to the LORD", "Must be sold", "Is returned"], expl: "Lev 27:28 – Irrevocable; often for enemies or idols (e.g., Josh 6:17)." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

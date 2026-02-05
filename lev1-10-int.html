@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 1-10 Intermediate Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 1-10 Intermediate Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "According to Leviticus 1:4, what primary purpose does laying hands on the burnt offering accomplish?", a: "To make atonement for the offerer", opts: ["To transfer ownership to the priest", "To make atonement for the offerer", "To dedicate the animal to the sanctuary", "To symbolically bless the herd"], expl: "Lev 1:4 – 'he shall be accepted on his behalf to make atonement for him' (symbolic identification and substitution)." },
+  { type: "mc", q: "What specific part of the burnt offering from the flock was the priest to wring off (but not sever completely)?", a: "The head", opts: ["The crop and its contents", "The head", "The right thigh", "The fat tail"], expl: "Lev 1:15 – The priest wrings off the head and burns it on the altar." },
+  { type: "mc", q: "In the grain offering of firstfruits (Lev 2:14), what additional preparation was required besides roasting?", a: "Crushed new grain from fresh ears", opts: ["Mixed with leaven", "Crushed new grain from fresh ears", "Soaked in oil overnight", "Sprinkled with cinnamon"], expl: "Lev 2:14 – 'fresh heads of grain roasted with fire, crushed new grain'." },
+  { type: "mc", q: "Which ingredient was explicitly forbidden in any grain offering presented by fire to the LORD?", a: "Both leaven and honey", opts: ["Salt", "Both leaven and honey", "Olive oil", "Frankincense"], expl: "Lev 2:11 – 'No grain offering… shall be made with leaven or honey'." },
+  { type: "mc", q: "In the peace offering, which portions were always burned on the altar regardless of the specific subtype?", a: "The fat covering the entrails and the kidneys", opts: ["The breast and right thigh", "The fat covering the entrails and the kidneys", "The liver lobe and spleen", "All internal fat and bones"], expl: "Lev 3:3–4,9–11,14–15 – consistently the fat portions belonging to the LORD." },
+  { type: "mc", q: "What was the key difference in the sin offering procedure when the anointed priest sinned versus when the whole congregation sinned?", a: "Blood was brought into the Holy Place in both cases", opts: ["Only the priest's offering used a bull", "Blood was brought into the Holy Place in both cases", "Only the congregation's sin offering required seven sprinklings", "The priest ate his own sin offering"], expl: "Lev 4:5–7 and 4:16–18 – identical blood ritual for high priest and congregation (into the veil area)." },
+  { type: "mc", q: "According to Lev 5:1–4, which of these situations requires a sin offering even without a direct command violation?", a: "Touching something unclean and then forgetting about it", opts: ["Hearing a public curse and not testifying", "Touching something unclean and then forgetting about it", "Swearing rashly and forgetting the oath", "All of the above"], expl: "Lev 5:1–4 lists several cases (public curse, uncleanness, rash oath) that bring guilt even if forgotten initially." },
+  { type: "mc", q: "In the guilt offering (Lev 5:15), what exact value was used to determine the ram’s worth for valuation?", a: "In shekels of the sanctuary", opts: ["Market price of the day", "In shekels of the sanctuary", "Twice the value of the harm", "Ten gerahs per shekel"], expl: "Lev 5:15 – 'a ram… valued by you in shekels of the sanctuary'." },
+  { type: "mc", q: "What unique feature distinguishes the priests’ portion of the grain offering of ordination (Lev 6:19–23)?", a: "It was wholly burned and not eaten", opts: ["It was wholly burned and not eaten", "It was eaten only by the high priest", "It included leaven", "It was given to the offerer"], expl: "Lev 6:23 – 'Every grain offering of a priest shall be wholly burned; it shall not be eaten'." },
+  { type: "mc", q: "Leviticus 6:13 states that the fire on the altar must be kept", a: "Burning continually; it shall not go out", opts: ["Burning only during daytime", "Burning continually; it shall not go out", "Re-kindled every Sabbath", "Fed only with acacia wood"], expl: "Lev 6:13 – direct command: 'Fire shall be kept burning on the altar continually; it shall not go out'." },
+  { type: "mc", q: "In the peace offering thanksgiving subtype, how long could the meat remain before it had to be burned (Lev 7:15)?", a: "Eaten on the day it is offered", opts: ["Until the next morning", "Eaten on the day it is offered", "Three days", "Seven days"], expl: "Lev 7:15 – thanksgiving peace offering must be eaten the same day; nothing left until morning." },
+  { type: "mc", q: "Which peace offering type allowed meat to remain until the third day (but not the fourth)?", a: "Vow or freewill offering", opts: ["Thanksgiving offering", "Vow or freewill offering", "Sin-related peace offering", "Ordination offering"], expl: "Lev 7:16 – vow or freewill offerings may be eaten on the first and second day; what remains on the third day must be burned." },
+  { type: "mc", q: "During Aaron’s ordination, how much anointing oil was poured on his head (Lev 8:12)?", a: "Enough to anoint and consecrate him", opts: ["A full horn", "Enough to anoint and consecrate him", "Seven drops", "Mixed with blood"], expl: "Lev 8:12 – 'he poured some of the anointing oil on Aaron’s head and anointed him, to consecrate him' (implying generous amount)." },
+  { type: "mc", q: "What was the purpose of putting blood and oil on Aaron’s right ear, thumb, and big toe (Lev 8:23–24)?", a: "To consecrate his hearing, actions, and walk", opts: ["To heal any physical defect", "To consecrate his hearing, actions, and walk", "As a sign of future kingship", "To mark him as Levite"], expl: "Symbolic consecration of faculties: hearing God’s word, doing His will, walking in His ways." },
+  { type: "mc", q: "On the eighth day, besides the regular offerings, what special sin offering did Aaron present for himself and the people (Lev 9:2,7)?", a: "A calf for a sin offering", opts: ["A bull for a sin offering", "A calf for a sin offering", "Two goats", "A ram"], expl: "Lev 9:2,7 – 'Take a bull calf for a sin offering… to make atonement for yourself and for the people'." },
+  { type: "mc", q: "What immediate reaction did the people have when fire came out from before the LORD (Lev 9:24)?", a: "They shouted and fell on their faces", opts: ["They ran away in fear", "They shouted and fell on their faces", "They sang a new song", "They offered spontaneous vows"], expl: "Lev 9:24 – 'all the people saw it… and they shouted and fell on their faces'." },
+  { type: "mc", q: "What exactly did Nadab and Abihu offer that was 'unauthorized' (strange fire) before the LORD (Lev 10:1)?", a: "Fire that He had not commanded them", opts: ["Incense without frankincense", "Fire that He had not commanded them", "Alcohol-soaked coals", "Fire taken from outside the altar"], expl: "Lev 10:1 – 'they each took his censer… and offered unauthorized fire before him, which he had not commanded them'." },
+  { type: "mc", q: "After Nadab and Abihu’s death, what specific restriction was placed on priests when entering the tent of meeting (Lev 10:9)?", a: "Do not drink wine or strong drink", opts: ["Do not eat leavened bread", "Do not drink wine or strong drink", "Do not wear linen", "Do not anoint with oil"], expl: "Lev 10:9 – 'Drink no wine or strong drink… when you come into the tent of meeting'." },
+  { type: "mc", q: "According to Lev 10:10–11, one of the main duties of the priests after this event was to", a: "Distinguish between the holy and the common, clean and unclean", opts: ["Collect tithes only", "Distinguish between the holy and the common, clean and unclean", "Offer daily incense", "Judge civil disputes"], expl: "Lev 10:10–11 – 'You are to distinguish between the holy and the common… and teach the people'." },
+  { type: "mc", q: "In Lev 7:20, what severe penalty is given to anyone (clean or unclean) who eats the flesh of a peace offering while unclean?", a: "He shall be cut off from his people", opts: ["He shall pay restitution", "He shall be cut off from his people", "He must offer another animal", "He is banned from the sanctuary"], expl: "Lev 7:20 – 'that person shall be cut off from his people'." },
+  { type: "mc", q: "Which offering required the offerer to bring two birds if he could not afford a lamb (Lev 5:7)?", a: "Sin offering", opts: ["Burnt offering", "Sin offering", "Guilt offering", "Grain offering"], expl: "Lev 5:7 – provision for the poor in sin offering: two turtledoves or pigeons." },
+  { type: "mc", q: "What was done with the skin of the burnt offering (Lev 1:6)?", a: "Given to the officiating priest", opts: ["Burned on the altar", "Given to the officiating priest", "Returned to the offerer", "Given to the poor"], expl: "Lev 1:6 (implied in context + priestly portions in Lev 7:8) – the skin went to the priest who offered it." },
+  { type: "mc", q: "In the sin offering for the congregation, where was the fat burned (Lev 4:19)?", a: "On the altar of burnt offering", opts: ["Inside the tent", "On the altar of burnt offering", "Outside the camp", "On the incense altar"], expl: "Lev 4:19 – 'he shall take all its fat and burn it on the altar' (bronze altar)." },
+  { type: "mc", q: "Leviticus 6:11 describes the priest removing ashes from which part of the altar first?", a: "From beside the altar", opts: ["From the top of the altar", "From beside the altar", "From inside the tent", "From the base"], expl: "Lev 6:10–11 – 'take up the ashes… beside the altar… carry them outside the camp'." },
+  { type: "mc", q: "What was the wave offering and heave offering in the peace offering ultimately given to (Lev 7:34)?", a: "Aaron and his sons as a perpetual due", opts: ["The offerer’s family", "Aaron and his sons as a perpetual due", "The Levites", "The poor"], expl: "Lev 7:34 – 'I have taken… the breast… and the thigh… as a perpetual due from the people of Israel'." },
+  { type: "mc", q: "During ordination, how many rams were used in total for the ceremony (Lev 8)?", a: "Two", opts: ["One", "Two", "Three", "Five"], expl: "Lev 8:18 (burnt offering ram), Lev 8:22 (ram of ordination) – two rams + one bull." },
+  { type: "mc", q: "What did Moses do with the remaining anointing oil after anointing Aaron (Lev 8:30)?", a: "Sprinkled it on Aaron, his garments, his sons, and their garments", opts: ["Poured it on the altar", "Sprinkled it on Aaron, his garments, his sons, and their garments", "Drank it with Aaron", "Saved it for future high priests"], expl: "Lev 8:30 – sprinkled on Aaron, garments, sons, and their garments to consecrate them." },
+  { type: "mc", q: "Why were Aaron and his remaining sons told not to leave the entrance of the tent of meeting for seven days (Lev 8:33–35)?", a: "To keep the charge of the LORD and not die", opts: ["To mourn Nadab and Abihu", "To keep the charge of the LORD and not die", "To fast completely", "To wait for Moses to return"], expl: "Lev 8:35 – 'keep the charge of the LORD… lest you die'." },
+  { type: "mc", q: "In Lev 9:8, who actually slaughtered the calf of the sin offering for Aaron himself?", a: "Aaron", opts: ["Moses", "Aaron", "Eleazar", "The people"], expl: "Lev 9:8 – 'So Aaron came near to the altar and killed the calf of the sin offering, which was for himself'." },
+  { type: "mc", q: "What did Moses search for diligently after the sin offering goat on the eighth day (Lev 10:16–18)?", a: "The goat of the sin offering", opts: ["The wave breast", "The goat of the sin offering", "The anointing oil", "Nadab’s censer"], expl: "Lev 10:16 – 'Moses diligently inquired about the goat of the sin offering, and… it had already been burned'." },
+  { type: "mc", q: "Why was Moses angry with Eleazar and Ithamar (Lev 10:16–20)?", a: "They burned the sin offering instead of eating it", opts: ["They refused to eat the sin offering", "They burned the sin offering instead of eating it", "They drank wine", "They left the tent"], expl: "Lev 10:17–18 – it should have been eaten in the holy place since its blood was not brought inside." },
+  { type: "mc", q: "Which offering is described using the phrase 'food offering' (or 'offering by fire') most frequently in Leviticus 1–7?", a: "Burnt offering", opts: ["Burnt offering", "Grain offering", "Peace offering", "Sin offering"], expl: "Repeated in Lev 1:9,13,17; also used for others, but characteristic of burnt offering." },
+  { type: "mc", q: "In Lev 5:6, what animal is listed first for a guilt offering before the more specific cases?", a: "A female from the flock (lamb or goat)", opts: ["A ram", "A female from the flock (lamb or goat)", "A bull", "Two doves"], expl: "Lev 5:6 – 'he shall bring to the LORD… a female from the flock, a lamb or a goat, for a sin offering' (before guilt ram in 5:15)." },
+  { type: "mc", q: "What was the priest required to wear when removing ashes from the altar (Lev 6:10)?", a: "Linen garment and linen undergarment", opts: ["His regular robes", "Linen garment and linen undergarment", "Wool only", "Nothing special"], expl: "Lev 6:10 – 'shall put on his linen garment and put on linen undergarments'." },
+  { type: "mc", q: "According to Lev 7:23–25, eating which kind of fat brought the penalty of being cut off?", a: "The fat of an ox, sheep, or goat", opts: ["The fat around the kidneys only", "The fat of an ox, sheep, or goat", "Bird fat", "All animal fat"], expl: "Lev 7:23–25 – prohibition specifically on fat of cattle, sheep, goats offered by fire." },
+  { type: "mc", q: "In the ordination meal, where were Aaron and his sons to eat the ram of consecration and the bread (Lev 8:31)?", a: "At the entrance of the tent of meeting", opts: ["Inside their tents", "At the entrance of the tent of meeting", "Outside the camp", "On the altar"], expl: "Lev 8:31 – 'eat it at the entrance of the tent of meeting'." },
+  { type: "mc", q: "What did Aaron do after offering all the sacrifices on the eighth day before the glory appeared (Lev 9:22)?", a: "Lifted his hands toward the people and blessed them", opts: ["Washed his hands and feet", "Lifted his hands toward the people and blessed them", "Burned extra incense", "Read the law"], expl: "Lev 9:22 – 'Aaron lifted up his hands toward the people and blessed them'." },
+  { type: "mc", q: "Leviticus 10:3 records Moses telling Aaron that God said:", a: "'Among those who are near me I will be sanctified'", opts: ["'Vengeance is mine'", "'Among those who are near me I will be sanctified'", "'Do not weep for them'", "'Offer another bull'"], expl: "Lev 10:3 – 'This is what the LORD has said: ‘Among those who are near me I will be sanctified…’" },
+  { type: "mc", q: "In Lev 4:11–12, what was done with the skin, flesh, head, legs, entrails, and dung of the sin offering bull for the congregation?", a: "Carried outside the camp to a clean place and burned on wood with fire", opts: ["Burned on the altar", "Carried outside the camp to a clean place and burned on wood with fire", "Eaten by priests", "Left at the entrance"], expl: "Lev 4:11–12 – whole bull carried outside and burned where ashes are poured." },
+  { type: "mc", q: "Which offering could include leavened bread in certain presentations (Lev 7:13)?", a: "Peace offering of thanksgiving", opts: ["Burnt offering", "Peace offering of thanksgiving", "Sin offering", "Grain offering"], expl: "Lev 7:13 – 'with cakes of leavened bread' presented with thanksgiving peace offering." },
+  { type: "mc", q: "What was the memorial portion of the grain offering actually burned on the altar (Lev 2:2)?", a: "A handful of the fine flour and oil + all the frankincense", opts: ["The whole grain offering", "A handful of the fine flour and oil + all the frankincense", "Only the oil", "The salt and frankincense"], expl: "Lev 2:2 – 'take… a handful of the fine flour and oil, with all of its frankincense'." },
+  { type: "mc", q: "Leviticus 6:27 states that anything that touches the flesh of the sin offering becomes", a: "Holy", opts: ["Unclean", "Holy", "Cursed", "Neutral"], expl: "Lev 6:27 – 'Whatever touches its flesh shall become holy'." },
+  { type: "mc", q: "In the guilt offering, when a person sins in any of the holy things, what must he add to the principal (Lev 5:16)?", a: "A fifth of its value", opts: ["Double", "A fifth of its value", "Nothing extra", "A vow"], expl: "Lev 5:16 – 'he shall add a fifth to it and give it to the priest'." },
+  { type: "mc", q: "Which of these animals was NOT listed as acceptable for burnt offering from the herd or flock (Lev 1)?", a: "Female goat", opts: ["Male bull", "Male sheep", "Female goat", "Male goat"], expl: "Lev 1 specifies males without blemish for burnt offerings from herd and flock." },
+  { type: "mc", q: "What was Moses referring to when he said to Aaron 'today they have offered their sin offering… and such things have happened to me' (Lev 10:19)?", a: "The death of his sons made eating the sin offering inappropriate", opts: ["He was too sad to eat", "The death of his sons made eating the sin offering inappropriate", "The altar fire was still burning", "He forgot the ritual"], expl: "Lev 10:19 – Aaron explains it would not have been acceptable to eat it after what happened." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

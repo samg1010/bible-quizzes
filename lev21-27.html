@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Leviticus 21-27 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Leviticus 21-27 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "Leviticus 21 mainly gives rules for", a: "Priests and the high priest", opts: ["Ordinary Israelites", "Priests and the high priest", "Kings only", "Women only"], expl: "Lev 21 – Special purity and marriage rules for priests because they serve God." },
+  { type: "mc", q: "According to Leviticus 21:16–23, who could not serve as a priest?", a: "Anyone with a physical defect", opts: ["Anyone with a physical defect", "Anyone who was married", "Anyone under 30 years old", "Anyone from Levi tribe"], expl: "Lev 21:17–23 – No blemish allowed; priests must be without defect." },
+  { type: "mc", q: "What does Leviticus 22 require priests to do with holy offerings?", a: "Eat them only when clean", opts: ["Throw them away", "Eat them only when clean", "Sell them", "Give them to foreigners"], expl: "Lev 22:1–16 – Priests and their families could eat holy food if clean." },
+  { type: "mc", q: "Leviticus 23 lists the appointed feasts of the LORD. Which is the first one mentioned?", a: "Sabbath", opts: ["Passover", "Sabbath", "Day of Atonement", "Feast of Tabernacles"], expl: "Lev 23:3 – Weekly Sabbath is the first appointed time." },
+  { type: "mc", q: "During the Feast of Unleavened Bread (Leviticus 23:6–8), what must Israel eat for seven days?", a: "Unleavened bread", opts: ["Leavened bread", "Unleavened bread", "Meat only", "Fruits"], expl: "Lev 23:6 – No leaven for seven days." },
+  { type: "mc", q: "What offering was waved before the LORD on the day after the Sabbath during Unleavened Bread (Leviticus 23:10–11)?", a: "Sheaf of the first grain harvest", opts: ["A lamb", "Sheaf of the first grain harvest", "Two loaves", "Oil"], expl: "Lev 23:10–11 – Firstfruits sheaf waved; marks beginning of harvest." },
+  { type: "mc", q: "The Feast of Weeks (Pentecost) in Leviticus 23:15–21 comes how many days after the firstfruits sheaf?", a: "50 days", opts: ["7 days", "50 days", "30 days", "10 days"], expl: "Lev 23:16 – Count 50 days; also called Feast of Harvest." },
+  { type: "mc", q: "On the Day of Atonement (Leviticus 23:26–32), what must the people do?", a: "Afflict themselves and rest", opts: ["Celebrate with feasting", "Afflict themselves and rest", "Offer extra animals", "Travel to Jerusalem"], expl: "Lev 23:27–32 – Fast (afflict souls), no work, holy convocation." },
+  { type: "mc", q: "The Feast of Tabernacles (Booths) in Leviticus 23:33–43 lasts how many days?", a: "Seven days (plus an eighth day assembly)", opts: ["Three days", "Seven days (plus an eighth day assembly)", "One day", "Forty days"], expl: "Lev 23:34–36 – Seven days of booths, eighth day solemn assembly." },
+  { type: "mc", q: "During the Feast of Tabernacles, what did Israel live in?", a: "Booths made of branches", opts: ["Tents", "Booths made of branches", "Houses", "Tabernacle"], expl: "Lev 23:42–43 – Live in booths to remember exodus wilderness." },
+  { type: "mc", q: "Leviticus 24:5–9 describes the showbread (bread of the Presence) placed how often?", a: "Every Sabbath", opts: ["Every day", "Every Sabbath", "Monthly", "Yearly"], expl: "Lev 24:8 – Fresh bread every Sabbath; eaten by priests." },
+  { type: "mc", q: "In Leviticus 24:10–16, what happened to the man who blasphemed the Name?", a: "He was stoned to death", opts: ["He was forgiven", "He was stoned to death", "He was exiled", "He offered a sacrifice"], expl: "Lev 24:16 – Blaspheming the Name brings death penalty." },
+  { type: "mc", q: "The law of 'eye for eye, tooth for tooth' in Leviticus 24:19–20 teaches", a: "Justice must be fair and equal", opts: ["Revenge without limit", "Justice must be fair and equal", "Mercy always", "No punishment"], expl: "Lev 24:19–20 – Proportionate justice, not excessive revenge." },
+  { type: "mc", q: "Leviticus 25 describes the Sabbath Year every how many years?", a: "Every seventh year", opts: ["Every year", "Every seventh year", "Every 50 years", "Every tenth year"], expl: "Lev 25:1–7 – Land rests every seventh year." },
+  { type: "mc", q: "What is the Year of Jubilee in Leviticus 25?", a: "Every 50th year", opts: ["Every 7th year", "Every 50th year", "Every 100th year", "Every 10th year"], expl: "Lev 25:8–12 – After seven Sabbath years (49), 50th year is Jubilee." },
+  { type: "mc", q: "In the Year of Jubilee, what happened to land sold?", a: "It returned to the original family owner", opts: ["It was burned", "It returned to the original family owner", "It stayed sold forever", "It went to priests"], expl: "Lev 25:10,13,28 – Land returns to original owners." },
+  { type: "mc", q: "Leviticus 25:35–38 commands helping poor Israelites by", a: "Lending without interest", opts: ["Charging high interest", "Lending without interest", "Ignoring them", "Selling them as slaves"], expl: "Lev 25:35–37 – Treat as brother; no interest or profit." },
+  { type: "mc", q: "In Leviticus 25, Israelite slaves were to be treated as", a: "Hired workers, not harshly ruled", opts: ["Permanent property", "Hired workers, not harshly ruled", "Enemies", "Animals"], expl: "Lev 25:39–46 – Israelites as hired servants; freed in Jubilee." },
+  { type: "mc", q: "Leviticus 26:3–13 promises blessings for obedience, including", a: "Rain in season, abundant crops, peace", opts: ["War and famine", "Rain in season, abundant crops, peace", "Poverty", "Exile"], expl: "Lev 26:4–6 – Blessings of fertility, security, and God's presence." },
+  { type: "mc", q: "Leviticus 26:14–39 warns of curses for disobedience, starting with", a: "Disease, drought, defeat by enemies", opts: ["Riches", "Disease, drought, defeat by enemies", "Long life", "Many children"], expl: "Lev 26:16–17 – Progressive judgments if covenant broken." },
+  { type: "mc", q: "Even in judgment, Leviticus 26:40–45 says God will remember", a: "His covenant with Abraham, Isaac, and Jacob", opts: ["His anger forever", "His covenant with Abraham, Isaac, and Jacob", "Only Moses", "No covenant"], expl: "Lev 26:45 – God remembers the covenant despite discipline." },
+  { type: "mc", q: "Leviticus 27 deals mainly with", a: "Vows and dedicated things to the LORD", opts: ["Daily sacrifices", "Vows and dedicated things to the LORD", "Feast days", "Priestly clothing"], expl: "Lev 27 – Rules for valuing vows, tithes, and dedications." },
+  { type: "mc", q: "In Leviticus 27:2–8, people could make a vow to dedicate a person to the LORD. What happened?", a: "A set value in shekels was paid instead of service", opts: ["They served in temple", "A set value in shekels was paid instead of service", "They were killed", "They became priests"], expl: "Lev 27:2–8 – Valuation table; money redeemed the vow." },
+  { type: "mc", q: "Leviticus 27:30–33 says the tithe of the land (crops and animals) belongs to", a: "The LORD", opts: ["The king", "The LORD", "The poor only", "The priests only"], expl: "Lev 27:30 – Tenth is holy to the LORD." },
+  { type: "mc", q: "What could not be redeemed or sold once devoted to destruction (Leviticus 27:28–29)?", a: "Things or persons devoted as cherem (devoted to destruction)", opts: ["Animals", "Things or persons devoted as cherem (devoted to destruction)", "Land", "Money"], expl: "Lev 27:28–29 – Irrevocable; most often applied to enemies or idols." },
+  { type: "mc", q: "The high priest in Leviticus 21 could not marry", a: "A widow, divorced woman, or prostitute", opts: ["A virgin only", "A widow, divorced woman, or prostitute", "Any Israelite woman", "A foreigner"], expl: "Lev 21:13–14 – Must marry a virgin from his people." },
+  { type: "mc", q: "Leviticus 23:24 calls the first day of the seventh month", a: "A day of solemn rest and trumpet blasts", opts: ["Passover", "A day of solemn rest and trumpet blasts", "Day of Atonement", "Sabbath Year start"], expl: "Lev 23:24 – Feast of Trumpets (Rosh Hashanah)." },
+  { type: "mc", q: "On the Day of Atonement, no one was to", a: "Do any work at all", opts: ["Eat meat", "Do any work at all", "Offer sacrifices", "Pray"], expl: "Lev 23:28–30 – Complete rest; work brings being cut off." },
+  { type: "mc", q: "During Jubilee, liberty was proclaimed throughout the land (Leviticus 25:10). This meant", a: "Freedom for Israelite slaves and return of land", opts: ["War freedom", "Freedom for Israelite slaves and return of land", "Freedom for foreigners only", "No freedom"], expl: "Lev 25:10 – Jubilee year of liberty and restoration." },
+  { type: "mc", q: "Leviticus 25:55 says the Israelites belong to God because", a: "He brought them out of Egypt", opts: ["They were born in Canaan", "He brought them out of Egypt", "They paid for the land", "They built the tabernacle"], expl: "Lev 25:55 – 'For the Israelites belong to me as servants; they are my servants whom I brought out of Egypt.'" },
+  { type: "mc", q: "In Leviticus 26:11–12, God promises to set His", a: "Tabernacle among them and walk among them", opts: ["Throne in heaven", "Tabernacle among them and walk among them", "Army with them", "Blessings in the sky"], expl: "Lev 26:11–12 – Covenant presence: 'I will be your God and you will be my people.'" },
+  { type: "mc", q: "Leviticus 27:32 says every tenth animal was holy to the LORD, and", a: "Could not be redeemed or exchanged", opts: ["Could be sold", "Could not be redeemed or exchanged", "Was always eaten", "Was given to the poor"], expl: "Lev 27:33 – Tithe animals holy; no swapping good for bad." }
+];
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
