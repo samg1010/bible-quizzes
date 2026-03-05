@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Numbers 21-30 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Numbers 11-30 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Numbers 21, God sent fiery serpents because the people complained about", a: "food and water", opts: ["leaders", "food and water", "land", "enemies"], expl: "Num 21:4–5 – no bread, no water, detest this miserable food" },
+   { type: "mc", q: "To heal those bitten by serpents, Moses made a", a: "bronze serpent", opts: ["gold staff", "bronze serpent", "wooden pole", "silver snake"], expl: "Num 21:8–9 – bronze serpent on a pole; look and live" },
+   { type: "mc", q: "Anyone bitten who looked at the bronze serpent would", a: "live", opts: ["die", "live", "be healed slowly", "be punished"], expl: "Num 21:8 – 'when he sees it, he shall live'" },
+   { type: "mc", q: "Israel defeated the king of Arad in the", a: "Negev", opts: ["Moab", "Negev", "Bashan", "Edom"], expl: "Num 21:1–3 – Canaanite king of Arad in the South/Negev" },
+   { type: "mc", q: "The place named Hormah means", a: "destruction", opts: ["victory", "destruction", "water", "serpent"], expl: "Num 21:3 – devoted to destruction (herem)" },
+   { type: "mc", q: "Israel asked to pass through the land of King", a: "Sihon", opts: ["Og", "Sihon", "Balak", "Arad"], expl: "Num 21:21–22 – Sihon king of the Amorites" },
+   { type: "mc", q: "Israel defeated Sihon and took his land from the Arnon to the", a: "Jabbok", opts: ["Jordan", "Jabbok", "Euphrates", "Nile"], expl: "Num 21:24 – Arnon to Jabbok" },
+   { type: "mc", q: "King Og of Bashan was a", a: "giant", opts: ["child", "giant", "priest", "prophet"], expl: "Num 21:33 – of the remnant of the Rephaim (giants)" },
+   { type: "mc", q: "Israel defeated Og at", a: "Edrei", opts: ["Heshbon", "Edrei", "Kadesh", "Moab"], expl: "Num 21:35 – defeated him at Edrei" },
+   { type: "mc", q: "In Numbers 22, Balak king of Moab hired", a: "Balaam", opts: ["Moses", "Balaam", "Joshua", "Aaron"], expl: "Num 22:5–7 – Balaam to curse Israel" },
+   { type: "mc", q: "Balaam's donkey spoke to him when it saw", a: "the angel of the Lord", opts: ["a lion", "the angel of the Lord", "water", "food"], expl: "Num 22:22–31 – angel blocking the path" },
+   { type: "mc", q: "God told Balaam to go with Balak's men but to speak only what", a: "He says", opts: ["Balak wants", "He says", "the people want", "himself thinks"], expl: "Num 22:20,38 – only the word God speaks" },
+   { type: "mc", q: "In Numbers 23–24, Balaam blessed Israel", a: "three times", opts: ["once", "three times", "twice", "four times"], expl: "Num 23–24 – three oracles of blessing instead of curse" },
+   { type: "mc", q: "Balaam prophesied that a star would come out of", a: "Jacob", opts: ["Moab", "Jacob", "Edom", "Amalek"], expl: "Num 24:17 – 'a star shall come out of Jacob'" },
+   { type: "mc", q: "In Numbers 25, Israelite men sinned by committing immorality with", a: "Moabite women", opts: ["Egyptian women", "Moabite women", "Canaanite men", "Ammonite priests"], expl: "Num 25:1–3 – Moabite women and Baal of Peor" },
+   { type: "mc", q: "A plague killed how many in the Baal Peor incident?", a: "24,000", opts: ["14,700", "24,000", "250", "3,000"], expl: "Num 25:9 – 24,000 died in the plague" },
+   { type: "mc", q: "Phinehas stopped the plague by spearing", a: "an Israelite and Midianite woman", opts: ["a serpent", "an Israelite and Midianite woman", "Balaam", "Balak"], expl: "Num 25:7–8 – Zimri and Cozbi" },
+   { type: "mc", q: "Numbers 26 is the", a: "second census", opts: ["first census", "second census", "third census", "Levite count"], expl: "Num 26 – census of new generation after plague" },
+   { type: "mc", q: "The total men in the second census was about", a: "601,730", opts: ["603,550", "601,730", "22,000", "144,000"], expl: "Num 26:51 – 601,730" },
+   { type: "mc", q: "The tribe with the most in the second census was", a: "Judah", opts: ["Judah", "Levi", "Reuben", "Dan"], expl: "Num 26:22 – Judah 76,500" },
+   { type: "mc", q: "Land inheritance in Numbers 26 was to be given by", a: "lot", opts: ["age", "lot", "wealth", "size"], expl: "Num 26:55–56 – divided by lot" },
+   { type: "mc", q: "The daughters of Zelophehad asked for inheritance because their father had", a: "no sons", opts: ["no sons", "many sons", "died in battle", "been a priest"], expl: "Num 27:1–11 – no male heirs" },
+   { type: "mc", q: "God said daughters could inherit if there were no", a: "sons", opts: ["daughters", "sons", "brothers", "uncles"], expl: "Num 27:8 – if no sons, to daughters" },
+   { type: "mc", q: "Moses' successor chosen in Numbers 27 was", a: "Joshua", opts: ["Caleb", "Joshua", "Eleazar", "Phinehas"], expl: "Num 27:18–23 – Joshua son of Nun" },
+   { type: "mc", q: "Numbers 28–29 details offerings for daily, Sabbath, monthly, and", a: "annual feasts", opts: ["weekly feasts", "annual feasts", "birthdays", "weddings"], expl: "Num 28–29 – regular and festival offerings" },
+   { type: "mc", q: "The Feast of Trumpets is in the", a: "seventh month", opts: ["first month", "seventh month", "tenth month", "twelfth month"], expl: "Num 29:1 – first day of seventh month" },
+   { type: "mc", q: "The Day of Atonement offerings are in Numbers", a: "29", opts: ["28", "29", "27", "30"], expl: "Num 29:7–11 – tenth day of seventh month" },
+   { type: "mc", q: "The Feast of Tabernacles lasted how many days with offerings?", a: "7 days plus an eighth", opts: ["3 days", "7 days plus an eighth", "40 days", "1 day"], expl: "Num 29:12–38 – seven days, solemn assembly on eighth" },
+   { type: "mc", q: "Numbers 30 is about laws concerning", a: "vows", opts: ["sacrifices", "vows", "war", "land"], expl: "Num 30 – vows and oaths, especially by women" },
+   { type: "mc", q: "A father's silence to his daughter's vow means it", a: "stands", opts: ["is broken", "stands", "is doubled", "is canceled"], expl: "Num 30:3–5 – if father holds peace, it stands" },
+   { type: "mc", q: "A husband's silence to his wife's vow on the day he hears it means it", a: "stands", opts: ["is annulled", "stands", "needs priest", "is sin"], expl: "Num 30:6–8,13 – if husband silent, it stands" },
+   { type: "mc", q: "The Israelites camped in the plains of", a: "Moab", opts: ["Moab", "Sinai", "Paran", "Zin"], expl: "Num 22:1; 25:1 – across from Jericho" },
+   { type: "mc", q: "Balaam came from", a: "Pethor near the Euphrates", opts: ["Egypt", "Pethor near the Euphrates", "Canaan", "Moab"], expl: "Num 22:5 – Pethor by the River" },
+   { type: "mc", q: "The well song in Numbers 21 was sung at", a: "Beer", opts: ["Zin", "Beer", "Kadesh", "Hor"], expl: "Num 21:16–18 – Beer, 'Spring'; song of the well" },
+   { type: "mc", q: "Israel asked Edom for passage but was refused with", a: "threat of sword", opts: ["welcome", "threat of sword", "gifts", "alliance"], expl: "Num 20:18 – Edom came out with sword (context leads into 21)" },
+   { type: "mc", q: "The victory song over Sihon is quoted in Numbers", a: "21:27–30", opts: ["21:17", "21:27–30", "22:5", "24:17"], expl: "Num 21:27–30 – poets say..." },
+   { type: "mc", q: "Balak took Balaam to Bamoth-baal to see", a: "part of Israel", opts: ["all Israel", "part of Israel", "the sea", "the ark"], expl: "Num 22:41 – see the outskirts" },
+   { type: "mc", q: "Balaam's first oracle said Israel is a people who", a: "dwell alone", opts: ["dwell alone", "fight Moab", "worship Baal", "fear giants"], expl: "Num 23:9 – 'a people dwelling alone'" },
+   { type: "mc", q: "Balaam's second oracle said God does not", a: "repent", opts: ["bless", "repent", "curse", "forget"], expl: "Num 23:19 – 'God is not man, that he should lie... repent'" },
+   { type: "mc", q: "Balaam's third oracle blessed Israel like", a: "gardens by the river", opts: ["lions", "gardens by the river", "stars", "sand"], expl: "Num 24:5–6 – like gardens beside a river" },
+   { type: "mc", q: "In Numbers 25, Israel yoked themselves to", a: "Baal of Peor", opts: ["Baal of Peor", "Molech", "Asherah", "Dagon"], expl: "Num 25:3 – joined to Baal of Peor" },
+   { type: "mc", q: "God gave Phinehas a covenant of", a: "perpetual priesthood", opts: ["kingship", "perpetual priesthood", "land", "riches"], expl: "Num 25:12–13 – covenant of perpetual priesthood" },
+   { type: "mc", q: "The second census was after the plague to prepare for", a: "entering the land", opts: ["war", "entering the land", "leaving Sinai", "feasts"], expl: "Num 26:1–2 – after plague, count for inheritance" },
+   { type: "mc", q: "No one from the first census was in the second except", a: "Caleb and Joshua", opts: ["Moses and Aaron", "Caleb and Joshua", "Eleazar", "Phinehas"], expl: "Num 26:64–65 – only Caleb and Joshua" },
+   { type: "mc", q: "Daily offerings in Numbers 28 were two lambs as", a: "continual burnt offering", opts: ["peace offering", "continual burnt offering", "sin offering", "grain offering"], expl: "Num 28:3–8 – continual burnt offering" },
+   { type: "mc", q: "The offering on the Day of Atonement included a", a: "male goat for sin", opts: ["bull and goat", "male goat for sin", "lamb only", "ram"], expl: "Num 29:11 – besides regular and sin goat" },
+   { type: "mc", q: "If a man made a vow, he", a: "must keep it", opts: ["must keep it", "can break it", "needs wife approval", "pays fine"], expl: "Num 30:2 – he shall not break his word" },
+   { type: "mc", q: "A widow or divorced woman's vow", a: "stands", opts: ["is annulled", "stands", "needs priest", "is doubled"], expl: "Num 30:9 – binds her" },
+   { type: "mc", q: "Numbers 21–30 shows transition to the", a: "new generation", opts: ["old generation", "new generation", "priests only", "kings"], expl: "Victories, census, laws for entering the land" }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

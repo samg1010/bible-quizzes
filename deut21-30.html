@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deuteronomy 21-30 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Deuteronomy 21-30 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Deuteronomy 21, if a dead body is found and the killer is unknown, the elders must", a: "break the neck of a heifer", opts: ["offer a lamb", "break the neck of a heifer", "pray over the body", "stone a suspect"], expl: "Deut 21:1–9 – atonement ritual with heifer in a valley." },
+   { type: "mc", q: "When taking a beautiful captive woman as wife in Deuteronomy 21, she must", a: "shave her head, pare her nails, and mourn one month", opts: ["marry immediately", "shave her head, pare her nails, and mourn one month", "convert first", "return home"], expl: "Deut 21:10–14 – allow her to mourn parents one month." },
+   { type: "mc", q: "If a man has two wives and loves one but not the other, the firstborn son gets the double portion even if born to the", a: "unloved wife", opts: ["loved wife", "unloved wife", "second wife", "servant"], expl: "Deut 21:15–17 – birthright belongs to the firstborn." },
+   { type: "mc", q: "A stubborn and rebellious son who refuses discipline is to be", a: "stoned by the men of the city", opts: ["exiled", "stoned by the men of the city", "imprisoned", "forgiven"], expl: "Deut 21:18–21 – brought to elders; stoned to purge evil." },
+   { type: "mc", q: "Deuteronomy 22 commands that if a man finds a lost animal, he must", a: "return it to its owner", opts: ["keep it", "return it to its owner", "sell it", "ignore it"], expl: "Deut 22:1–4 – help your brother's ox or donkey." },
+   { type: "mc", q: "A woman must not wear men's clothing, nor a man women's clothing, because it is an", a: "abomination to the Lord", opts: ["abomination to the Lord", "fashion choice", "sin only in temple", "custom"], expl: "Deut 22:5 – against blurring gender distinctions." },
+   { type: "mc", q: "If a man lies with a betrothed virgin in the city and she does not cry out, both are", a: "stoned", opts: ["stoned", "fined", "forgiven", "exiled"], expl: "Deut 22:23–24 – presumed consent in city." },
+   { type: "mc", q: "If a man lies with a betrothed virgin in the field where no one could hear her cry, only the man is", a: "put to death", opts: ["put to death", "fined", "both punished", "forgiven"], expl: "Deut 22:25–27 – treated as rape; only man dies." },
+   { type: "mc", q: "If a man seduces an unbetrothed virgin, he must", a: "pay her father 50 shekels and marry her", opts: ["pay her father 50 shekels and marry her", "be stoned", "pay fine only", "leave her"], expl: "Deut 22:28–29 – must marry and never divorce her." },
+   { type: "mc", q: "A man with crushed testicles or cut off organ may not enter the", a: "assembly of the Lord", opts: ["assembly of the Lord", "army", "city", "temple"], expl: "Deut 23:1 – exclusion from assembly." },
+   { type: "mc", q: "An Ammonite or Moabite may not enter the assembly of the Lord even to the", a: "tenth generation", opts: ["first generation", "tenth generation", "forever", "third generation"], expl: "Deut 23:3 – because they did not meet Israel with bread and water." },
+   { type: "mc", q: "Edomites may enter the assembly after the", a: "third generation", opts: ["first", "third generation", "tenth", "never"], expl: "Deut 23:7–8 – Edom is your brother." },
+   { type: "mc", q: "When going to war, a newly married man is exempt from service for", a: "one year", opts: ["one year", "six months", "three months", "seven days"], expl: "Deut 24:5 – to cheer up his wife." },
+   { type: "mc", q: "Do not take a millstone as pledge because that would be taking a man's", a: "life in pledge", opts: ["life in pledge", "food in pledge", "house", "animal"], expl: "Deut 24:6 – essential for daily life." },
+   { type: "mc", q: "If a man is caught kidnapping a fellow Israelite, he must", a: "be put to death", opts: ["be put to death", "pay fine", "be enslaved", "be exiled"], expl: "Deut 24:7 – treated as a thief of life." },
+   { type: "mc", q: "Remember you were a slave in Egypt, so do not", a: "oppress the stranger", opts: ["oppress the stranger", "charge interest", "keep pledges", "all of these"], expl: "Deut 24:17–22 – leave gleanings for stranger, orphan, widow." },
+   { type: "mc", q: "When you beat your olive tree, do not go over it again; leave it for the", a: "stranger, orphan, and widow", opts: ["stranger, orphan, and widow", "priests", "king", "poor only"], expl: "Deut 24:20 – charity in harvest." },
+   { type: "mc", q: "If two men fight and the wife grabs the genitals of one to help her husband, her hand must be", a: "cut off", opts: ["cut off", "washed", "forgiven", "fined"], expl: "Deut 25:11–12 – no pity." },
+   { type: "mc", q: "Do not muzzle an ox while it is", a: "treading out the grain", opts: ["treading out the grain", "plowing", "pulling cart", "resting"], expl: "Deut 25:4 – let it eat." },
+   { type: "mc", q: "If brothers dwell together and one dies without a son, the brother must marry the widow to raise up offspring for the dead brother; this is called", a: "levirate marriage", opts: ["levirate marriage", "polygamy", "divorce", "inheritance"], expl: "Deut 25:5–10 – duty of brother-in-law." },
+   { type: "mc", q: "If a man refuses levirate duty, the widow removes his sandal and spits in his face; he is called", a: "the house of him who had his sandal removed", opts: ["the house of him who had his sandal removed", "cursed", "blessed", "exiled"], expl: "Deut 25:9–10 – public shame." },
+   { type: "mc", q: "Amalek attacked Israel when they were weary; therefore blot out the memory of", a: "Amalek", opts: ["Amalek", "Moab", "Edom", "Canaan"], expl: "Deut 25:17–19 – remember to destroy Amalek." },
+   { type: "mc", q: "In Deuteronomy 26, when bringing firstfruits, the Israelite says 'A wandering Aramean was my father' referring to", a: "Jacob", opts: ["Abraham", "Jacob", "Isaac", "Joseph"], expl: "Deut 26:5 – Jacob went down to Egypt." },
+   { type: "mc", q: "The third-year tithe declaration includes care for the", a: "Levite, stranger, orphan, and widow", opts: ["Levite, stranger, orphan, and widow", "priests only", "king", "army"], expl: "Deut 26:12–15 – declare before the Lord." },
+   { type: "mc", q: "On Mount Ebal, Israel must build an altar and write the words of the law on", a: "plastered stones", opts: ["plastered stones", "wood", "gold", "papyrus"], expl: "Deut 27:2–8 – large stones plastered and inscribed." },
+   { type: "mc", q: "The curses are pronounced by the Levites on Mount", a: "Ebal", opts: ["Gerizim", "Ebal", "Sinai", "Nebo"], expl: "Deut 27:11–13 – Ebal for curses, Gerizim for blessings." },
+   { type: "mc", q: "One curse is 'Cursed be anyone who dishonors his father or mother'; the people say", a: "Amen", opts: ["Amen", "Hallelujah", "Hosanna", "Selah"], expl: "Deut 27:16 – all the people say 'Amen'." },
+   { type: "mc", q: "Deuteronomy 28 promises blessings for obedience including", a: "blessed in city and field", opts: ["blessed in city and field", "cursed in all", "rich only", "poor only"], expl: "Deut 28:3–6 – blessed wherever you go." },
+   { type: "mc", q: "The curses in Deuteronomy 28 include being smitten with", a: "madness, blindness, and confusion of mind", opts: ["madness, blindness, and confusion of mind", "wealth", "peace", "health"], expl: "Deut 28:28 – severe judgments." },
+   { type: "mc", q: "If Israel does not serve God with joy, they will serve their enemies in", a: "hunger, thirst, nakedness, and want", opts: ["hunger, thirst, nakedness, and want", "luxury", "freedom", "riches"], expl: "Deut 28:47–48 – yoke of iron." },
+   { type: "mc", q: "Deuteronomy 29 renews the covenant in the land of", a: "Moab", opts: ["Moab", "Sinai", "Kadesh", "Canaan"], expl: "Deut 29:1 – covenant in Moab besides Horeb." },
+   { type: "mc", q: "Secret things belong to the Lord, but the things revealed belong to us and our children", a: "forever", opts: ["forever", "for a time", "until death", "never"], expl: "Deut 29:29 – to do all the words of the law." },
+   { type: "mc", q: "If Israel returns to the Lord with all their heart, God will", a: "restore their fortunes and have compassion", opts: ["restore their fortunes and have compassion", "reject them", "send more curses", "forget them"], expl: "Deut 30:1–3 – gather from dispersion." },
+   { type: "mc", q: "Circumcise your heart; the Lord will circumcise your heart to", a: "love the Lord your God", opts: ["love the Lord your God", "fear enemies", "gain wealth", "forget law"], expl: "Deut 30:6 – love with all heart and soul." },
+   { type: "mc", q: "The commandment is not too hard or far off; it is in your", a: "mouth and heart", opts: ["mouth and heart", "scroll only", "temple", "priest's hands"], expl: "Deut 30:11–14 – near you, in mouth and heart." },
+   { type: "mc", q: "Deuteronomy 30 sets before Israel life and good, death and evil; choose", a: "life", opts: ["life", "death", "riches", "poverty"], expl: "Deut 30:15–19 – choose life that you and offspring may live." },
+   { type: "mc", q: "Love the Lord, obey His voice, hold fast to Him; this is your", a: "life and length of days", opts: ["life and length of days", "curse", "wealth", "power"], expl: "Deut 30:20 – clinging to Him is life." },
+   { type: "mc", q: "In Deuteronomy 21–30, the laws emphasize holiness, justice, and", a: "covenant faithfulness", opts: ["covenant faithfulness", "war only", "wealth", "kingship"], expl: "Preparation for life in the land with blessings/curses." }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

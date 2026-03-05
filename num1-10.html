@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Numbers 1-10 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Numbers 1-10 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "The book of Numbers is the ___ book of the Bible", a: "fourth", opts: ["third", "fourth", "fifth", "sixth"], expl: "Genesis, Exodus, Leviticus, Numbers..." },
+   { type: "mc", q: "Numbers 1 records a census of men able to go to war who were at least", a: "20 years old", opts: ["18 years old", "20 years old", "25 years old", "30 years old"], expl: "Num 1:3 – men twenty years old or more" },
+   { type: "mc", q: "The total number of men counted in the census in Numbers 1 was", a: "603,550", opts: ["about 300,000", "603,550", "about 1 million", "22,000"], expl: "Num 1:46 – 603,550 from the tribes excluding Levi" },
+   { type: "mc", q: "Which tribe was not included in the main census because they were set apart for tabernacle service?", a: "Levi", opts: ["Judah", "Levi", "Reuben", "Ephraim"], expl: "Num 1:47–49 – Levites were appointed over the tabernacle" },
+   { type: "mc", q: "In Numbers 2, the tribes camped around the tabernacle in a specific order with ___ to the east", a: "Judah", opts: ["Reuben", "Judah", "Ephraim", "Dan"], expl: "Num 2:3 – Judah's camp on the east" },
+   { type: "mc", q: "The camp arrangement in Numbers 2 placed Reuben's division on the", a: "south side", opts: ["east side", "south side", "west side", "north side"], expl: "Num 2:10 – Reuben to the south" },
+   { type: "mc", q: "According to Numbers 3, the Levites were taken by God in place of", a: "the firstborn of Israel", opts: ["the priests only", "the firstborn of Israel", "all the warriors", "the women"], expl: "Num 3:12–13 – Levites instead of firstborn" },
+   { type: "mc", q: "The number of Levite males one month old or more in Numbers 3 was", a: "22,000", opts: ["603,550", "22,000", "about 8,000", "144,000"], expl: "Num 3:39 – 22,000 Levites" },
+   { type: "mc", q: "Numbers 3 says there were 273 more firstborn Israelites than Levites, so they were redeemed with", a: "silver", opts: ["gold", "silver", "animals", "land"], expl: "Num 3:46–51 – five shekels each for the extra" },
+   { type: "mc", q: "In Numbers 4, the Kohathites were responsible for carrying the", a: "most holy things", opts: ["tent coverings", "most holy things", "frames and pillars", "curtains"], expl: "Num 4:4–15 – Kohathites carried ark, table, lampstand, etc." },
+   { type: "mc", q: "The Gershonites in Numbers 4 carried the", a: "curtains and coverings", opts: ["frames", "curtains and coverings", "holy items", "altar"], expl: "Num 4:24–28 – cloths, coverings, hangings" },
+   { type: "mc", q: "The Merarites' duty in Numbers 4 was to carry the", a: "frames, bars, pillars, and bases", opts: ["ark", "frames, bars, pillars, and bases", "incense", "showbread"], expl: "Num 4:29–33 – structural parts of the tabernacle" },
+   { type: "mc", q: "Numbers 5 gives laws about removing ___ from the camp", a: "unclean persons", opts: ["children", "unclean persons", "animals", "priests"], expl: "Num 5:1–4 – those with skin diseases, discharges, or defiled by dead" },
+   { type: "mc", q: "In Numbers 5, if someone sins against another, they must confess and make", a: "restitution plus 20%", opts: ["no payment", "restitution plus 20%", "only prayer", "animal sacrifice only"], expl: "Num 5:5–10 – full restitution + one-fifth" },
+   { type: "mc", q: "The test for an unfaithful wife in Numbers 5 involves drinking", a: "bitter water", opts: ["wine", "bitter water", "milk", "oil"], expl: "Num 5:11–31 – water of bitterness that brings a curse" },
+   { type: "mc", q: "A Nazirite vow in Numbers 6 includes not cutting", a: "hair", opts: ["nails", "hair", "beard", "clothes"], expl: "Num 6:5 – no razor on head during vow" },
+   { type: "mc", q: "During a Nazirite vow, a person must not drink", a: "wine or strong drink", opts: ["water", "wine or strong drink", "milk", "juice"], expl: "Num 6:3 – no wine, vinegar, grape juice, or fresh grapes" },
+   { type: "mc", q: "The priestly blessing in Numbers 6 is also called the", a: "Aaronic blessing", opts: ["Levitical blessing", "Aaronic blessing", "Mosaic blessing", "Sinai blessing"], expl: "Num 6:22–27 – 'The Lord bless you and keep you...'" },
+   { type: "mc", q: "In Numbers 7, the leaders of the tribes brought dedication offerings for the tabernacle over", a: "12 days", opts: ["7 days", "12 days", "40 days", "1 day"], expl: "Num 7 – one leader per day for 12 days" },
+   { type: "mc", q: "The offerings in Numbers 7 included silver plates, gold dishes, animals for", a: "burnt, sin, and peace offerings", opts: ["grain only", "burnt, sin, and peace offerings", "drink only", "wave only"], expl: "Num 7 – identical gifts each day including animals" },
+   { type: "mc", q: "Numbers 8 describes the", a: "consecration of the Levites", opts: ["census", "consecration of the Levites", "Passover", "trumpets"], expl: "Num 8:5–26 – cleansing and presentation of Levites" },
+   { type: "mc", q: "Levites began serving at age", a: "25", opts: ["20", "25", "30", "50"], expl: "Num 8:24 – from 25 to 50 years old" },
+   { type: "mc", q: "The Passover in Numbers 9 was to be kept on the ___ of the first month", a: "14th day", opts: ["1st day", "14th day", "10th day", "7th day"], expl: "Num 9:3–5 – fourteenth day at twilight" },
+   { type: "mc", q: "If someone was unclean or far away, they could keep a second Passover on the", a: "14th day of the second month", opts: ["first month", "14th day of the second month", "third month", "seventh month"], expl: "Num 9:9–11 – second chance Passover" },
+   { type: "mc", q: "In Numbers 9, the cloud over the tabernacle signaled when to", a: "camp or set out", opts: ["pray", "camp or set out", "sacrifice", "eat"], expl: "Num 9:15–23 – cloud by day, fire by night guided movements" },
+   { type: "mc", q: "Numbers 10 describes making two trumpets of", a: "silver", opts: ["gold", "silver", "bronze", "wood"], expl: "Num 10:2 – hammered silver trumpets" },
+   { type: "mc", q: "The silver trumpets in Numbers 10 were used to", a: "signal the people and call assemblies", opts: ["play music only", "signal the people and call assemblies", "announce war only", "call priests only"], expl: "Num 10:2–10 – for summoning, breaking camp, alarms" },
+   { type: "mc", q: "Israel departed from Sinai on the ___ day of the second month", a: "20th", opts: ["1st", "10th", "20th", "30th"], expl: "Num 10:11 – second year, second month, twentieth day" },
+   { type: "mc", q: "When the ark set out in Numbers 10, Moses said 'Rise up, O Lord, and let your enemies be", a: "scattered'", opts: ["destroyed", "scattered'", "confused", "blinded"], expl: "Num 10:35 – 'Rise up, O Lord... let your enemies be scattered'" },
+   { type: "mc", q: "The marching order in Numbers 10 began with the camp of", a: "Judah", opts: ["Reuben", "Judah", "Ephraim", "Dan"], expl: "Num 10:14 – Judah first" },
+   { type: "mc", q: "The Levites who carried the holy things went between the camps of", a: "Judah and Reuben", opts: ["Judah and Reuben", "Reuben and Ephraim", "Ephraim and Dan", "Dan and Judah"], expl: "Num 10:17,21 – Kohathites after Gershonites/Merarites" },
+   { type: "mc", q: "Hobab, invited to travel with Israel in Numbers 10, was the son of", a: "Reuel the Midianite", opts: ["Aaron", "Reuel the Midianite", "Caleb", "Joshua"], expl: "Num 10:29 – Hobab son of Reuel (Moses' father-in-law)" },
+   { type: "mc", q: "The cloud of the Lord was over the tabernacle by", a: "day", opts: ["night only", "day", "both day and night as fire", "only when moving"], expl: "Num 9:15 – cloud by day, appearance of fire by night" },
+   { type: "mc", q: "The Levites were presented before the Lord as a", a: "wave offering", opts: ["burnt offering", "wave offering", "sin offering", "peace offering"], expl: "Num 8:11–13 – waved before the Lord" },
+   { type: "mc", q: "In Numbers 7, each tribal leader's offering included two silver", a: "dishes", opts: ["plates weighing 130 shekels", "dishes", "sprinkling bowls", "all of the above"], expl: "Num 7 – each brought plate, dish, bowl, etc." },
+   { type: "mc", q: "The altar was anointed and consecrated in Numbers", a: "7", opts: ["5", "6", "7", "8"], expl: "Num 7:1 – after tabernacle setup" },
+   { type: "mc", q: "Numbers 6 ends with the blessing: 'The Lord make his face ___ upon you'", a: "shine", opts: ["hide", "shine", "turn", "darken"], expl: "Num 6:25 – 'shine upon you and be gracious'" },
+   { type: "mc", q: "If a Nazirite became defiled by a dead body, he had to start the vow over after", a: "7 days", opts: ["1 day", "7 days", "30 days", "1 year"], expl: "Num 6:9–12 – shave head, offer sacrifices, restart" },
+   { type: "mc", q: "The signal for the camps to set out in Numbers 10 included blowing the trumpets with", a: "one blast for leaders", opts: ["one blast for leaders", "two blasts for all", "long blast for east", "all different"], expl: "Num 10:5–6 – blasts for different directions" },
+   { type: "mc", q: "The Israelites' journey from Sinai was toward the wilderness of", a: "Paran", opts: ["Sin", "Paran", "Zin", "Shur"], expl: "Num 10:12 – toward Paran" },
+   { type: "mc", q: "In Numbers 4, Levites served from age 30 to", a: "50", opts: ["25 to 50", "30 to 50", "20 to 60", "25 to 60"], expl: "Num 4:3,23,30 – census of those 30–50 for service" },
+   { type: "mc", q: "The redemption price for extra firstborn was five shekels of", a: "silver", opts: ["gold", "silver", "bronze", "copper"], expl: "Num 3:47 – sanctuary shekel" },
+   { type: "mc", q: "Numbers 5 requires a jealous husband to bring his wife to the", a: "priest", opts: ["judge", "priest", "elder", "king"], expl: "Num 5:15 – grain offering of jealousy" },
+   { type: "mc", q: "The cloud lifted from the tabernacle to signal it was time to", a: "travel", opts: ["pray", "travel", "rest", "sacrifice"], expl: "Num 9:17–18 – when lifted, they set out" },
+   { type: "mc", q: "In Numbers 10, Moses asked Hobab to be their", a: "guide", opts: ["guide", "priest", "warrior", "scribe"], expl: "Num 10:31 – eyes for us in wilderness" },
+   { type: "mc", q: "The dedication gifts in Numbers 7 included incense in", a: "gold dishes", opts: ["silver plates", "gold dishes", "bronze bowls", "wood boxes"], expl: "Num 7:14 – gold dish full of incense" },
+   { type: "mc", q: "Levites were cleansed by sprinkling", a: "water of cleansing", opts: ["blood", "water of cleansing", "oil", "wine"], expl: "Num 8:7 – purifying water" },
+   { type: "mc", q: "The Passover rule in Numbers 9 allowed foreigners to keep it if they were", a: "circumcised", opts: ["circumcised", "wealthy", "priests", "women"], expl: "Num 9:14 – same statute for stranger and native" },
+   { type: "mc", q: "Numbers 1–10 mainly shows Israel ___ to leave Sinai", a: "preparing", opts: ["refusing", "preparing", "fighting", "complaining"], expl: "Organization, consecration, and departure preparations" },
+   { type: "mc", q: "The final event in Numbers 10 is the beginning of the journey with the", a: "ark leading", opts: ["cloud leading", "ark leading", "Moses leading", "trumpets leading"], expl: "Num 10:33–36 – ark of covenant went before them" }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

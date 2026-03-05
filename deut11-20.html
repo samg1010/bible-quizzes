@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deuteronomy 11-20 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Deuteronomy 11-20 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Deuteronomy 11, Moses says to love the Lord and keep His commandments so that", a: "your days may be multiplied", opts: ["you become rich", "your days may be multiplied", "enemies flee", "rain stops"], expl: "Deut 11:8–9,21 – obedience leads to strength, long life in the land." },
+   { type: "mc", q: "Deuteronomy 11 contrasts the land of Canaan with Egypt because Canaan is watered by", a: "rain from heaven", opts: ["Nile floods", "rain from heaven", "hand irrigation", "rivers only"], expl: "Deut 11:10–12 – not like Egypt; God cares for it with rain." },
+   { type: "mc", q: "If Israel turns to other gods, God will shut the heavens so there is no", a: "rain", opts: ["sun", "rain", "food", "peace"], expl: "Deut 11:16–17 – no rain, land yields no produce." },
+   { type: "mc", q: "In Deuteronomy 11, God sets before Israel a blessing if they obey and a", a: "curse if they disobey", opts: ["blessing always", "curse if they disobey", "choice of kings", "new law"], expl: "Deut 11:26–28 – blessing for obedience, curse for turning to other gods." },
+   { type: "mc", q: "The blessings are to be pronounced on Mount", a: "Gerizim", opts: ["Gerizim", "Ebal", "Sinai", "Nebo"], expl: "Deut 11:29 – Gerizim for blessing, Ebal for curse." },
+   { type: "mc", q: "Deuteronomy 12 commands Israel to destroy the places where nations served their gods and worship only at the place God will", a: "choose", opts: ["Sinai", "choose", "build", "show Moses"], expl: "Deut 12:5–14 – central sanctuary; no more high places." },
+   { type: "mc", q: "In Deuteronomy 12, animals could be slaughtered and eaten in towns but blood must be", a: "poured on the ground", opts: ["eaten", "poured on the ground", "saved", "burned"], expl: "Deut 12:15–16,23–25 – blood is life; pour it out." },
+   { type: "mc", q: "Deuteronomy 13 warns against false prophets who perform signs but lead to other gods; Israel must", a: "put them to death", opts: ["listen to them", "put them to death", "ignore them", "question them"], expl: "Deut 13:1–5 – test of love for God; execute false prophets." },
+   { type: "mc", q: "If a close relative entices to idolatry in Deuteronomy 13, Israel must", a: "not spare or conceal them", opts: ["forgive them", "not spare or conceal them", "report to priest", "pray for them"], expl: "Deut 13:6–11 – even family; stone them to purge evil." },
+   { type: "mc", q: "If an entire city turns to idolatry in Deuteronomy 13, it must be", a: "utterly destroyed", opts: ["spared", "utterly destroyed", "exiled", "taxed"], expl: "Deut 13:12–18 – devoted to destruction (herem)." },
+   { type: "mc", q: "Deuteronomy 14 lists clean and unclean animals; Israel may not eat animals that", a: "do not chew cud and have split hooves", opts: ["fly", "do not chew cud and have split hooves", "swim", "have scales"], expl: "Deut 14:3–21 – dietary laws repeated." },
+   { type: "mc", q: "In Deuteronomy 14, Israel must not boil a kid in its mother's", a: "milk", opts: ["blood", "milk", "water", "fat"], expl: "Deut 14:21 – no seething a kid in its mother's milk." },
+   { type: "mc", q: "Every third year, the tithe was stored for the", a: "Levite, stranger, fatherless, and widow", opts: ["priests only", "Levite, stranger, fatherless, and widow", "king", "army"], expl: "Deut 14:28–29 – third-year tithe for the needy." },
+   { type: "mc", q: "Deuteronomy 15 commands release of Hebrew slaves after", a: "six years", opts: ["six years", "seven years", "ten years", "forty years"], expl: "Deut 15:12–18 – every seventh year, free with provision." },
+   { type: "mc", q: "In the year of release, creditors must", a: "cancel debts", opts: ["collect interest", "cancel debts", "double debts", "ignore debts"], expl: "Deut 15:1–3 – release debts to fellow Israelites." },
+   { type: "mc", q: "Deuteronomy 16 commands to keep the Feast of Unleavened Bread in the month of", a: "Abib", opts: ["Abib", "Nisan", "Tishri", "Ethanim"], expl: "Deut 16:1 – Passover in Abib (spring)." },
+   { type: "mc", q: "The Feast of Weeks (Pentecost) comes after counting", a: "seven weeks", opts: ["seven days", "seven weeks", "forty days", "fifty days"], expl: "Deut 16:9–10 – seven weeks from firstfruits." },
+   { type: "mc", q: "The Feast of Tabernacles is celebrated for", a: "seven days", opts: ["seven days", "one day", "three days", "forty days"], expl: "Deut 16:13 – seven days of rejoicing." },
+   { type: "mc", q: "Judges must not take", a: "bribes", opts: ["gifts", "bribes", "praise", "payment"], expl: "Deut 16:18–20 – justice without partiality or bribes." },
+   { type: "mc", q: "Deuteronomy 17 says if a matter is too difficult, go to the priests and the", a: "judge", opts: ["king", "judge", "prophet", "elder"], expl: "Deut 17:8–13 – central court; obey their decision." },
+   { type: "mc", q: "The king must not multiply", a: "horses, wives, or silver/gold excessively", opts: ["horses, wives, or silver/gold excessively", "soldiers", "palaces", "taxes"], expl: "Deut 17:16–17 – limits on power and wealth." },
+   { type: "mc", q: "The king must write a copy of the law and read it all his days to learn to", a: "fear the Lord", opts: ["fear the Lord", "rule wisely", "fight wars", "collect taxes"], expl: "Deut 17:18–20 – heart devoted to law." },
+   { type: "mc", q: "Deuteronomy 18 says the Levites have no inheritance but live on the offerings to the", a: "Lord", opts: ["Lord", "king", "poor", "army"], expl: "Deut 18:1–8 – Lord is their inheritance." },
+   { type: "mc", q: "Israel must not practice divination, sorcery, or consult mediums because those nations did; God will raise a", a: "prophet like Moses", opts: ["prophet like Moses", "king", "judge", "priest"], expl: "Deut 18:9–22 – true prophet test: speaks in God's name." },
+   { type: "mc", q: "In Deuteronomy 19, Moses set apart three cities east of the Jordan as cities of", a: "refuge", opts: ["refuge", "worship", "trade", "battle"], expl: "Deut 19:1–10 – for unintentional killers." },
+   { type: "mc", q: "A manslayer who flees to a city of refuge stays until the death of the", a: "high priest", opts: ["high priest", "king", "judge", "witness"], expl: "Deut 19:4–6, implied from Numbers." },
+   { type: "mc", q: "No one is put to death on the testimony of only", a: "one witness", opts: ["one witness", "two witnesses", "three witnesses", "priest"], expl: "Deut 19:15 – two or three witnesses required." },
+   { type: "mc", q: "A false witness must receive the punishment he intended for the other person in Deuteronomy", a: "19", opts: ["18", "19", "20", "17"], expl: "Deut 19:16–21 – eye for eye principle." },
+   { type: "mc", q: "In Deuteronomy 20, before battle, the priest says 'Hear, O Israel: Today you are going to battle... do not be", a: "fainthearted", opts: ["fainthearted", "strong", "angry", "happy"], expl: "Deut 20:3 – do not fear; God fights for you." },
+   { type: "mc", q: "In distant cities, Israel must first offer", a: "peace", opts: ["peace", "war", "tribute", "slavery"], expl: "Deut 20:10–11 – offer peace terms." },
+   { type: "mc", q: "For cities in the Promised Land, Israel must", a: "utterly destroy them", opts: ["make peace", "utterly destroy them", "enslave them", "trade with them"], expl: "Deut 20:16–18 – no survivors to teach abominations." },
+   { type: "mc", q: "When besieging a city, Israel must not destroy", a: "fruit trees", opts: ["fruit trees", "houses", "people", "animals"], expl: "Deut 20:19–20 – trees are for food; only non-fruit trees." },
+   { type: "mc", q: "Deuteronomy 11 reminds Israel of God's acts like dividing the", a: "Red Sea", opts: ["Red Sea", "Jordan", "Nile", "Euphrates"], expl: "Deut 11:4 – Red Sea drowning Egyptians." },
+   { type: "mc", q: "The land in Deuteronomy 11 is one the Lord your God", a: "cares for", opts: ["cares for", "ignores", "curses", "sells"], expl: "Deut 11:12 – eyes always on it." },
+   { type: "mc", q: "Teach God's words to children and bind them on hand and forehead in Deuteronomy", a: "11", opts: ["11", "12", "13", "14"], expl: "Deut 11:18–20 – like Shema in ch. 6." },
+   { type: "mc", q: "Deuteronomy 12 forbids offering sacrifices at any place but the one God", a: "chooses", opts: ["chooses", "builds", "shows", "forbids"], expl: "Deut 12:13–14 – central place." },
+   { type: "mc", q: "In Deuteronomy 14, tithe of grain, wine, oil, and firstborn must be eaten before the Lord at the", a: "chosen place", opts: ["chosen place", "home", "field", "tent"], expl: "Deut 14:22–27 – rejoice before the Lord." },
+   { type: "mc", q: "Deuteronomy 15 says there should be no poor among you if you", a: "obey God", opts: ["obey God", "work hard", "fight wars", "save money"], expl: "Deut 15:4 – generous lending." },
+   { type: "mc", q: "Passover must be sacrificed at the place God chooses in Deuteronomy", a: "16", opts: ["15", "16", "17", "18"], expl: "Deut 16:5–6 – not at home." },
+   { type: "mc", q: "Appoint judges and officials in every town to judge with", a: "righteous judgment", opts: ["righteous judgment", "mercy only", "speed", "gifts"], expl: "Deut 16:18 – justice, justice you shall pursue." },
+   { type: "mc", q: "Deuteronomy 17 forbids the king to return to", a: "Egypt for horses", opts: ["Egypt for horses", "Canaan", "wilderness", "Moab"], expl: "Deut 17:16 – not multiply horses or return to Egypt." },
+   { type: "mc", q: "The prophet like Moses in Deuteronomy 18 must speak only what", a: "God commands", opts: ["God commands", "people want", "signs show", "priests say"], expl: "Deut 18:18–22 – words come true or not." },
+   { type: "mc", q: "Deuteronomy 19 says add three more cities of refuge when God enlarges the", a: "territory", opts: ["territory", "army", "people", "land"], expl: "Deut 19:8–9 – if enlarge borders." },
+   { type: "mc", q: "In Deuteronomy 20, exempt from battle are the newly married, fearful, and those with new", a: "house or vineyard", opts: ["house or vineyard", "children", "priests", "animals"], expl: "Deut 20:5–8 – lest die and another enjoy." },
+   { type: "mc", q: "Deuteronomy 11–20 focuses on laws for", a: "worship, justice, and holy living in the land", opts: ["worship, justice, and holy living in the land", "wilderness travel", "Egypt escape", "census"], expl: "Central section of Deuteronomy's laws for settled life." }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

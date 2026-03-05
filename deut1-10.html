@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deuteronomy 1-10 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Deuteronomy 1-10 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "Deuteronomy is the ___ book of the Bible", a: "fifth", opts: ["third", "fourth", "fifth", "sixth"], expl: "Genesis, Exodus, Leviticus, Numbers, Deuteronomy – the fifth book and final book of the Torah." },
+   { type: "mc", q: "Moses spoke the words of Deuteronomy to Israel in the ___ year after leaving Egypt", a: "fortieth", opts: ["first", "twentieth", "fortieth", "fiftieth"], expl: "Deut 1:3 – fortieth year, eleventh month, first day." },
+   { type: "mc", q: "Moses is speaking to the new generation on the plains of Moab opposite", a: "Jericho", opts: ["Sinai", "Jericho", "Kadesh", "Edom"], expl: "Deut 1:1,5 – across the Jordan near Jericho." },
+   { type: "mc", q: "In Deuteronomy 1, Moses recalls how God multiplied Israel to be as numerous as the", a: "stars of heaven", opts: ["sand of the sea", "stars of heaven", "grains of wheat", "leaves on trees"], expl: "Deut 1:10 – like the stars of heaven in number." },
+   { type: "mc", q: "Moses appointed leaders over thousands, hundreds, fifties, and", a: "tens", opts: ["twenties", "tens", "hundreds", "thousands"], expl: "Deut 1:15 – wise and respected men as judges." },
+   { type: "mc", q: "The people arrived at Kadesh-barnea and Moses told them to go up and possess the land God had", a: "given them", opts: ["promised", "given them", "hidden", "cursed"], expl: "Deut 1:20–21 – 'See, the Lord has set the land before you; go up and take possession.'" },
+   { type: "mc", q: "The people rebelled at Kadesh and said 'Our brothers have made our hearts", a: "melt'", opts: ["strong", "melt'", "happy", "fearless"], expl: "Deut 1:28 – discouraged by the spies' report of giants and fortified cities." },
+   { type: "mc", q: "Because of unbelief, the generation that left Egypt was not allowed to enter the land except", a: "Caleb and Joshua", opts: ["Moses and Aaron", "Caleb and Joshua", "the Levites", "the women"], expl: "Deut 1:36–38 – Caleb and Joshua trusted God." },
+   { type: "mc", q: "Moses was not allowed to enter the land because he", a: "struck the rock", opts: ["struck the rock", "spoke against God", "doubted", "complained"], expl: "Deut 1:37 – implied from earlier events; Moses bore the people's burden." },
+   { type: "mc", q: "In Deuteronomy 2, Moses recounts passing by", a: "Edom", opts: ["Canaan", "Edom", "Moab", "Ammon"], expl: "Deut 2:4–8 – Edom (descendants of Esau) were not to be attacked." },
+   { type: "mc", q: "God gave Mount Seir to Esau's descendants as their", a: "possession", opts: ["possession", "curse", "gift to Israel", "battleground"], expl: "Deut 2:5 – do not contend with them." },
+   { type: "mc", q: "Israel defeated Sihon king of the Amorites after he refused passage in Deuteronomy", a: "2", opts: ["1", "2", "3", "4"], expl: "Deut 2:24–37 – Heshbon captured." },
+   { type: "mc", q: "In Deuteronomy 3, Israel defeated Og king of", a: "Bashan", opts: ["Moab", "Bashan", "Edom", "Ammon"], expl: "Deut 3:1–11 – Og of Bashan, a giant with a huge bed." },
+   { type: "mc", q: "The land east of the Jordan was given to Reuben, Gad, and half the tribe of", a: "Manasseh", opts: ["Judah", "Manasseh", "Levi", "Ephraim"], expl: "Deut 3:12–20 – they helped conquer Canaan first." },
+   { type: "mc", q: "Moses pleaded with God to let him cross over and see the land, but God said", a: "Speak no more to me of this matter", opts: ["You may go", "Speak no more to me of this matter", "Joshua will lead", "Wait"], expl: "Deut 3:26 – God was angry and told Moses not to speak of it again." },
+   { type: "mc", q: "In Deuteronomy 4, Moses urges Israel to listen to the statutes and do them so they may", a: "live and go in and possess the land", opts: ["become rich", "live and go in and possess the land", "fight enemies", "build cities"], expl: "Deut 4:1 – obedience leads to life and possession." },
+   { type: "mc", q: "Deuteronomy 4 warns against adding to or taking away from God's", a: "commandments", opts: ["promises", "commandments", "stories", "blessings"], expl: "Deut 4:2 – keep them as commanded." },
+   { type: "mc", q: "At Horeb, God spoke from the midst of the fire but showed no", a: "form", opts: ["light", "form", "voice", "cloud"], expl: "Deut 4:12,15 – no form seen, only voice." },
+   { type: "mc", q: "Deuteronomy 4 warns against making idols in the form of any", a: "animal or person", opts: ["star", "animal or person", "mountain", "river"], expl: "Deut 4:16–19 – no likeness of male/female, animals, birds, etc." },
+   { type: "mc", q: "If Israel turns to idols, they will be scattered among the nations in Deuteronomy", a: "4", opts: ["3", "4", "5", "6"], expl: "Deut 4:25–28 – warning of exile for idolatry." },
+   { type: "mc", q: "Even in distress, if Israel seeks God with all their heart, they will", a: "find Him", opts: ["be ignored", "find Him", "die", "forget"], expl: "Deut 4:29–31 – God is merciful and will not forsake." },
+   { type: "mc", q: "Moses set apart three cities east of the Jordan as cities of", a: "refuge", opts: ["refuge", "worship", "trade", "kings"], expl: "Deut 4:41–43 – Bezer, Ramoth, Golan." },
+   { type: "mc", q: "In Deuteronomy 5, Moses repeats the covenant God made with Israel at", a: "Horeb", opts: ["Sinai/Horeb", "Moab", "Kadesh", "Jordan"], expl: "Deut 5:2–3 – not with fathers only, but with us here today." },
+   { type: "mc", q: "The first of the Ten Commandments is 'You shall have no other gods", a: "before Me'", opts: ["beside Me", "before Me'", "after Me", "with Me"], expl: "Deut 5:7 – no other gods before/besides Me." },
+   { type: "mc", q: "The commandment about the Sabbath says to remember you were a slave in the land of", a: "Egypt", opts: ["Canaan", "Egypt", "Babylon", "Assyria"], expl: "Deut 5:15 – remember deliverance from Egypt." },
+   { type: "mc", q: "Honor your father and mother so that your days may be", a: "long in the land", opts: ["short", "long in the land", "blessed", "happy"], expl: "Deut 5:16 – promise of long life in the land." },
+   { type: "mc", q: "The people feared the fire and said to Moses 'You speak to us... but do not let God speak to us or we will", a: "die'", opts: ["live", "die'", "run", "hide"], expl: "Deut 5:25 – afraid of dying from God's voice." },
+   { type: "mc", q: "In Deuteronomy 6, the great commandment is 'Hear, O Israel: The Lord our God, the Lord is", a: "one'", opts: ["many", "one'", "strong", "holy"], expl: "Deut 6:4 – the Shema: the Lord is one." },
+   { type: "mc", q: "You shall love the Lord your God with all your heart, soul, and", a: "might", opts: ["mind", "might", "strength", "both mind and might"], expl: "Deut 6:5 – heart, soul, might (strength)." },
+   { type: "mc", q: "Teach God's commandments diligently to your children and talk of them when you sit in your", a: "house", opts: ["house", "temple", "field", "city"], expl: "Deut 6:7 – when you sit, walk, lie down, rise up." },
+   { type: "mc", q: "Bind God's words as a sign on your", a: "hand", opts: ["forehead", "hand", "doorpost", "all of these"], expl: "Deut 6:8 – hand, frontlets between eyes." },
+   { type: "mc", q: "Write God's words on the", a: "doorposts of your house", opts: ["walls", "doorposts of your house", "altar", "ark"], expl: "Deut 6:9 – doorposts and gates (mezuzah)." },
+   { type: "mc", q: "When your son asks 'What do these testimonies mean?', tell him we were slaves in", a: "Egypt", opts: ["Canaan", "Egypt", "Babylon", "Moab"], expl: "Deut 6:20–21 – explain the exodus and God's deliverance." },
+   { type: "mc", q: "In Deuteronomy 7, God chose Israel not because they were more numerous but because He", a: "loved them", opts: ["feared them", "loved them", "owed them", "needed them"], expl: "Deut 7:7–8 – because the Lord loves you and keeps His oath." },
+   { type: "mc", q: "Israel is to destroy the nations in Canaan completely so they do not", a: "teach you their abominations", opts: ["join you", "teach you their abominations", "fight back", "trade with you"], expl: "Deut 7:2–5 – no covenant, no mercy, destroy altars." },
+   { type: "mc", q: "Deuteronomy 8 reminds Israel that man does not live by bread alone but by every word from the mouth of", a: "God", opts: ["Moses", "God", "priests", "prophets"], expl: "Deut 8:3 – quoted by Jesus in temptation." },
+   { type: "mc", q: "God humbled Israel in the wilderness by letting them hunger and feeding them", a: "manna", opts: ["bread from heaven", "manna", "quail", "water"], expl: "Deut 8:3,16 – manna to teach dependence on God." },
+   { type: "mc", q: "In Deuteronomy 8, beware lest you forget the Lord when you have eaten and are", a: "full", opts: ["hungry", "full", "tired", "rich"], expl: "Deut 8:11–14 – forget God when prosperous." },
+   { type: "mc", q: "Deuteronomy 9 reminds Israel they are going in to possess the land not because of their righteousness but because of the wickedness of the", a: "nations", opts: ["nations", "Israelites", "Egyptians", "Moabites"], expl: "Deut 9:4–5 – not your righteousness, but their wickedness." },
+   { type: "mc", q: "At Horeb, the people made a molten", a: "calf", opts: ["serpent", "calf", "eagle", "lion"], expl: "Deut 9:16 – golden calf idol." },
+   { type: "mc", q: "Moses broke the tablets of the covenant when he saw the", a: "golden calf", opts: ["golden calf", "manna", "quail", "fire"], expl: "Deut 9:17 – anger at idolatry." },
+   { type: "mc", q: "Moses interceded for Israel for ___ days and nights after the golden calf incident", a: "40", opts: ["7", "40", "3", "30"], expl: "Deut 9:18,25 – 40 days and nights." },
+   { type: "mc", q: "In Deuteronomy 10, God told Moses to make another ark and write the words on new", a: "tablets", opts: ["scrolls", "tablets", "stones", "papyrus"], expl: "Deut 10:1–4 – second set of tablets." },
+   { type: "mc", q: "The Levites were set apart to carry the ark and stand before the Lord to", a: "minister", opts: ["fight", "minister", "judge", "farm"], expl: "Deut 10:8 – Levites chosen for service." },
+   { type: "mc", q: "Deuteronomy 10:12 asks what God requires: fear the Lord, walk in His ways, love Him, and serve with all your", a: "heart and soul", opts: ["strength", "heart and soul", "mind", "body"], expl: "Deut 10:12 – fear, love, serve wholeheartedly." },
+   { type: "mc", q: "God loves the stranger and gives him food and clothing, so Israel should", a: "love the stranger", opts: ["hate the stranger", "love the stranger", "ignore the stranger", "enslave the stranger"], expl: "Deut 10:18–19 – you were strangers in Egypt." },
+   { type: "mc", q: "Circumcise therefore the foreskin of your", a: "heart", opts: ["body", "heart", "ear", "mind"], expl: "Deut 10:16 – circumcise your heart (inner obedience)." },
+   { type: "mc", q: "Deuteronomy 1–10 mainly consists of Moses' first speech reviewing history and calling for", a: "faithful obedience", opts: ["rebellion", "faithful obedience", "wealth", "war"], expl: "Recap of wilderness, warnings, Shema, love God fully." },
+   { type: "mc", q: "The Lord is God in heaven above and on the earth", a: "beneath", opts: ["beneath", "above only", "far away", "nowhere"], expl: "Deut 4:39 – there is no other." }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

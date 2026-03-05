@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Deuteronomy 31-34 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #restartBtn {
+        margin-left: 1rem;
+        background: #6b7280;
+    }
+    #restartBtn:hover {
+        background: #4b5563;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label { gap: 10px; padding: 12px 10px; margin: 12px 0; }
+        input[type="radio"] { width: 22px; height: 22px; }
+        .score { font-size: 1.5rem; }
+        button, #restartBtn { width: 100%; margin: 1rem 0; }
+    }
+</style>
+</head>
+<body>
+<h1>Deuteronomy 31-34 Easy Bible Quiz</h1>
+<span class="small-text">25 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+
+<div id="quiz"></div>
+
+<div style="text-align:center; margin: 2.5rem 0;">
+    <button id="submitBtn">Submit & See Score + Explanations</button>
+    <button id="restartBtn" style="display:none;">Restart Quiz</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Deuteronomy 31, Moses is now", a: "120 years old", opts: ["80 years old", "100 years old", "120 years old", "150 years old"], expl: "Deut 31:2 – 'I am 120 years old today; I am no longer able to go out and come in.'" },
+   { type: "mc", q: "Moses tells the people that he will not cross the Jordan, but", a: "the Lord your God will go before you", opts: ["Joshua will stay behind", "the Lord your God will go before you", "Moses will lead from afar", "the priests will cross first"], expl: "Deut 31:3 – God Himself will cross over and destroy the nations." },
+   { type: "mc", q: "Moses commissioned", a: "Joshua", opts: ["Joshua", "Eleazar", "Caleb", "Phinehas"], expl: "Deut 31:7–8,14,23 – Joshua to lead the people." },
+   { type: "mc", q: "Moses wrote this law and gave it to the priests and elders to read every", a: "seven years", opts: ["year", "seven years", "month", "Sabbath"], expl: "Deut 31:9–13 – at the Feast of Tabernacles every seventh year." },
+   { type: "mc", q: "God told Moses to write a song as a", a: "witness against Israel", opts: ["praise song only", "witness against Israel", "battle song", "wedding song"], expl: "Deut 31:19–21 – the song will be a witness when they turn away." },
+   { type: "mc", q: "Moses placed the book of the law beside the ark of the covenant as a", a: "witness", opts: ["decoration", "witness", "offering", "scroll cover"], expl: 'Deut 31:26 – "that it may be there as a witness against you."' },
+   { type: "mc", q: "Moses summoned Joshua and told him to be strong and courageous because the Lord will be with him in Deuteronomy", a: "31", opts: ["30", "31", "32", "33"], expl: "Deut 31:23 – repeated encouragement to Joshua." },
+   { type: "mc", q: "The Song of Moses in Deuteronomy 32 begins with the words", a: "Give ear, O heavens, and let me speak", opts: ["Hear, O Israel", "Give ear, O heavens, and let me speak", "The Lord is my strength", "Bless the Lord"], expl: "Deut 32:1 – poetic call to heaven and earth as witnesses." },
+   { type: "mc", q: "In the Song of Moses, God is called the", a: "Rock", opts: ["King", "Rock", "Shepherd", "Judge"], expl: "Deut 32:4,15,18,30–31 – 'the Rock, his work is perfect.'" },
+   { type: "mc", q: "The Song describes Israel as Jeshurun who grew fat and", a: "kicked", opts: ["kicked", "ran", "danced", "slept"], expl: "Deut 32:15 – 'Jeshurun grew fat... then he forsook God.'" },
+   { type: "mc", q: "God says 'Vengeance is mine, and recompense' in Deuteronomy", a: "32", opts: ["31", "32", "33", "34"], expl: "Deut 32:35 – quoted in the New Testament (Rom 12:19)." },
+   { type: "mc", q: "Moses taught the people the song on the same day he finished writing the words of this law in Deuteronomy", a: "32", opts: ["31", "32", "33", "34"], expl: "Deut 32:44 – Moses spoke the words of the song." },
+   { type: "mc", q: "Moses tells the people to take to heart all the words he is commanding them, for they are not empty words but", a: "your life", opts: ["your life", "a burden", "a story", "a law only"], expl: "Deut 32:47 – 'it is no empty word for you, but your very life.'" },
+   { type: "mc", q: "God told Moses to go up to Mount Nebo in the land of Moab opposite", a: "Jericho", opts: ["Jericho", "Sinai", "Edom", "Bashan"], expl: "Deut 32:49; 34:1 – view the land from Nebo." },
+   { type: "mc", q: "In Deuteronomy 33, Moses gave a blessing to each tribe before his", a: "death", opts: ["death", "retirement", "exile", "coronation"], expl: "Deut 33:1 – 'This is the blessing with which Moses... blessed the people of Israel before his death.'" },
+   { type: "mc", q: "Moses blessed Reuben with", a: "let him live and not die", opts: ["let him live and not die", "many children", "great wealth", "long life only"], expl: "Deut 33:6 – 'Let Reuben live, and not die.'" },
+   { type: "mc", q: "Judah's blessing includes 'bring him in to his people' and 'his hands contend for", a: "himself", opts: ["himself", "the poor", "the king", "the priests"], expl: "Deut 33:7 – help against his foes." },
+   { type: "mc", q: "Levi's blessing says they shall teach Jacob your", a: "judgments", opts: ["judgments", "songs", "stories", "wars"], expl: "Deut 33:10 – teach Your law and put incense before You." },
+   { type: "mc", q: "Joseph's blessing includes 'blessed... with the choicest gifts of heaven above and of the deep that crouches", a: "beneath", opts: ["beneath", "above", "beside", "far away"], expl: "Deut 33:13 – blessings of heaven and deep." },
+   { type: "mc", q: "The tribe of Dan is likened to a lion's whelp that leaps from", a: "Bashan", opts: ["Bashan", "Judah", "Gad", "Asher"], expl: "Deut 33:22 – 'Dan is a lion's whelp that leaps from Bashan.'" },
+   { type: "mc", q: "Asher's blessing includes dipping his foot in", a: "oil", opts: ["oil", "wine", "water", "blood"], expl: "Deut 33:24 – 'dip his foot in oil.'" },
+   { type: "mc", q: "Moses died in the land of Moab at the age of", a: "120", opts: ["100", "110", "120", "130"], expl: "Deut 34:7 – 'Moses was 120 years old when he died; his eye was undimmed, and his vigor unabated.'" },
+   { type: "mc", q: "God buried Moses in a valley in the land of Moab opposite", a: "Beth-peor", opts: ["Beth-peor", "Jericho", "Nebo", "Sinai"], expl: "Deut 34:6 – in the valley opposite Beth-peor; no one knows his burial place." },
+   { type: "mc", q: "Moses was unique because the Lord knew him", a: "face to face", opts: ["face to face", "in dreams", "through angels", "by voice only"], expl: "Deut 34:10 – 'whom the Lord knew face to face.'" },
+   { type: "mc", q: "Deuteronomy 34 ends with Israel weeping for Moses for", a: "30 days", opts: ["7 days", "30 days", "40 days", "1 year"], expl: "Deut 34:8 – thirty days of mourning." }
+];
+
+const quizContainer = document.getElementById("quiz");
+const submitBtn = document.getElementById("submitBtn");
+const restartBtn = document.getElementById("restartBtn");
+const resultsDiv = document.getElementById("results");
+
+let questionNumber = 1;
+
+questions.forEach((q, qIndex) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+
+    if (q.type === "mc") {
+        q.opts.forEach((option, optIndex) => {
+            const inputId = `q${qIndex}_${optIndex}`;
+            const label = document.createElement("label");
+            label.className = "option-label";
+            label.htmlFor = inputId;
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.id = inputId;
+            radio.name = `question-${qIndex}`;
+            radio.value = option;
+
+            const span = document.createElement("span");
+            span.textContent = option;
+
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    restartBtn.style.display = "inline-block";
+
+    let correctCount = 0;
+    let html = '';
+
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const isCorrect = userAnswer === q.a;
+
+        if (isCorrect) correctCount++;
+
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer selected" : "Incorrect")}
+                    → Correct answer: <strong>${q.a}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+
+    resultsDiv.innerHTML = scoreHtml + html;
+    resultsDiv.style.display = "block";
+
+    window.scrollTo({ top: resultsDiv.offsetTop - 80, behavior: "smooth" });
+}
+
+function restartQuiz() {
+    location.reload();
+}
+
+submitBtn.addEventListener("click", checkAnswers);
+restartBtn.addEventListener("click", restartQuiz);
+</script>
+</body>
+</html>

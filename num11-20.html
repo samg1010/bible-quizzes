@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Numbers 11-20 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Numbers 11-20 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Numbers 11, the people first complained about their", a: "hardships", opts: ["food variety", "hardships", "water", "leaders"], expl: "Num 11:1 – 'the people complained about their misfortunes/hardships'" },
+   { type: "mc", q: "The place where fire from the Lord burned the camp outskirts was called", a: "Taberah", opts: ["Kibroth-hattaavah", "Taberah", "Hazeroth", "Paran"], expl: "Num 11:3 – Taberah means 'burning'" },
+   { type: "mc", q: "The people craved meat and remembered the foods of Egypt like fish, cucumbers, and", a: "garlic", opts: ["bread", "garlic", "honey", "wine"], expl: "Num 11:5 – fish, cucumbers, melons, leeks, onions, garlic" },
+   { type: "mc", q: "Moses felt overwhelmed and complained to God that he had to carry the people like a", a: "nursing mother", opts: ["king", "nursing mother", "soldier", "farmer"], expl: "Num 11:12 – 'as a nursing mother carries the infant'" },
+   { type: "mc", q: "God told Moses to gather 70 elders to help him bear the burden of the people in Numbers", a: "11", opts: ["10", "11", "12", "13"], expl: "Num 11:16–17 – 70 elders to share the load" },
+   { type: "mc", q: "God sent quail in such abundance that they fell around the camp for a distance of", a: "a day's journey", opts: ["a mile", "a day's journey", "three feet", "the whole camp"], expl: "Num 11:31 – about a day's walk on each side" },
+   { type: "mc", q: "While eating the quail, many people died from a plague at", a: "Kibroth-hattaavah", opts: ["Taberah", "Kibroth-hattaavah", "Hazeroth", "Kadesh"], expl: "Num 11:33–34 – place of graves of craving" },
+   { type: "mc", q: "In Numbers 12, Miriam and Aaron spoke against Moses because of his", a: "Cushite wife", opts: ["age", "Cushite wife", "leadership", "manna complaint"], expl: "Num 12:1 – Cushite (Ethiopian) wife" },
+   { type: "mc", q: "God defended Moses saying he was faithful in all His house and spoke with him", a: "face to face", opts: ["in dreams", "face to face", "through angels", "in visions only"], expl: "Num 12:7–8 – mouth to mouth, clearly" },
+   { type: "mc", q: "As punishment, Miriam became", a: "leprous", opts: ["blind", "leprous", "mute", "paralyzed"], expl: "Num 12:10 – white as snow with leprosy" },
+   { type: "mc", q: "Miriam was shut out of the camp for how many days after her healing?", a: "7 days", opts: ["3 days", "7 days", "30 days", "40 days"], expl: "Num 12:14–15 – like one ashamed" },
+   { type: "mc", q: "In Numbers 13, Moses sent how many spies to explore Canaan?", a: "12", opts: ["10", "12", "70", "2"], expl: "Num 13:3 – one from each tribe" },
+   { type: "mc", q: "The spies brought back a cluster of grapes so large it took", a: "two men to carry", opts: ["one man", "two men to carry", "three men", "a cart"], expl: "Num 13:23 – carried on a pole between two" },
+   { type: "mc", q: "The ten spies said the people in Canaan were like", a: "giants", opts: ["ants", "giants", "sheep", "children"], expl: "Num 13:33 – we were like grasshoppers" },
+   { type: "mc", q: "The two faithful spies who gave a good report were Joshua and", a: "Caleb", opts: ["Aaron", "Caleb", "Miriam", "Korah"], expl: "Num 13:30; 14:6 – Caleb and Joshua" },
+   { type: "mc", q: "Because of unbelief, God said the generation would wander in the wilderness for", a: "40 years", opts: ["10 years", "40 years", "1 year", "70 years"], expl: "Num 14:33–34 – one year for each day the spies explored" },
+   { type: "mc", q: "In Numbers 14, the people wanted to choose a leader and return to", a: "Egypt", opts: ["Canaan", "Egypt", "Sinai", "Paran"], expl: "Num 14:4 – 'Let us choose a leader and go back to Egypt'" },
+   { type: "mc", q: "Korah, Dathan, and Abiram rebelled against Moses in Numbers", a: "16", opts: ["14", "15", "16", "17"], expl: "Num 16 – rebellion against Moses and Aaron" },
+   { type: "mc", q: "The earth opened and swallowed Korah, Dathan, Abiram, and their households in Numbers", a: "16", opts: ["14", "16", "20", "21"], expl: "Num 16:31–33 – they went down alive into Sheol" },
+   { type: "mc", q: "Fire from the Lord consumed how many men who offered unauthorized incense?", a: "250", opts: ["70", "250", "14,700", "24,000"], expl: "Num 16:35 – 250 leaders" },
+   { type: "mc", q: "A plague struck the people after the rebellion, killing", a: "14,700", opts: ["250", "14,700", "24,000", "3,000"], expl: "Num 16:49 – 14,700 died in the plague" },
+   { type: "mc", q: "In Numbers 17, to confirm Aaron's priesthood, each tribal leader placed a", a: "staff", opts: ["rod/staff", "staff", "plate", "horn"], expl: "Num 17:2–5 – rod in the tent of meeting" },
+   { type: "mc", q: "Aaron's staff budded, blossomed, and produced", a: "almonds", opts: ["figs", "almonds", "grapes", "olives"], expl: "Num 17:8 – almonds overnight" },
+   { type: "mc", q: "Numbers 18 describes the duties and portions for the", a: "priests and Levites", opts: ["spies", "priests and Levites", "warriors", "women"], expl: "Num 18 – priests' share of offerings, tithes to Levites" },
+   { type: "mc", q: "In Numbers 19, the red heifer sacrifice was for purification from contact with", a: "dead bodies", opts: ["leprosy", "dead bodies", "blood", "unclean animals"], expl: "Num 19 – ashes for water of cleansing" },
+   { type: "mc", q: "The Israelites arrived at Kadesh in the wilderness of Zin in Numbers", a: "20", opts: ["18", "19", "20", "16"], expl: "Num 20:1 – first month, Miriam died there" },
+   { type: "mc", q: "Miriam died and was buried at", a: "Kadesh", opts: ["Hazeroth", "Kadesh", "Moab", "Sinai"], expl: "Num 20:1 – Kadesh in wilderness of Zin" },
+   { type: "mc", q: "The people complained about no water at Kadesh, calling it", a: "Meribah", opts: ["Massah", "Meribah", "Taberah", "Kibroth"], expl: "Num 20:13 – Meribah means quarreling" },
+   { type: "mc", q: "Moses struck the rock twice instead of speaking to it, so God said he would not", a: "enter the Promised Land", opts: ["lead anymore", "enter the Promised Land", "see Aaron", "get water"], expl: "Num 20:12 – Moses and Aaron not enter Canaan" },
+   { type: "mc", q: "Water came out abundantly when Moses struck the rock at", a: "Meribah", opts: ["Rephidim", "Meribah", "Sin", "Elim"], expl: "Num 20:11 – water for people and livestock" },
+   { type: "mc", q: "Edom refused to let Israel pass through their land on the king's highway in Numbers", a: "20", opts: ["19", "20", "21", "18"], expl: "Num 20:14–21 – Edom's refusal" },
+   { type: "mc", q: "Aaron died on Mount", a: "Hor", opts: ["Sinai", "Hor", "Nebo", "Gerizim"], expl: "Num 20:22–29 – Mount Hor" },
+   { type: "mc", q: "Eleazar succeeded Aaron as high priest after Aaron's death in Numbers", a: "20", opts: ["16", "20", "17", "18"], expl: "Num 20:28 – Eleazar his son" },
+   { type: "mc", q: "The people mourned Aaron for how many days?", a: "30 days", opts: ["7 days", "30 days", "40 days", "3 days"], expl: "Num 20:29 – 30 days" },
+   { type: "mc", q: "In Numbers 15, a man gathering sticks on Sabbath was", a: "stoned", opts: ["forgiven", "stoned", "exiled", "fined"], expl: "Num 15:32–36 – stoned to death" },
+   { type: "mc", q: "Numbers 15 instructs to put tassels (fringes) on garments with a blue cord to remember", a: "the commandments", opts: ["the exodus", "the commandments", "the manna", "the spies"], expl: "Num 15:38–40 – look and remember commands" },
+   { type: "mc", q: "The spies explored Canaan for how many days?", a: "40 days", opts: ["7 days", "40 days", "12 days", "30 days"], expl: "Num 13:25 – 40 days" },
+   { type: "mc", q: "The people wept all night and said they wished they had died in", a: "Egypt", opts: ["Egypt", "Sinai", "the sea", "Kadesh"], expl: "Num 14:2 – 'Would that we had died in Egypt'" },
+   { type: "mc", q: "God said the children would enter the land, but the adults would die in the wilderness except", a: "Caleb and Joshua", opts: ["Moses and Aaron", "Caleb and Joshua", "the Levites", "the women"], expl: "Num 14:30,38 – Caleb and Joshua" },
+   { type: "mc", q: "Some Israelites tried to enter Canaan anyway and were defeated at", a: "Hormah", opts: ["Hormah", "Edom", "Arad", "Canaan"], expl: "Num 14:45 – Hormah" },
+   { type: "mc", q: "In Numbers 16, Korah was from the tribe of", a: "Levi", opts: ["Judah", "Levi", "Reuben", "Ephraim"], expl: "Num 16:1 – Kohathite Levite" },
+   { type: "mc", q: "Dathan and Abiram were from the tribe of", a: "Reuben", opts: ["Levi", "Reuben", "Judah", "Dan"], expl: "Num 16:1 – sons of Eliab, Reubenite" },
+   { type: "mc", q: "The censers of the 250 men were hammered into", a: "plates for the altar", opts: ["trumpets", "plates for the altar", "bowls", "rods"], expl: "Num 16:38–39 – covering for the altar" },
+   { type: "mc", q: "The budding of Aaron's rod proved God chose", a: "Aaron's line", opts: ["Moses", "Aaron's line", "Korah", "the people"], expl: "Num 17:5 – to stop grumbling" },
+   { type: "mc", q: "In Numbers 20, Moses was told to", a: "speak to the rock", opts: ["strike the rock", "speak to the rock", "pray for water", "dig a well"], expl: "Num 20:8 – speak, but he struck" },
+   { type: "mc", q: "The king of Arad fought Israel in Numbers", a: "21", opts: ["19", "20", "21", "18"], expl: "Num 21:1 – but chapter 20 ends with Edom; transition" },
+   { type: "mc", q: "The bronze serpent was raised up so that anyone bitten by snakes could", a: "look and live", opts: ["pray and live", "look and live", "sacrifice and live", "run and live"], expl: "Num 21:8–9 – foreshadowing Christ (though in ch. 21, but related)" },
+   { type: "mc", q: "Numbers 11–20 shows a pattern of Israel's", a: "complaining and rebellion", opts: ["obedience", "complaining and rebellion", "victories", "building"], expl: "Repeated grumbling, judgment, intercession" }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

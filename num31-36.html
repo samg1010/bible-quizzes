@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Numbers 31-36 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    .option-label span {
+        flex: 1;
+        line-height: 1.4;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label {
+            gap: 10px;
+            padding: 12px 10px;
+            margin: 12px 0;
+        }
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+        }
+        .score { font-size: 1.5rem; }
+    }
+</style>
+</head>
+<body>
+<h1>Numbers 31-36 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+<div id="quiz"></div>
+<button id="submitBtn" onclick="checkAnswers()">Submit & See Score + Explanations</button>
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "In Numbers 31, God commanded Moses to take vengeance on the", a: "Midianites", opts: ["Amalekites", "Midianites", "Canaanites", "Edomites"], expl: "Num 31:1–2 – avenge the Midianites (for Baal Peor incident)" },
+   { type: "mc", q: "How many thousand men from each tribe went to war against Midian in Numbers 31?", a: "1,000", opts: ["500", "1,000", "12,000", "100"], expl: "Num 31:3–5 – 1,000 from each tribe (12,000 total)" },
+   { type: "mc", q: "Who led the army against Midian in Numbers 31?", a: "Phinehas", opts: ["Joshua", "Phinehas", "Eleazar", "Moses"], expl: "Num 31:6 – Phinehas son of Eleazar the priest" },
+   { type: "mc", q: "The Israelites killed all the Midianite men, including kings and", a: "Balaam", opts: ["Balak", "Balaam", "Sihon", "Og"], expl: "Num 31:8 – Balaam son of Beor was killed" },
+   { type: "mc", q: "The Israelites captured Midianite women and", a: "children", opts: ["men", "children", "animals only", "priests"], expl: "Num 31:9 – women and little ones" },
+   { type: "mc", q: "Moses was angry because the soldiers spared the", a: "women who caused the sin", opts: ["kings", "women who caused the sin", "children", "animals"], expl: "Num 31:14–16 – women who seduced Israel at Peor" },
+   { type: "mc", q: "All Midianite boys and non-virgin women were to be", a: "killed", opts: ["spared", "killed", "enslaved", "adopted"], expl: "Num 31:17 – kill every male among the little ones and non-virgin women" },
+   { type: "mc", q: "Virgin girls were kept alive in Numbers 31 for the Israelites to", a: "keep for themselves", opts: ["kill later", "keep for themselves", "sacrifice", "send away"], expl: "Num 31:18 – virgins you may keep alive for yourselves" },
+   { type: "mc", q: "The total spoil from Midian included 675,000", a: "sheep", opts: ["cattle", "sheep", "donkeys", "people"], expl: "Num 31:32 – 675,000 sheep" },
+   { type: "mc", q: "The tribute to the Lord from the warriors was one out of every", a: "500", opts: ["50", "500", "1,000", "100"], expl: "Num 31:28,47 – one out of every 500 persons/animals" },
+   { type: "mc", q: "The Levites received one out of every", a: "50", opts: ["500", "50", "100", "1,000"], expl: "Num 31:47 – tribute to Levites was one out of fifty" },
+   { type: "mc", q: "In Numbers 32, the tribes of Reuben and Gad asked to settle in the land", a: "east of the Jordan", opts: ["west of the Jordan", "east of the Jordan", "in Canaan proper", "in Edom"], expl: "Num 32:1–5 – Gilead and Jazer good for livestock" },
+   { type: "mc", q: "Moses initially feared that Reuben and Gad were refusing to", a: "help conquer Canaan", opts: ["fight", "help conquer Canaan", "pay tithes", "keep Sabbath"], expl: "Num 32:6–15 – like the spies who discouraged the people" },
+   { type: "mc", q: "Reuben, Gad, and half of Manasseh promised to", a: "fight until Canaan is conquered", opts: ["stay east", "fight until Canaan is conquered", "return immediately", "send gifts"], expl: "Num 32:16–19,25–27 – armed men will cross over and fight" },
+   { type: "mc", q: "The tribes who settled east of the Jordan were Reuben, Gad, and half of", a: "Manasseh", opts: ["Judah", "Manasseh", "Ephraim", "Levi"], expl: "Num 32:33,39–42 – half-tribe of Manasseh" },
+   { type: "mc", q: "Numbers 33 is a record of Israel's", a: "journeys", opts: ["battles", "journeys", "offerings", "censuses"], expl: "Num 33:1–2 – stages of their journey from Egypt" },
+   { type: "mc", q: "The Israelites camped at how many places during the wilderness journey?", a: "42", opts: ["40", "42", "12", "7"], expl: "Num 33:5–49 – 42 stages listed" },
+   { type: "mc", q: "In Numbers 33, God commands Israel to drive out all the inhabitants of Canaan and", a: "destroy their idols", opts: ["trade with them", "destroy their idols", "marry them", "learn their ways"], expl: "Num 33:52 – drive out, destroy figured stones and images" },
+   { type: "mc", q: "The land was to be divided among the tribes by", a: "lot", opts: ["king's choice", "lot", "size of tribe", "wealth"], expl: "Num 33:54 – apportioned by lot" },
+   { type: "mc", q: "Numbers 34 describes the", a: "boundaries of the land", opts: ["boundaries of the land", "cities of refuge", "Levite cities", "offerings"], expl: "Num 34:1–15 – borders of Canaan" },
+   { type: "mc", q: "The southern boundary of Canaan started at the", a: "Wilderness of Zin", opts: ["Dead Sea", "Wilderness of Zin", "Mediterranean", "Jordan"], expl: "Num 34:3–5 – south border along Edom to Zin" },
+   { type: "mc", q: "The men appointed to divide the land were one leader from each tribe, including", a: "Eleazar and Joshua", opts: ["Moses and Aaron", "Eleazar and Joshua", "Caleb and Phinehas", "Reuben and Gad"], expl: "Num 34:16–29 – Eleazar the priest and Joshua" },
+   { type: "mc", q: "In Numbers 35, God commanded Israel to give the Levites", a: "cities to live in", opts: ["land portions", "cities to live in", "gold", "animals"], expl: "Num 35:2 – cities and pasturelands" },
+   { type: "mc", q: "How many cities were the Levites to receive, including pasturelands?", a: "48", opts: ["12", "24", "36", "48"], expl: "Num 35:7 – 48 cities" },
+   { type: "mc", q: "Six of the Levite cities were designated as", a: "cities of refuge", opts: ["royal cities", "cities of refuge", "trade cities", "priest cities"], expl: "Num 35:6,11 – cities of refuge for manslayers" },
+   { type: "mc", q: "A person who killed unintentionally could flee to a city of refuge to be safe from the", a: "avenger of blood", opts: ["king", "avenger of blood", "priest", "judge"], expl: "Num 35:12 – safe from the avenger" },
+   { type: "mc", q: "The unintentional killer had to stay in the city of refuge until the death of the", a: "high priest", opts: ["king", "high priest", "judge", "Moses"], expl: "Num 35:25,28 – until the high priest dies" },
+   { type: "mc", q: "If the avenger of blood found the killer outside the city before trial, he could", a: "kill him", opts: ["arrest him", "kill him", "fine him", "forgive him"], expl: "Num 35:27 – no bloodguilt if outside" },
+   { type: "mc", q: "Murder required", a: "two witnesses", opts: ["one witness", "two witnesses", "no witnesses", "priest only"], expl: "Num 35:30 – no death penalty on one witness" },
+   { type: "mc", q: "A ransom could not be taken for the life of a", a: "murderer", opts: ["manslayer", "murderer", "thief", "adulterer"], expl: "Num 35:31 – no ransom for murderer" },
+   { type: "mc", q: "Numbers 36 deals with the inheritance of the daughters of", a: "Zelophehad", opts: ["Aaron", "Zelophehad", "Korah", "Phinehas"], expl: "Num 36:1–2 – revisit daughters of Zelophehad" },
+   { type: "mc", q: "The concern was that if daughters married outside their tribe, the inheritance would", a: "go to another tribe", opts: ["stay in tribe", "go to another tribe", "be lost", "go to priests"], expl: "Num 36:3–4 – transferred to another tribe" },
+   { type: "mc", q: "God said daughters who inherit must marry within", a: "their father's tribe", opts: ["any tribe", "their father's tribe", "Levites only", "Judah only"], expl: "Num 36:6–9 – marry within their tribe" },
+   { type: "mc", q: "The daughters of Zelophehad married their", a: "cousins", opts: ["brothers", "cousins", "uncles", "foreigners"], expl: "Num 36:11 – sons of their father's brothers" },
+   { type: "mc", q: "The book of Numbers ends with the command to keep the inheritance within the", a: "tribes", opts: ["families", "tribes", "priests", "Levites"], expl: "Num 36:9 – no inheritance shall pass from one tribe to another" },
+   { type: "mc", q: "The war with Midian in Numbers 31 occurred after the sin at", a: "Peor", opts: ["Peor", "Kadesh", "Meribah", "Taberah"], expl: "Context of vengeance for Num 25" },
+   { type: "mc", q: "The gold brought as offering to the Lord after the Midian war was", a: "16,750 shekels", opts: ["675,000", "16,750 shekels", "500", "50"], expl: "Num 31:50–52 – captains' gold offering" },
+   { type: "mc", q: "Reuben and Gad built altars, but it was not for sacrifice but as a", a: "witness", opts: ["temple", "witness", "memorial", "idol"], expl: "Num 32 context leads to Josh 22 – altar as witness" },
+   { type: "mc", q: "The journey list in Numbers 33 begins with", a: "Rameses", opts: ["Sinai", "Rameses", "Kadesh", "Moab"], expl: "Num 33:3–5 – from Rameses after Passover" },
+   { type: "mc", q: "The last place listed in Numbers 33 is the plains of", a: "Moab", opts: ["Moab", "Zin", "Paran", "Edom"], expl: "Num 33:48–49 – plains of Moab by Jordan" },
+   { type: "mc", q: "The western boundary of Canaan in Numbers 34 was the", a: "Great Sea", opts: ["Jordan", "Great Sea", "Dead Sea", "Brook of Egypt"], expl: "Num 34:6 – Great Sea (Mediterranean)" },
+   { type: "mc", q: "The eastern boundary was the", a: "Jordan River", opts: ["Jordan River", "Euphrates", "Arnon", "Jabbok"], expl: "Num 34:12 – Jordan to the Great Sea" },
+   { type: "mc", q: "The cities of refuge were for those who killed", a: "unintentionally", opts: ["intentionally", "unintentionally", "in war", "accidentally only"], expl: "Num 35:11,15 – unintentional manslayers" },
+   { type: "mc", q: "The Levites received pasturelands around their cities extending", a: "1,000 cubits", opts: ["500 cubits", "1,000 cubits", "2,000 cubits", "3,000 cubits"], expl: "Num 35:4–5 – 1,000 cubits outward" },
+   { type: "mc", q: "Numbers 31–36 prepares Israel for", a: "entering the Promised Land", opts: ["leaving Egypt", "entering the Promised Land", "building tabernacle", "first census"], expl: "Final preparations, land division, laws for settlement" },
+   { type: "mc", q: "The inheritance law in Numbers 36 ensured that tribal land remained", a: "within the tribe", opts: ["within the tribe", "shared equally", "given to Levites", "sold freely"], expl: "Num 36:7–9 – no transfer between tribes" }
+];
+
+const quizContainer = document.getElementById("quiz");
+let questionNumber = 1;
+
+questions.forEach((q, index) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+    if (q.type === "mc") {
+        q.opts.forEach(option => {
+            const label = document.createElement("label");
+            label.className = "option-label";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `question-${index}`;
+            radio.value = option;
+            const span = document.createElement("span");
+            span.textContent = option;
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers() {
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    let correctCount = 0;
+    let html = '';
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const correctAnswer = q.a;
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) correctCount++;
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer" : "Incorrect")}
+                    → Answer: <strong>${correctAnswer}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+    document.getElementById("results").innerHTML = scoreHtml + html;
+    document.getElementById("results").style.display = "block";
+    window.scrollTo({ top: document.getElementById("results").offsetTop - 80, behavior: "smooth" });
+}
+</script>
+</body>
+</html>
