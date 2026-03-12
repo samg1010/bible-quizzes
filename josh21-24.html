@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Joshua 1-10 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #restartBtn {
+        margin-left: 1rem;
+        background: #6b7280;
+    }
+    #restartBtn:hover {
+        background: #4b5563;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label { gap: 10px; padding: 12px 10px; margin: 12px 0; }
+        input[type="radio"] { width: 22px; height: 22px; }
+        .score { font-size: 1.5rem; }
+        button, #restartBtn { width: 100%; margin: 1rem 0; }
+    }
+</style>
+</head>
+<body>
+<h1>Joshua 1-10 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+
+<div id="quiz"></div>
+
+<div style="text-align:center; margin: 2.5rem 0;">
+    <button id="submitBtn">Submit & See Score + Explanations</button>
+    <button id="restartBtn" style="display:none;">Restart Quiz</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "Who came to Joshua to ask for cities and pasturelands?", a: "The Levites", opts: ["The Reubenites", "The Levites", "The Gadites", "The Ephraimites"], expl: "Joshua 21:1 – The heads of the Levite fathers' houses spoke to Joshua." },
+   { type: "mc", q: "How many cities with their pasturelands were given to the Levites in total?", a: "48", opts: ["24", "36", "48", "60"], expl: "Joshua 21:41 – 'All the cities of the Levites... were forty-eight cities with their pasturelands.'" },
+   { type: "mc", q: "Which group among the Levites received the most cities?", a: "Kohathites", opts: ["Gershonites", "Merarites", "Kohathites", "Aaron's family only"], expl: "Joshua 21:5,10 – Kohathites received 23 cities (including priestly ones)." },
+   { type: "mc", q: "Which city was given to the priests (Aaron's descendants)?", a: "Hebron", opts: ["Shechem", "Hebron", "Kedesh", "Gibeon"], expl: "Joshua 21:13 – Hebron (a city of refuge) was given to the priests." },
+   { type: "mc", q: "What were the six cities of refuge listed in Joshua 21?", a: "Kedesh, Shechem, Hebron, Bezer, Ramoth, Golan", opts: ["Jericho, Ai, Gilgal, Bethel, Shiloh, Timnath", "Kedesh, Shechem, Hebron, Bezer, Ramoth, Golan", "Lachish, Eglon, Debir, Makkedah, Libnah, Hazor", "Gaza, Gath, Ashdod, Ekron, Ashkelon, Sidon"], expl: "Joshua 21:27,32,36,38 – The refuge cities are named across the tribes." },
+   { type: "mc", q: "After the land division, what did Joshua ask for himself?", a: "Timnath-serah", opts: ["Hebron", "Timnath-serah", "Shechem", "Shiloh"], expl: "Joshua 19:49-50 (context) and 21 summary – Joshua received Timnath-serah." },
+   { type: "mc", q: "Which tribes built an altar by the Jordan River?", a: "Reuben, Gad, and half-tribe of Manasseh", opts: ["Judah and Simeon", "Reuben, Gad, and half-tribe of Manasseh", "Ephraim and Manasseh", "Levi and Benjamin"], expl: "Joshua 22:9-10 – The eastern tribes built a large, impressive altar." },
+   { type: "mc", q: "Why were the western tribes upset about the new altar?", a: "They thought it was for rebellion against God", opts: ["It was too small", "They thought it was for rebellion against God", "It blocked the river", "It was made of wood"], expl: "Joshua 22:11-12 – They feared it meant turning away from the LORD." },
+   { type: "mc", q: "Who went to confront the eastern tribes about the altar?", a: "Phinehas son of Eleazar", opts: ["Joshua", "Phinehas son of Eleazar", "Caleb", "Eleazar"], expl: "Joshua 22:13 – Phinehas and ten chiefs were sent." },
+   { type: "mc", q: "What did the eastern tribes say the altar was built for?", a: "As a witness between the tribes", opts: ["For sacrifices", "As a witness between the tribes", "For decoration", "To replace the tabernacle"], expl: "Joshua 22:26-27 – 'It is to be a witness between us... that the LORD is God.'" },
+   { type: "mc", q: "What name did the eastern tribes give to their altar?", a: "A Witness Between Us", opts: ["Altar of Peace", "A Witness Between Us", "Jordan Witness", "Unity Altar"], expl: "Joshua 22:34 – 'The children of Reuben... called the altar, A Witness Between Us that the LORD is God.'" },
+   { type: "mc", q: "In chapter 23, Joshua is described as being", a: "Very old", opts: ["Very old", "85 years old", "Young", "Middle-aged"], expl: "Joshua 23:1 – 'Joshua was old, advanced in age.'" },
+   { type: "mc", q: "What did Joshua remind Israel that God had done for them?", a: "Fought their battles", opts: ["Given them gold", "Fought their battles", "Built their houses", "Grown their food"], expl: "Joshua 23:3,10 – 'The LORD your God... fought for you.'" },
+   { type: "mc", q: "What did Joshua warn Israel NOT to do with the remaining nations?", a: "Intermarry or serve their gods", opts: ["Trade with them", "Intermarry or serve their gods", "Live near them", "Learn their language"], expl: "Joshua 23:7,12 – 'Do not make mention of... their gods... nor intermarry.'" },
+   { type: "mc", q: "What would happen if Israel turned to other gods, according to Joshua?", a: "They would perish quickly from the land", opts: ["They would prosper", "They would perish quickly from the land", "Nothing", "They would move"], expl: "Joshua 23:13,16 – 'You shall perish quickly from the good land.'" },
+   { type: "mc", q: "Where did Joshua gather all the tribes for his final speech?", a: "Shechem", opts: ["Gilgal", "Shechem", "Shiloh", "Bethel"], expl: "Joshua 24:1 – 'Joshua gathered all the tribes of Israel to Shechem.'" },
+   { type: "mc", q: "In Joshua 24, Joshua's history lesson begins with", a: "Terah, father of Abraham", opts: ["Abraham", "Terah, father of Abraham", "Jacob", "Moses"], expl: "Joshua 24:2 – 'Your fathers... Terah... dwelt beyond the River.'" },
+   { type: "mc", q: "What did God give Israel that they did not work for?", a: "Cities and vineyards", opts: ["Gold", "Cities and vineyards", "New clothes", "Weapons"], expl: "Joshua 24:13 – 'Cities which you did not build... vineyards... you did not plant.'" },
+   { type: "mc", q: "What famous statement did Joshua make about serving the LORD?", a: "As for me and my house, we will serve the LORD", opts: ["We will not serve", "As for me and my house, we will serve the LORD", "Choose later", "Serve both"], expl: "Joshua 24:15 – 'But as for me and my house, we will serve the LORD.'" },
+   { type: "mc", q: "What did the people answer Joshua when he told them to choose?", a: "We also will serve the LORD", opts: ["We choose other gods", "We also will serve the LORD", "We cannot decide", "We refuse"], expl: "Joshua 24:18,21 – 'We also will serve the LORD, for He is our God.'" },
+   { type: "mc", q: "Joshua told the people they were not able to serve the LORD because", a: "He is holy and jealous", opts: ["They were weak", "He is holy and jealous", "It was too hard", "They had no time"], expl: "Joshua 24:19 – 'He is a holy God. He is a jealous God.'" },
+   { type: "mc", q: "What did Joshua tell the people to put away?", a: "Foreign gods", opts: ["Their weapons", "Foreign gods", "Their food", "Their clothes"], expl: "Joshua 24:23 – 'Now therefore, put away the foreign gods...'" },
+   { type: "mc", q: "What did Joshua set up as a witness at Shechem?", a: "A large stone", opts: ["An altar", "A large stone", "A wooden pole", "A banner"], expl: "Joshua 24:26-27 – 'Joshua took a large stone... It shall be a witness to us.'" },
+   { type: "mc", q: "How old was Joshua when he died?", a: "110 years old", opts: ["85", "100", "110", "120"], expl: "Joshua 24:29 – 'Joshua... died, being one hundred and ten years old.'" },
+   { type: "mc", q: "Where was Joshua buried?", a: "Timnath-serah", opts: ["Hebron", "Timnath-serah", "Shechem", "Gilgal"], expl: "Joshua 24:30 – 'They buried him within the border of his inheritance at Timnath-serah.'" },
+   { type: "mc", q: "Whose bones were buried at Shechem according to Joshua 24?", a: "Joseph", opts: ["Abraham", "Joseph", "Jacob", "Moses"], expl: "Joshua 24:32 – 'The bones of Joseph... they buried at Shechem.'" },
+   { type: "mc", q: "Who became high priest after Eleazar died?", a: "Phinehas", opts: ["Joshua", "Phinehas", "Caleb", "Eli"], expl: "Joshua 24:33 – 'Eleazar... died... and Phinehas his son succeeded him.'" },
+   { type: "mc", q: "In Joshua 22, what did the eastern tribes call God in their explanation?", a: "The LORD is God", opts: ["Our God", "The LORD is God", "Mighty One", "King"], expl: "Joshua 22:34 – '...that the LORD is God.'" },
+   { type: "mc", q: "What did God send before Israel to drive out the Amorites (Joshua 24)?", a: "The hornet", opts: ["The bee", "The hornet", "The locust", "The lion"], expl: "Joshua 24:12 – 'I sent the hornet before you...'" },
+   { type: "mc", q: "In Joshua 23, how many enemies could one Israelite chase according to Joshua?", a: "A thousand", opts: ["Ten", "A hundred", "A thousand", "Ten thousand"], expl: "Joshua 23:10 – 'One man of you shall chase a thousand...'" },
+];
+
+const quizContainer = document.getElementById("quiz");
+const submitBtn = document.getElementById("submitBtn");
+const restartBtn = document.getElementById("restartBtn");
+const resultsDiv = document.getElementById("results");
+
+let questionNumber = 1;
+
+questions.forEach((q, qIndex) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+
+    if (q.type === "mc") {
+        q.opts.forEach((option, optIndex) => {
+            const inputId = `q${qIndex}_${optIndex}`;
+            const label = document.createElement("label");
+            label.className = "option-label";
+            label.htmlFor = inputId;
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.id = inputId;
+            radio.name = `question-${qIndex}`;
+            radio.value = option;
+
+            const span = document.createElement("span");
+            span.textContent = option;
+
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    restartBtn.style.display = "inline-block";
+
+    let correctCount = 0;
+    let html = '';
+
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const isCorrect = userAnswer === q.a;
+
+        if (isCorrect) correctCount++;
+
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer selected" : "Incorrect")}
+                    → Correct answer: <strong>${q.a}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+
+    resultsDiv.innerHTML = scoreHtml + html;
+    resultsDiv.style.display = "block";
+
+    window.scrollTo({ top: resultsDiv.offsetTop - 80, behavior: "smooth" });
+}
+
+function restartQuiz() {
+    location.reload();
+}
+
+submitBtn.addEventListener("click", checkAnswers);
+restartBtn.addEventListener("click", restartQuiz);
+</script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Joshua 1-10 Easy Bible Quiz</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 15px;
+        background: #f9f9f9;
+        color: #111;
+        line-height: 1.5;
+    }
+    h1 {
+        text-align: center;
+        color: #1a3c6d;
+        margin: 1.2em 0 0.6em;
+        font-size: 2rem;
+    }
+    .small-text {
+        display: block;
+        text-align: center;
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    .question {
+        background: white;
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin: 1.5rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 5px solid #3b82f6;
+    }
+    .question h3 {
+        margin: 0 0 1.1rem 0;
+        font-size: 1.22rem;
+        color: #1e3a8a;
+    }
+    .option-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+        min-height: 48px;
+        user-select: none;
+    }
+    .option-label:hover {
+        background: #eef4ff;
+    }
+    input[type="radio"] {
+        margin: 0;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        accent-color: #3b82f6;
+    }
+    button {
+        display: block;
+        margin: 2.5rem auto;
+        padding: 1rem 2.5rem;
+        font-size: 1.15rem;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #059669;
+    }
+    button:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+    }
+    #restartBtn {
+        margin-left: 1rem;
+        background: #6b7280;
+    }
+    #restartBtn:hover {
+        background: #4b5563;
+    }
+    #results {
+        display: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: #ecfdf5;
+        border-radius: 10px;
+    }
+    .score {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.8rem;
+        color: #065f46;
+        font-weight: bold;
+    }
+    .result-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .correct { color: #059669; font-weight: bold; }
+    .incorrect { color: #dc2626; font-weight: bold; }
+    .explanation {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f0fdf4;
+        border-left: 4px solid #10b981;
+        border-radius: 6px;
+        font-size: 0.95rem;
+    }
+    @media (max-width: 600px) {
+        body { padding: 15px 12px; }
+        h1 { font-size: 1.7rem; }
+        .question { padding: 1.2rem; margin: 1.2rem 0; }
+        .option-label { gap: 10px; padding: 12px 10px; margin: 12px 0; }
+        input[type="radio"] { width: 22px; height: 22px; }
+        .score { font-size: 1.5rem; }
+        button, #restartBtn { width: 100%; margin: 1rem 0; }
+    }
+</style>
+</head>
+<body>
+<h1>Joshua 1-10 Easy Bible Quiz</h1>
+<span class="small-text">50 questions • Multiple Choice • Detailed explanations • NIV/ESV based</span>
+
+<div id="quiz"></div>
+
+<div style="text-align:center; margin: 2.5rem 0;">
+    <button id="submitBtn">Submit & See Score + Explanations</button>
+    <button id="restartBtn" style="display:none;">Restart Quiz</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+const questions = [
+   { type: "mc", q: "Who became the leader of Israel after Moses died?", a: "Joshua", opts: ["Caleb", "Joshua", "Aaron", "Eleazar"], expl: "Joshua 1:1 – God speaks to Joshua son of Nun, Moses' assistant, after Moses' death." },
+   { type: "mc", q: "What river did God tell Joshua to cross to enter the Promised Land?", a: "Jordan", opts: ["Nile", "Euphrates", "Jordan", "Red Sea"], expl: "Joshua 1:2 – 'Now therefore arise, go over this Jordan...'" },
+   { type: "mc", q: "How many times does God tell Joshua to 'be strong and courageous' in chapter 1?", a: "Three", opts: ["One", "Two", "Three", "Four"], expl: "Joshua 1:6, 7, 9 – God repeats the command multiple times to encourage Joshua." },
+   { type: "mc", q: "What did God promise Joshua in Joshua 1:5?", a: "I will be with you", opts: ["Riches", "Long life", "I will be with you", "Many children"], expl: "Joshua 1:5 – 'As I was with Moses, so I will be with you...'" },
+   { type: "mc", q: "Where did Joshua send two spies before crossing the Jordan?", a: "Jericho", opts: ["Ai", "Jericho", "Gibeon", "Gilgal"], expl: "Joshua 2:1 – Joshua sent them from Shittim to spy out Jericho." },
+   { type: "mc", q: "Who hid the two Israelite spies in Jericho?", a: "Rahab", opts: ["Deborah", "Rahab", "Miriam", "Zipporah"], expl: "Joshua 2:1-4 – Rahab the prostitute hid them on her roof." },
+   { type: "mc", q: "What did Rahab let down from her window to help the spies escape?", a: "A scarlet cord", opts: ["A rope ladder", "A scarlet cord", "A basket", "Her hair"], expl: "Joshua 2:15,18 – She let them down by a cord through the window." },
+   { type: "mc", q: "What sign did Rahab ask for so her family would be spared?", a: "Scarlet cord in the window", opts: ["A mark on the door", "Scarlet cord in the window", "A white flag", "Burning a lamp"], expl: "Joshua 2:18-21 – The scarlet cord would identify her house." },
+   { type: "mc", q: "What miracle happened when the priests carried the ark to the Jordan River?", a: "The waters stopped flowing", opts: ["The river dried up completely", "The waters stopped flowing", "Fish jumped out", "A bridge appeared"], expl: "Joshua 3:13-16 – The waters piled up and stopped when the priests' feet touched the edge." },
+   { type: "mc", q: "How did the Israelites cross the Jordan River?", a: "On dry ground", opts: ["By boat", "On dry ground", "Swimming", "On a bridge"], expl: "Joshua 3:17 – All Israel crossed on dry ground while the waters stood." },
+   { type: "mc", q: "How many stones did Joshua take from the Jordan River to set up as a memorial?", a: "Twelve", opts: ["Six", "Ten", "Twelve", "Forty"], expl: "Joshua 4:3,8-9 – One stone per tribe, twelve in total." },
+   { type: "mc", q: "Where did the Israelites camp after crossing the Jordan?", a: "Gilgal", opts: ["Shittim", "Jericho", "Gilgal", "Ai"], expl: "Joshua 4:19 – They camped at Gilgal on the east border of Jericho." },
+   { type: "mc", q: "What did Joshua do to the Israelite men at Gilgal?", a: "Circumcised them", opts: ["Baptized them", "Circumcised them", "Anointed them", "Armed them"], expl: "Joshua 5:2-7 – God commanded Joshua to circumcise the new generation." },
+   { type: "mc", q: "What did the Israelites celebrate for the first time in the Promised Land?", a: "Passover", opts: ["Passover", "Feast of Tabernacles", "Day of Atonement", "Pentecost"], expl: "Joshua 5:10 – They kept the Passover on the fourteenth day." },
+   { type: "mc", q: "What stopped falling the day after the Israelites ate the produce of the land?", a: "Manna", opts: ["Rain", "Manna", "Snow", "Bread from heaven"], expl: "Joshua 5:12 – The manna ceased the day after they ate the land's produce." },
+   { type: "mc", q: "Who appeared to Joshua near Jericho with a drawn sword?", a: "The commander of the army of the LORD", opts: ["An angel", "The commander of the army of the LORD", "Moses", "Gabriel"], expl: "Joshua 5:13-15 – He identified himself as commander of the LORD's army." },
+   { type: "mc", q: "How many days did the Israelites march around Jericho?", a: "Seven", opts: ["Three", "Six", "Seven", "Forty"], expl: "Joshua 6:3-4 – They marched once a day for six days, then seven times on the seventh." },
+   { type: "mc", q: "What did the people shout on the seventh day to make Jericho's walls fall?", a: "A great shout", opts: ["A prayer", "A song", "A great shout", "Joshua's name"], expl: "Joshua 6:20 – The people shouted when Joshua commanded, and the walls fell." },
+   { type: "mc", q: "What was the only family spared in Jericho?", a: "Rahab's family", opts: ["The king's family", "Rahab's family", "The priests", "The merchants"], expl: "Joshua 6:17,25 – Rahab and her household were spared." },
+   { type: "mc", q: "What city did Joshua attack after Jericho?", a: "Ai", opts: ["Gibeon", "Ai", "Hazor", "Lachish"], expl: "Joshua 7:2 – Joshua sent men to spy out Ai." },
+   { type: "mc", q: "Why did Israel lose the first battle against Ai?", a: "Achan took devoted things", opts: ["Too few soldiers", "Achan took devoted things", "Rain", "Fear"], expl: "Joshua 7:1,11-12 – Achan took some of the devoted things from Jericho." },
+   { type: "mc", q: "What did Achan take from Jericho that caused trouble?", a: "A Babylonian garment, silver, and gold", opts: ["Weapons", "A Babylonian garment, silver, and gold", "Food", "Clothes"], expl: "Joshua 7:21 – A beautiful cloak, 200 shekels of silver, and a gold bar." },
+   { type: "mc", q: "What happened to Achan and his family because of his sin?", a: "They were stoned and burned", opts: ["Exiled", "They were stoned and burned", "Forgiven", "Imprisoned"], expl: "Joshua 7:24-25 – All Israel stoned and burned them." },
+   { type: "mc", q: "How many soldiers did Joshua use in the second attack on Ai?", a: "About thirty thousand", opts: ["Three thousand", "About thirty thousand", "Three hundred", "All Israel"], expl: "Joshua 8:3 – Joshua chose about thirty thousand mighty men." },
+   { type: "mc", q: "What strategy did Joshua use to defeat Ai?", a: "Ambush", opts: ["Direct attack", "Ambush", "Siege", "Fire"], expl: "Joshua 8:4-19 – He set an ambush behind the city while drawing the defenders out." },
+   { type: "mc", q: "What did Joshua build on Mount Ebal after defeating Ai?", a: "An altar", opts: ["A city", "An altar", "A temple", "A wall"], expl: "Joshua 8:30-31 – He built an altar of uncut stones." },
+   { type: "mc", q: "What did Joshua read to all Israel after the altar was built?", a: "The Book of the Law", opts: ["The Psalms", "The Book of the Law", "Proverbs", "Stories"], expl: "Joshua 8:34-35 – He read all the words of the law, blessings and curses." },
+   { type: "mc", q: "Who tricked Joshua into making a peace treaty by pretending to be from far away?", a: "The Gibeonites", opts: ["The Amorites", "The Gibeonites", "The Perizzites", "The Hittites"], expl: "Joshua 9:3-6 – The Gibeonites used old clothes and moldy bread." },
+   { type: "mc", q: "Why did Israel not ask the LORD before making the treaty with the Gibeonites?", a: "They did not inquire of the LORD", opts: ["They forgot", "They did not inquire of the LORD", "They were afraid", "It was night"], expl: "Joshua 9:14 – They did not ask counsel from the mouth of the LORD." },
+   { type: "mc", q: "What work did Joshua assign to the Gibeonites because of the treaty?", a: "Wood cutters and water carriers", opts: ["Soldiers", "Wood cutters and water carriers", "Farmers", "Priests"], expl: "Joshua 9:21,23,27 – They became hewers of wood and drawers of water." },
+   { type: "mc", q: "Which five kings joined together to fight against Gibeon?", a: "Amorite kings", opts: ["Canaanite kings", "Amorite kings", "Philistine kings", "Egyptian kings"], expl: "Joshua 10:5 – The five kings of the Amorites." },
+   { type: "mc", q: "Who asked Joshua for help when the five kings attacked Gibeon?", a: "The Gibeonites", opts: ["The Jerichoites", "The Gibeonites", "The Ai people", "The Canaanites"], expl: "Joshua 10:6 – The men of Gibeon sent word to Joshua." },
+   { type: "mc", q: "What miracle happened during the battle against the five kings?", a: "The sun stood still", opts: ["Rain of fire", "The sun stood still", "Earthquake", "Flood"], expl: "Joshua 10:12-13 – Joshua asked, and the sun stood still over Gibeon." },
+   { type: "mc", q: "Where did Joshua command the sun to stand still?", a: "Over Gibeon", opts: ["Over Jericho", "Over Gibeon", "Over Ai", "Over Gilgal"], expl: "Joshua 10:12 – 'Sun, stand still at Gibeon...'" },
+   { type: "mc", q: "What did Joshua do to the five kings after the battle?", a: "Put them in a cave and later hanged them", opts: ["Let them go", "Put them in a cave and later hanged them", "Made them servants", "Burned them"], expl: "Joshua 10:16-27 – They hid in a cave; Joshua had them brought out and hanged." },
+   { type: "mc", q: "How many cities did Joshua capture in the southern campaign (chapter 10)?", a: "Many (southern kings defeated)", opts: ["One", "Many (southern kings defeated)", "Three", "None"], expl: "Joshua 10:28-43 – Joshua struck many cities including Makkedah, Libnah, Lachish, etc." },
+   { type: "mc", q: "What phrase is repeated often in Joshua 10 about the cities Joshua attacked?", a: "He struck them with the edge of the sword", opts: ["He spared them", "He struck them with the edge of the sword", "He made peace", "He fled"], expl: "Joshua 10:28,30,32, etc. – Repeated for defeated cities." },
+   { type: "mc", q: "Who was the leader God promised to be with in Joshua 1?", a: "Joshua", opts: ["Caleb", "Joshua", "Moses", "Aaron"], expl: "Joshua 1:5,9 – God promises to be with Joshua." },
+   { type: "mc", q: "What did the spies promise Rahab if she helped them?", a: "Her life and family would be spared", opts: ["Gold", "Her life and family would be spared", "A new house", "Land"], expl: "Joshua 2:14 – They promised to deal kindly and truly with her." },
+   { type: "mc", q: "What carried the presence of God across the Jordan?", a: "The ark of the covenant", opts: ["The priests", "The ark of the covenant", "The people", "The stones"], expl: "Joshua 3:3,6 – The priests carried the ark of the covenant." },
+   { type: "mc", q: "What was the name of the place where the memorial stones were set up?", a: "Gilgal", opts: ["Gilgal", "Shiloh", "Bethel", "Shechem"], expl: "Joshua 4:20 – Joshua set them up at Gilgal." },
+   { type: "mc", q: "Why were the kings' hearts melting with fear after Jericho?", a: "They heard what God did at the Jordan", opts: ["Because of the walls", "They heard what God did at the Jordan", "Because of spies", "Because of food shortage"], expl: "Joshua 5:1 – Kings' hearts melted because of the Jordan crossing." },
+   { type: "mc", q: "What weapon did the commander of the LORD's army have?", a: "A drawn sword", opts: ["A spear", "A drawn sword", "A bow", "A shield"], expl: "Joshua 5:13 – He had his sword drawn in his hand." },
+   { type: "mc", q: "What instruments did the priests blow while marching around Jericho?", a: "Rams' horns", opts: ["Trumpets of rams' horns", "Rams' horns", "Flutes", "Drums"], expl: "Joshua 6:4 – Seven priests with seven trumpets of rams' horns." },
+   { type: "mc", q: "What was devoted to destruction in Jericho?", a: "All in the city", opts: ["Gold only", "All in the city", "People only", "Animals"], expl: "Joshua 6:17-19 – The city and all in it were devoted to the LORD." },
+   { type: "mc", q: "Where did Achan hide the stolen items?", a: "In the ground in his tent", opts: ["In a cave", "In the ground in his tent", "Under a tree", "In the river"], expl: "Joshua 7:21-22 – Buried in the earth in the midst of his tent." },
+   { type: "mc", q: "What did Joshua stretch out toward Ai during the ambush?", a: "His javelin", opts: ["His sword", "His javelin", "His hand", "A flag"], expl: "Joshua 8:18 – Joshua stretched out the javelin toward Ai." },
+   { type: "mc", q: "What did the Gibeonites say they were when they came to Joshua?", a: "From a very far country", opts: ["Neighbors", "From a very far country", "Kings", "Priests"], expl: "Joshua 9:6,9 – 'We have come from a very far country...'" },
+   { type: "mc", q: "How long did the sun stand still in Joshua 10?", a: "About a whole day", opts: ["One hour", "About a whole day", "Three days", "Until night"], expl: "Joshua 10:13 – The sun stopped... about a whole day." },
+   { type: "mc", q: "What did Joshua do to the cave where the five kings hid?", a: "Rolled large stones against its mouth", opts: ["Entered it", "Rolled large stones against its mouth", "Burned it", "Ignored it"], expl: "Joshua 10:18 – He commanded large stones rolled against the mouth of the cave." },
+];
+const quizContainer = document.getElementById("quiz");
+const submitBtn = document.getElementById("submitBtn");
+const restartBtn = document.getElementById("restartBtn");
+const resultsDiv = document.getElementById("results");
+
+let questionNumber = 1;
+
+questions.forEach((q, qIndex) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `<h3>${questionNumber}. ${q.q}</h3>`;
+    questionNumber++;
+
+    if (q.type === "mc") {
+        q.opts.forEach((option, optIndex) => {
+            const inputId = `q${qIndex}_${optIndex}`;
+            const label = document.createElement("label");
+            label.className = "option-label";
+            label.htmlFor = inputId;
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.id = inputId;
+            radio.name = `question-${qIndex}`;
+            radio.value = option;
+
+            const span = document.createElement("span");
+            span.textContent = option;
+
+            label.appendChild(radio);
+            label.appendChild(span);
+            qDiv.appendChild(label);
+        });
+    }
+    quizContainer.appendChild(qDiv);
+});
+
+function checkAnswers(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    restartBtn.style.display = "inline-block";
+
+    let correctCount = 0;
+    let html = '';
+
+    questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="question-${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+        const isCorrect = userAnswer === q.a;
+
+        if (isCorrect) correctCount++;
+
+        html += `
+            <div class="result-item">
+                <h3>${i+1}. ${q.q}</h3>
+                <p class="${isCorrect ? 'correct' : 'incorrect'}">
+                    ${isCorrect ? "Correct!" : (userAnswer === null ? "No answer selected" : "Incorrect")}
+                    → Correct answer: <strong>${q.a}</strong>
+                </p>
+                <div class="explanation"><strong>Explanation:</strong> ${q.expl}</div>
+            </div>
+        `;
+    });
+
+    const percentage = ((correctCount / questions.length) * 100).toFixed(1);
+    const scoreHtml = `<div class="score">Score: ${correctCount} / ${questions.length} (${percentage}%)</div>`;
+
+    resultsDiv.innerHTML = scoreHtml + html;
+    resultsDiv.style.display = "block";
+
+    window.scrollTo({ top: resultsDiv.offsetTop - 80, behavior: "smooth" });
+}
+
+function restartQuiz() {
+    location.reload();
+}
+
+submitBtn.addEventListener("click", checkAnswers);
+restartBtn.addEventListener("click", restartQuiz);
+</script>
+</body>
+</html>
